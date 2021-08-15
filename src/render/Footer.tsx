@@ -1,5 +1,4 @@
 import React from 'react';
-import {FaGooglePlay} from 'react-icons/fa'
 import {BiSort} from 'react-icons/bi'
 import {BsMusicNoteList} from 'react-icons/bs'
 import {TiWaves} from 'react-icons/ti'

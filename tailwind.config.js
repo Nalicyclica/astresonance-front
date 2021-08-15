@@ -24,5 +24,6 @@ module.exports = {
     // backdropContrast: ['hover'],
     boxShadow: ['hover', 'focus']
   },
-  plugins: [],
+  plugins: [
+  ],
 }

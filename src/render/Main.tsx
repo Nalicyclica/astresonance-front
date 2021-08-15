@@ -4,6 +4,8 @@ import { selectMusic, fetchMusic } from "../redux/reducers/music"
 import Header from './Header'
 import Footer from './Footer';
 import Home from './Home';
+import SignIn from './SignIn'
+import SignUp from './Signup';
 
 
 const Main: React.FC = () => {
@@ -14,8 +16,8 @@ const Main: React.FC = () => {
 	return (
 		<div className="flex flex-col bg-gray-900 w-screen h-screen text-yellow-300 font-serif">
       <Header />
-      <Home />
-      <Footer />
+      <SignUp />
+      {/* <Footer /> */}
 		</div>
 	);
 }
