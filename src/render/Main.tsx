@@ -1,22 +1,23 @@
 import React from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { selectMusic, fetchMusic } from "../redux/reducers/music"
-import Header from './Header'
+import Header from './Header';
 import Footer from './Footer';
 import Home from './Home';
-import SignIn from './SignIn'
-import SignUp from './Signup';
+import SignIn from './SignIn';
+import SignUp from './SignUp'
+import PostMusic from './PostMusic';
 
 
 const Main: React.FC = () => {
-  const music = useSelector(selectMusic);
-  const dispatch = useDispatch();
-  dispatch(fetchMusic());
+  // const music = useSelector(selectMusic);
+  // const dispatch = useDispatch();
+  // dispatch(fetchMusic());
   // const music_url = music[0].music_url;
 	return (
 		<div className="flex flex-col bg-gray-900 w-screen h-screen text-yellow-300 font-serif">
       <Header />
-      <SignUp />
+      <PostMusic />
       {/* <Footer /> */}
 		</div>
 	);
