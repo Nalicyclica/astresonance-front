@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { useSelector, useDispatch } from "react-redux";
 import { selectMusic, fetchMusic } from "../redux/reducers/music"
 import Header from './Header';
@@ -16,9 +17,13 @@ const Main: React.FC = () => {
   // const music_url = music[0].music_url;
 	return (
 		<div className="flex flex-col bg-gray-900 w-screen h-screen text-yellow-300 font-serif">
-      <Header />
-      <PostMusic />
-      {/* <Footer /> */}
+      <Router>
+        <Header />
+        <Route exact path='/' component = {Home} />
+        <Route path='/SignUp' component = {SignUp} />
+        <Route path='/SignIn' component = {SignIn} />
+        <Route exact path='/' component = {Footer} />
+      </Router>
 		</div>
 	);
 }

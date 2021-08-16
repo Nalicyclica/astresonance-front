@@ -3,8 +3,8 @@ import React from 'react';
 const SignUp: React.FC = () => {
 	return (
     <div className="flex-grow bg-gray-900">
-      <form onSubmit={hoge => hoge} className="flex flex-col justify-start items-center">
-        <h1 className="text-2xl mt-8 mb-6">Please enter your information</h1>
+      <form onSubmit={hoge => hoge} className="flex flex-col justify-start items-center text-gray-100">
+        <h1 className="text-2xl mt-8 mb-6 px-4 text-yellow-300 border-b border-yellow-300">Please enter your information</h1>
         <label className="my-2">
           <p>Nickname:</p>
           <input type="text" value="" placeholder="ex.) ARGuy" onChange={hoge => hoge} className="my-2 p-2 bg-gray-300 focus:bg-gray-100 focus:outline-none focus:shadow-bright rounded-md text-black"/>
