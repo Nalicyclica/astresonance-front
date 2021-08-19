@@ -7,28 +7,35 @@ type inputInfo = {
   email: string
   password: string
 };
+const axiosConfig = axios.create({
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  responseType: 'json'
+});
 
 const SignIn: React.FC = () => {
   const { userInfo, setUserInfo } = useContext(CurrentUser)
   const { register, handleSubmit, watch, formState: {errors} } = useForm();
   const onSubmit = (data: inputInfo) => {
-    const axiosConfig = axios.create({
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Headers': 'access-token',
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
-      },
-      responseType: 'json'
-    });
     axiosConfig.post(
       'http://localhost:3000/auth/sign_in',
       data
       ).then((response) => {
-        console.log(response.headers);
-        console.log(response);
-      });
-      // const userData: UserInfo = {...defaultUserInfo, ...data};
+        const headerInfo = response.headers;
+        const headerData = response.data.data;
+        const userData: UserInfo = {
+          ...defaultUserInfo,
+          accessToken: headerInfo["access-token"],
+          client: headerInfo.client,
+          uid: headerInfo.uid,
+          expiry: headerInfo.expiry,
+          nickname: headerData.nickname,
+          iconColor: headerData.icon_color
+        };
+        setUserInfo(userData);
+    });
+
   };
 	return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex-grow flex flex-col justify-start items-center w-screen text-gray-100">
