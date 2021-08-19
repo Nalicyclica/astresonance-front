@@ -1,12 +1,8 @@
 import { createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import { RootState } from '../stores/configureStore';
 import axios from 'axios'
+import {User} from './user'
 
-type User = {
-  id: number
-  nickname: string
-  icon_color: string
-}
 type Music = {
   id: number
   category_id: number
