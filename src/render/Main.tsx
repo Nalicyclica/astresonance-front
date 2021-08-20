@@ -16,6 +16,7 @@ export type UserInfo = {
   expiry: string
   nickname: string
   iconColor: string
+  isSignIn: boolean
 };
 
 type StateUserInfo = {
@@ -29,7 +30,8 @@ export const defaultUserInfo: UserInfo = {
   uid: "",
   expiry: "",
   nickname: "",
-  iconColor: ""
+  iconColor: "",
+  isSignIn: false
 };
 
 const defaultUser: StateUserInfo = {

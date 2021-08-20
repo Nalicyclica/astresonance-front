@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
 import axios from 'axios';
-import { CurrentUser, UserInfo, defaultUserInfo } from './Main';
+import { CurrentUser, UserInfo } from './Main';
 import { useForm } from "react-hook-form"
+import { useHistory } from 'react-router-dom';
 
 type inputInfo = {
   email: string
@@ -14,8 +15,10 @@ const axiosConfig = axios.create({
   responseType: 'json'
 });
 
+
 const SignIn: React.FC = () => {
-  const { userInfo, setUserInfo } = useContext(CurrentUser)
+  const history = useHistory();
+  const { userInfo, setUserInfo } = useContext(CurrentUser);
   const { register, handleSubmit, watch, formState: {errors} } = useForm();
   const onSubmit = (data: inputInfo) => {
     axiosConfig.post(
@@ -25,15 +28,16 @@ const SignIn: React.FC = () => {
         const headerInfo = response.headers;
         const headerData = response.data.data;
         const userData: UserInfo = {
-          ...defaultUserInfo,
           accessToken: headerInfo["access-token"],
           client: headerInfo.client,
           uid: headerInfo.uid,
           expiry: headerInfo.expiry,
           nickname: headerData.nickname,
-          iconColor: headerData.icon_color
+          iconColor: headerData.icon_color,
+          isSignIn: true
         };
         setUserInfo(userData);
+        history.goBack();
     });
 
   };
