@@ -1,8 +1,9 @@
 import React, { useContext, useState } from 'react';
 import axios from 'axios';
-import { CurrentUser, UserInfo } from './Main';
 import { useForm } from "react-hook-form"
 import { useHistory } from 'react-router-dom';
+import { CurrentUser, UserInfo } from './Main';
+import { authToken, setAuth } from '../functions/Auth';
 
 export type signInInfo = {
   email: string
@@ -22,11 +23,13 @@ const SignIn: React.FC = () => {
       );
       const headerInfo = response.headers;
       const headerData = response.data.data;
-      const userData: UserInfo = {
-        accessToken: headerInfo["access-token"],
+      const inputAuth: authToken = {
+        'access-token': headerInfo["access-token"],
         client: headerInfo.client,
         uid: headerInfo.uid,
-        expiry: headerInfo.expiry,
+      };
+      setAuth(inputAuth);
+      const userData: UserInfo = {
         nickname: headerData.nickname,
         iconColor: headerData.icon_color,
         isSignIn: true
