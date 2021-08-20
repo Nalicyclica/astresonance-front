@@ -10,10 +10,6 @@ import SignUp from './SignUp'
 import PostMusic from './PostMusic';
 
 export type UserInfo = {
-  accessToken: string
-  client: string
-  uid: string
-  expiry: string
   nickname: string
   iconColor: string
   isSignIn: boolean
@@ -25,10 +21,6 @@ type StateUserInfo = {
 };
 
 export const defaultUserInfo: UserInfo = {
-  accessToken: "",
-  client: "",
-  uid: "",
-  expiry: "",
   nickname: "",
   iconColor: "",
   isSignIn: false

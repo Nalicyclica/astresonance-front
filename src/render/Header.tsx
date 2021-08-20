@@ -21,7 +21,6 @@ const SignInMenu: React.FC = () => {
       <div className="flex justify-between items-center text-center align-middle">
         <Link to="/SignUp" className="bg-gray-800 flex justify-center items-center m-2 h-12 w-24 rounded-md shadow-lg hover:shadow-bright">Logout</Link>
         <Link to="/SignIn" className="bg-gray-800 flex justify-center items-center m-2 h-12 w-24 rounded-md shadow-lg hover:shadow-bright">Logout</Link>
-        <button onClick={handlerClick}>Delete userInfo</button>
       </div>
   )
 };
