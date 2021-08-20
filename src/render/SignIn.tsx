@@ -14,7 +14,10 @@ const SignIn: React.FC = () => {
   const history = useHistory();
   const { userInfo, setUserInfo } = useContext(CurrentUser);
   const [responseErrors, setErrors] = useState<object>({});
-
+  if(userInfo.isSignIn){
+    history.push('/');
+  }
+  
   const signIn = async (inputInfo: signInInfo) => {
     try {
       const response = await axios.post(

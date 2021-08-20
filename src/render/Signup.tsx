@@ -8,6 +8,7 @@ import { authToken, setAuth } from '../functions/Auth';
 type signUpInfo = {
   email: string
   password: string
+  password_confirmation: string
   nickname: string
   icon_color: string
   introduce: string
@@ -17,11 +18,13 @@ const SignUp: React.FC = () => {
   const history = useHistory();
   const { userInfo, setUserInfo } = useContext(CurrentUser);
   const [responseErrors, setErrors] = useState<object>({});
-
+  if(userInfo.isSignIn){
+    history.push('/');
+  }
   const signUp = async (inputInfo: signUpInfo) => {
     try {
       const response = await axios.post(
-        'http://localhost:3000/auth/sign_in',
+        'http://localhost:3000/auth/',
         inputInfo
         );
         const headerInfo = response.headers;
@@ -39,14 +42,14 @@ const SignUp: React.FC = () => {
         };
         setUserInfo(userData);
       } catch (error){
-        setErrors(error)
+        setErrors(error.response)
       };
     };
     
     const { register, handleSubmit, watch, formState: {errors} } = useForm();
     const onSubmit = (data: signUpInfo) => {
-      setErrors({});
       data['introduce'] = "よろしくお願いします";
+      setErrors({})
       signUp(data);
       if(true){
         history.goBack();
@@ -54,7 +57,6 @@ const SignUp: React.FC = () => {
         console.log(responseErrors);
       }
     };
-    console.log(watch("example"));
     return (
       <div className="flex-grow bg-gray-900">
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col justify-start items-center text-gray-100">
@@ -69,8 +71,9 @@ const SignUp: React.FC = () => {
         </label>
         <label className="my-2">
           <p>Password:</p>
-          <input type="password" {...register("password")}  placeholder="at least 6 letters" className="my-2 p-2 bg-gray-300 focus:bg-gray-100 focus:outline-none focus:shadow-bright rounded-md text-black"/>
+          <input type="password" {...register("password",{pattern: /\A(?=.*?[a-z])(?=.*?\d)[a-z\d]+\z/i})} placeholder="at least 6 letters" className="my-2 p-2 bg-gray-300 focus:bg-gray-100 focus:outline-none focus:shadow-bright rounded-md text-black"/>
         </label>
+          {errors.password && <p>"passwordは英数字をそれぞれ１字以上含みかつ６文字以上である必要があります"</p>}
         <label className="my-2">
           <p>Password confirmation:</p>
           <input type="password" {...register("password_confirmation")}  placeholder="verify password" className="my-2 p-2 bg-gray-300 focus:bg-gray-100 focus:outline-none focus:shadow-bright rounded-md text-black"/>
