@@ -1,46 +1,53 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import { CurrentUser, UserInfo } from './Main';
 import { useForm } from "react-hook-form"
 import { useHistory } from 'react-router-dom';
 
-type inputInfo = {
+export type signInInfo = {
   email: string
   password: string
 };
-const axiosConfig = axios.create({
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  responseType: 'json'
-});
-
 
 const SignIn: React.FC = () => {
   const history = useHistory();
   const { userInfo, setUserInfo } = useContext(CurrentUser);
-  const { register, handleSubmit, watch, formState: {errors} } = useForm();
-  const onSubmit = (data: inputInfo) => {
-    axiosConfig.post(
-      'http://localhost:3000/auth/sign_in',
-      data
-      ).then((response) => {
-        const headerInfo = response.headers;
-        const headerData = response.data.data;
-        const userData: UserInfo = {
-          accessToken: headerInfo["access-token"],
-          client: headerInfo.client,
-          uid: headerInfo.uid,
-          expiry: headerInfo.expiry,
-          nickname: headerData.nickname,
-          iconColor: headerData.icon_color,
-          isSignIn: true
-        };
-        setUserInfo(userData);
-        history.goBack();
-    });
+  const [responseErrors, setErrors] = useState<object>({});
 
+  const signIn = async (inputInfo: signInInfo) => {
+    try {
+      const response = await axios.post(
+        'http://localhost:3000/auth/sign_in',
+        inputInfo
+      );
+      const headerInfo = response.headers;
+      const headerData = response.data.data;
+      const userData: UserInfo = {
+        accessToken: headerInfo["access-token"],
+        client: headerInfo.client,
+        uid: headerInfo.uid,
+        expiry: headerInfo.expiry,
+        nickname: headerData.nickname,
+        iconColor: headerData.icon_color,
+        isSignIn: true
+      };
+      setUserInfo(userData);
+    } catch (error){
+      setErrors(error)
+    };
   };
+
+  const { register, handleSubmit, watch, formState: {errors} } = useForm();
+  const onSubmit = (data: signInInfo) => {
+        setErrors({});
+        signIn(data);
+        if(true){
+          history.goBack();
+        }else{
+          console.log(responseErrors);
+        }
+  };
+
 	return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex-grow flex flex-col justify-start items-center w-screen text-gray-100">
       <h1 className="text-2xl mt-8 mb-6 px-4 text-yellow-300 border-b border-yellow-300">Sign in with your nickname</h1>
