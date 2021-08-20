@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 import { CurrentUser, UserInfo } from './Main';
 import { authToken, setAuth } from '../functions/Auth';
 
-export type signInInfo = {
+type signInInfo = {
   email: string
   password: string
 };
