@@ -2,35 +2,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import {TiWaves} from 'react-icons/ti'
 import {BsMusicNoteList} from 'react-icons/bs'
-
-type idList = {
-  id: number
-  name: string
-};
-
-type selectIds = {
-  genre_id: number
-  category_id: number
-};
-
-const genreList: idList[] = [
-  { id: 0, name: "その他の音楽"},
-  { id: 1, name: "ポップス"},
-  { id: 2, name: "ロック"},
-  { id: 3, name: "ジャズ"},
-  { id: 4, name: "クラシック"},
-  { id: 5, name: "アフリカン"},
-  { id: 6, name: "アジア"},
-  { id: 7, name: "ヨーロッパ"},
-  { id: 8, name: "ラテンアメリカ"},
-  { id: 9, name: "アラビアン"},
-];
-
-const categoryList: idList[] = [
-  { id: 0, name: "その他"},
-  { id: 1, name: "曲"},
-  { id: 2, name: "歌"},
-];
+import { categoryList, genreList, selectIds } from './Home'
 
 const genreItems = genreList.map((genre) =>
   <option value={genre.id}>{genre.name}</option>
@@ -45,7 +17,7 @@ const HomeFooter: React.FC = () => {
   const onSubmit = (data: selectIds) => {
   };
 	return (
-    <footer className="bg-gray-700 h-20 w-screen">
+    <footer className="sticky bottom-0 bg-gray-700 h-20 w-screen">
       <form onSubmit={handleSubmit(onSubmit)} className="flex justify-between items-center  align-middle">
         <label className="flex flex-col bg-gray-800 m-2 h-12 w-auto px-4 rounded-md shadow-lg hover:shadow-bright">
           <div>
