@@ -3,7 +3,7 @@ import {BiSort} from 'react-icons/bi'
 import {BsMusicNoteList} from 'react-icons/bs'
 import {TiWaves} from 'react-icons/ti'
 
-const Footer: React.FC = () => {
+const HomeFooter: React.FC = () => {
 	return (
     <footer className="flex justify-between items-center bg-gray-700 h-20 w-screen align-middle">
       <button className="bg-gray-800 m-2 h-12 w-auto px-4 rounded-md shadow-lg hover:shadow-bright">
@@ -22,4 +22,4 @@ const Footer: React.FC = () => {
 	);
 }
 
-export default Footer
+export default HomeFooter

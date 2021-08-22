@@ -13,7 +13,7 @@ const defaultAuthToken: authToken = {
 
 export const getAuth = (): authToken => {
   const responseAuthToken: authToken = defaultAuthToken;
-  Object.keys(defaultAuthToken).forEach((key) =>{
+  Object.keys(responseAuthToken).forEach((key) =>{
     responseAuthToken[key] = localStorage.getItem(key);
   })
   return responseAuthToken;
@@ -25,4 +25,10 @@ export const setAuth = (inputAuthToken: authToken) => {
       localStorage.setItem(key, String(inputAuthToken[key]));
     }
   })
+};
+
+export const deleteAuth = () => {
+  Object.keys(defaultAuthToken).forEach((key) =>{
+    localStorage.removeItem(key);
+  });
 };
