@@ -1,11 +1,16 @@
 import React from 'react';
-import {AiOutlineReload} from 'react-icons/ai'
+import { useForm } from 'react-hook-form';
 import {TiWaves} from 'react-icons/ti'
 import {BsMusicNoteList} from 'react-icons/bs'
 
 type idList = {
   id: number
   name: string
+};
+
+type selectIds = {
+  genre_id: number
+  category_id: number
 };
 
 const genreList: idList[] = [
@@ -36,31 +41,34 @@ const categoryItems = categoryList.map((category) =>
 );
 
 const HomeFooter: React.FC = () => {
+  const { register, handleSubmit, watch, formState: {errors} } = useForm();
+  const onSubmit = (data: selectIds) => {
+  };
 	return (
-    <footer className="flex justify-between items-center bg-gray-700 h-20 w-screen align-middle">
-      <div className="flex flex-col bg-gray-800 m-2 h-12 w-auto px-4 rounded-md shadow-lg hover:shadow-bright">
-        <div>
-        <BsMusicNoteList size={20} color={'#ccc'} className="inline mr-1.5"/>
-        <span>Genre</span>
-        </div>
-        <select className="bg-gray-800 border-b border-yellow-300 focus:outline-none hover:bg-gray-700">
-          <option hidden>選択してください</option>
-          {genreItems}
-        </select>
-      </div>
-      <div className="flex flex-col bg-gray-800 m-2 h-12 w-auto px-4 rounded-md shadow-lg hover:shadow-bright">
-        <div>
-        <TiWaves size={20} color={'#ccc'} className="inline mr-1.5"/>
-        <span>Song/Melodies</span>
-        </div>
-        <select className="bg-gray-800 border-b border-yellow-300 focus:outline-none hover:bg-gray-700">
-          <option hidden>選択してください</option>
-          {categoryItems}
-        </select>
-      </div>
-      <button className="bg-gray-800 m-2 h-12 w-auto px-4 rounded-md shadow-lg hover:shadow-bright">
-        <AiOutlineReload size={20} color={'#ca8'} className="inline mr-1.5"/>
-      </button>
+    <footer className="bg-gray-700 h-20 w-screen">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex justify-between items-center  align-middle">
+        <label className="flex flex-col bg-gray-800 m-2 h-12 w-auto px-4 rounded-md shadow-lg hover:shadow-bright">
+          <div>
+          <BsMusicNoteList size={20} color={'#ccc'} className="inline mr-1.5"/>
+          <span>ジャンル</span>
+          </div>
+          <select {...register("genre_id")} className="bg-gray-800 border-b border-yellow-300 focus:outline-none hover:bg-gray-700">
+            <option hidden>選択してください</option>
+            {genreItems}
+          </select>
+        </label>
+        <label className="flex flex-col bg-gray-800 m-2 h-12 w-auto px-4 rounded-md shadow-lg hover:shadow-bright">
+          <div>
+          <TiWaves size={20} color={'#ccc'} className="inline mr-1.5"/>
+          <span>曲/歌</span>
+          </div>
+          <select {...register("category_id")} className="bg-gray-800 border-b border-yellow-300 focus:outline-none hover:bg-gray-700">
+            <option hidden>選択してください</option>
+            {categoryItems}
+          </select>
+        </label>
+        <input type="submit" value="リロード" className="bg-gray-800 m-2 h-12 w-auto px-4 rounded-md shadow-lg hover:shadow-bright" />
+      </form>
     </footer>
 	);
 }
