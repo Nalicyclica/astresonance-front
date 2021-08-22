@@ -15,9 +15,9 @@ const Home: React.FC = () => {
           <div className="">Category: World Music</div>
         </div>
       </div>
-      <div className="shadow-bright hover:shadow-gold w-96 h-96 rounded-full align-middle flex justify-center items-center" onClick={handlerClick}>
+      {/* <div className="shadow-bright hover:shadow-gold w-96 h-96 rounded-full align-middle flex justify-center items-center" onClick={handlerClick}>
         <FaGooglePlay size={100} color={'#ccc'} />
-      </div>
+      </div> */}
     </div>
 	);
 }

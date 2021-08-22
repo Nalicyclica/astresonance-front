@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { useSelector, useDispatch } from "react-redux";
 import { selectMusic, fetchMusic } from "../redux/reducers/music"
 import Header from './Header';
-import Footer from './Footer';
+import HomeFooter from './HomeFooter';
 import Home from './Home';
 import SignIn from './SignIn';
 import SignUp from './SignUp'
@@ -20,7 +20,7 @@ type StateUserInfo = {
   setUserInfo: (userInfo: UserInfo) => void;
 };
 
-export const defaultUserInfo: UserInfo = {
+const defaultUserInfo: UserInfo = {
   nickname: "",
   iconColor: "",
   isSignIn: false
@@ -40,17 +40,21 @@ const Main: React.FC = () => {
     setUserInfo,
   };
 	return (
-		<div className="flex flex-col bg-gray-900 w-screen h-screen text-yellow-300 font-serif">
-      <CurrentUser.Provider value = {ctx}>
-        <Router>
-          <Header />
-          <Route exact path='/' component = {Home} />
-          <Route path='/SignUp' component = {SignUp} />
-          <Route path='/SignIn' component = {SignIn} />
-          <Route exact path='/' component = {Footer} />
-        </Router>
-      </CurrentUser.Provider>
-		</div>
+    <div className="inline-flex">
+      <div className="flex flex-col w-screen h-screen text-yellow-300 font-serif z-50">
+        <CurrentUser.Provider value = {ctx}>
+          <Router>
+            <Header />
+            <Route exact path='/' component = {Home} />
+            <Route path='/SignUp' component = {SignUp} />
+            <Route path='/SignIn' component = {SignIn} />
+            <Route exact path='/' component = {HomeFooter} />
+          </Router>
+        </CurrentUser.Provider>
+      </div>
+      <div className = "absolute w-screen h-screen bg-gray-900"></div>
+      <div className = "absolute w-96 h-96 shadow-gold rounded-full z-10"></div>
+    </div>
 	);
 }
 

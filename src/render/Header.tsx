@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
-import { CurrentUser, defaultUserInfo } from './Main';
+import { CurrentUser } from './Main';
 import { Link } from 'react-router-dom'
+import SignOut from './SignOut';
 
 const SignOutMenu: React.FC = () => {
   return(
@@ -12,16 +13,8 @@ const SignOutMenu: React.FC = () => {
 };
 
 const SignInMenu: React.FC = () => {
-  const { userInfo, setUserInfo } = useContext(CurrentUser);
-  const handlerClick = () => {
-    setUserInfo(defaultUserInfo);
-    console.log(userInfo);
-  }
   return(
-      <div className="flex justify-between items-center text-center align-middle">
-        <Link to="/SignUp" className="bg-gray-800 flex justify-center items-center m-2 h-12 w-24 rounded-md shadow-lg hover:shadow-bright">Logout</Link>
-        <Link to="/SignIn" className="bg-gray-800 flex justify-center items-center m-2 h-12 w-24 rounded-md shadow-lg hover:shadow-bright">Logout</Link>
-      </div>
+        <SignOut />
   )
 };
 
