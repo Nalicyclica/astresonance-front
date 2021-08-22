@@ -17,6 +17,10 @@ module.exports = {
         'bright': '0 0 5px rgba(255, 255, 255, 0.9)',
         'gold': '0 0 10px rgba(255, 225, 128, 0.9)',
       },
+      height: {
+        'main' : 'calc(100vh - 20rem)',
+        'home' : 'calc(100vh - 5rem - 5rem)',
+      }
     },
   },
   variants: {
