@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { useSelector, useDispatch } from "react-redux";
 import { selectMusic, fetchMusic } from "../redux/reducers/music"
 import Header from './Header';
-import HomeFooter from './HomeFooter';
 import Home from './Home';
 import SignIn from './SignIn';
 import SignUp from './SignUp'
@@ -48,7 +47,6 @@ const Main: React.FC = () => {
             <Route exact path='/' component = {Home} />
             <Route path='/SignUp' component = {SignUp} />
             <Route path='/SignIn' component = {SignIn} />
-            <Route exact path='/' component = {HomeFooter} />
           </Router>
         </CurrentUser.Provider>
       </div>
