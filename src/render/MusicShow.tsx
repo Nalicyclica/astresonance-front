@@ -1,6 +1,7 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import axios from "axios";
 import { Link, useParams } from "react-router-dom";
+import { CurrentUser } from "./Main";
 import { musicInfo, getGenreName, getCategoryName } from "./Home";
 
 
@@ -14,8 +15,29 @@ const defaultMusicInfo: musicInfo = {
   user_id: 1
 }
 
+const MakeTitleForSignedIn: React.FC = () => {
+  return(
+    <div className="w-96 h-16 mx-8 my-6 rounded-md text-gray-100 px-3 py-1 shadow-bright">
+      <div className="">曲を聴いたイメージでタイトルをつけて下さい</div>
+    </div>
+  )
+};
+
+const RejectTitleForSignOut: React.FC = () => {
+  return(
+    <div className="flex flex-col items-center w-96 h-16 mx-8 my-6 rounded-md text-gray-100 px-3 py-1 shadow-bright">
+      <div className="">タイトルをつけるにはログインして下さい:</div>
+      <div>
+      <Link to="/SignUp" className="hover:text-yellow-300">新規登録</Link>または
+      <Link to="/SignIn" className="hover:text-yellow-300">ログイン</Link>
+      </div>
+    </div>
+  )
+};
+
 const MusicShow: React.FC = () => {
   const [ currentMusic, setMusic ] = useState<musicInfo>(defaultMusicInfo);
+  const { userInfo, setUserInfo} = useContext(CurrentUser);
   const {id: currentMusicId} = useParams<{id: string}>();
   const fetchMusic = async (musicId: string) => {
     console.log(musicId);
@@ -39,9 +61,7 @@ const MusicShow: React.FC = () => {
   return (
     <div>
       <div className= "flex flex-col justify-between items-center w-screen h-home">
-        <div className="w-96 h-16 mx-8 my-6 rounded-md text-gray-100 px-3 py-1 shadow-bright">
-          <div className="">曲を聴いたイメージでタイトルをつけて下さい</div>
-        </div>
+        { userInfo.isSignIn? <MakeTitleForSignedIn /> : <RejectTitleForSignOut />}
         <div className="my-8">
           <audio controls src={currentMusic.music_url}/>
         </div>
