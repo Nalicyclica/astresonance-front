@@ -5,7 +5,8 @@ import { selectMusic, fetchMusic } from "../redux/reducers/music"
 import Header from './Header';
 import Home from './Home';
 import SignIn from './SignIn';
-import SignUp from './SignUp'
+import SignUp from './SignUp';
+import MusicShow from './MusicShow';
 import PostMusic from './PostMusic';
 
 export type UserInfo = {
@@ -47,6 +48,7 @@ const Main: React.FC = () => {
             <Route exact path='/' component = {Home} />
             <Route path='/SignUp' component = {SignUp} />
             <Route path='/SignIn' component = {SignIn} />
+            <Route path='/Musics/:id' component = {MusicShow} />
           </Router>
         </CurrentUser.Provider>
       </div>
