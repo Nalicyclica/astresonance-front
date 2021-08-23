@@ -1,9 +1,15 @@
 import React, {useState, useEffect, useContext} from "react";
 import axios from "axios";
-import { Link, useParams } from "react-router-dom";
+import { useForm } from "react-hook-form"
+import { Link, useHistory, useParams } from "react-router-dom";
 import { CurrentUser } from "./Main";
 import { musicInfo, getGenreName, getCategoryName } from "./Home";
+import { authToken, getAuth } from "../functions/Auth"
 
+type titleInfo = {
+  title: string
+  color: string
+};
 
 const defaultMusicInfo: musicInfo = {
   id: 1,
@@ -15,11 +21,46 @@ const defaultMusicInfo: musicInfo = {
   user_id: 1
 }
 
-const MakeTitleForSignedIn: React.FC = () => {
+const MakeTitleForSignedIn: React.FC<{currentMusicId: string}> = props => {
+  const [responseErrors, setErrors] = useState<object>({});
+  const history = useHistory();
+  const { register, handleSubmit, watch, formState: {errors} } = useForm();
+  const postTitle = async (musicId: string, inputInfo: titleInfo) => {
+    const currentAuth: authToken = getAuth();
+    try {
+      const response = await axios.post(
+        `http://localhost:3000/musics/${musicId}/titles`,
+        {title: inputInfo},
+        {headers: currentAuth}
+      );
+    } catch (error) {
+      setErrors(error);
+      console.log(error);
+    };
+  };
+  const onSubmit = (data: titleInfo) => {
+        setErrors({});
+        postTitle(props.currentMusicId, data);
+        if(true){
+          history.goBack();
+        }else{
+          console.log(responseErrors);
+        }
+  };
   return(
-    <div className="w-96 h-16 mx-8 my-6 rounded-md text-gray-100 px-3 py-1 shadow-bright">
+    <form onSubmit={handleSubmit(onSubmit)} className="w-96 mx-8 my-6 rounded-md text-gray-100 px-3 py-1 shadow-bright">
       <div className="">曲を聴いたイメージでタイトルをつけて下さい</div>
-    </div>
+      <label className="my-2">
+        <input type="text" {...register("title")} placeholder="タイトルを入力してください" onChange={hoge => hoge} className="w-full my-2 p-2 bg-gray-300 focus:bg-gray-100 focus:outline-none focus:shadow-bright rounded-md text-black"/>
+      </label>
+      <div className="flex justify-between items-center px-8">
+        <label className="text-center my-2">
+            <span>Text color:</span>
+            <input type="color" {...register("color")} className="h-8 w-16 my-2 px-0.5 bg-gray-300 focus:bg-gray-100 focus:outline-none focus:shadow-bright rounded-md"/>
+          </label>
+        <input type="submit" value="投稿" className="text-xl my-4 px-5 py-3 bg-gray-900 rounded-md shadow-bright hover:shadow-gold"/>
+      </div>
+    </form>
   )
 };
 
@@ -40,7 +81,6 @@ const MusicShow: React.FC = () => {
   const { userInfo, setUserInfo} = useContext(CurrentUser);
   const {id: currentMusicId} = useParams<{id: string}>();
   const fetchMusic = async (musicId: string) => {
-    console.log(musicId);
     const musicShowUrl = `http://localhost:3000/musics/${musicId}`
     console.log(musicShowUrl);
     try{
@@ -48,7 +88,6 @@ const MusicShow: React.FC = () => {
       const data: musicInfo = response.data;
       data.genreName = getGenreName(data.genre_id);
       data.categoryName = getCategoryName(data.category_id);
-      console.log(data);
       setMusic(data);
     } catch(errors){
       console.log(errors);
@@ -61,7 +100,7 @@ const MusicShow: React.FC = () => {
   return (
     <div>
       <div className= "flex flex-col justify-between items-center w-screen h-home">
-        { userInfo.isSignIn? <MakeTitleForSignedIn /> : <RejectTitleForSignOut />}
+        { userInfo.isSignIn? <MakeTitleForSignedIn currentMusicId={currentMusicId} /> : <RejectTitleForSignOut />}
         <div className="my-8">
           <audio controls src={currentMusic.music_url}/>
         </div>
