@@ -139,11 +139,13 @@ const MusicShow: React.FC = () => {
       data.genreName = getGenreName(data.genre_id);
       data.categoryName = getCategoryName(data.category_id);
       setMusic({...data});
+      if(response.data.titles){
+        const musicTitlesData: titleInfo[] = response.data.titles;
+        setmusicTitles(musicTitlesData);
+      }
       if(response.data.user_title){
         userTitleData.titleData = {...response.data.user_title};
         userTitleData.isTitled = true;
-        const musicTitlesData: titleInfo[] = response.data.titles;
-        setmusicTitles(musicTitlesData);
       }
       setUserTitle(userTitleData);
       } catch(errors){
@@ -159,7 +161,7 @@ const MusicShow: React.FC = () => {
     <Link to={`/Titles/${titleItem.id}`} className="flex justify-start">
       <div style={{backgroundColor: titleItem.icon_color}} className = "w-8 h-8 rounded-full shadow-bright">
       </div>
-      <div className ="flex justify-between items-center w-full pr-6">
+      <div style={{color: titleItem.color}} className ="flex justify-between items-center w-full pr-6 text-shadow-ar">
         <p>{titleItem.title}</p>
         <p className="text-sm">by {titleItem.nickname}</p>
       </div>
@@ -178,7 +180,7 @@ const MusicShow: React.FC = () => {
         </div>
         <div>
 
-        { userInfo.isSignIn && currentUserTitle.isTitled &&
+        { userInfo.isSignIn && ( currentMusic.user_id == userInfo.id || currentUserTitle.isTitled ) &&
           <div>
             <p className="text-lg">他の人がつけたタイトル</p>
             <ul className="overflow-y-auto p-4 h-96 m-12">
