@@ -6,7 +6,7 @@ import { selectMusic, fetchMusic } from "../redux/reducers/music"
 import Header from './Header';
 import Home from './Home';
 import SignIn from './SignIn';
-import SignUp from './SignUpalt';
+import SignUp from './SignUp';
 import MusicShow from './MusicShow';
 import PostMusic from './PostMusic';
 import { authToken, getAuth } from '../functions/Auth';
