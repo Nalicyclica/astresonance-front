@@ -161,7 +161,7 @@ const MusicShow: React.FC = () => {
     <Link to={`/Titles/${titleItem.id}`} className="flex justify-start">
       <div style={{backgroundColor: titleItem.icon_color}} className = "w-8 h-8 rounded-full shadow-bright">
       </div>
-      <div className ="flex justify-between items-center w-full pr-6">
+      <div style={{color: titleItem.color}} className ="flex justify-between items-center w-full pr-6 text-shadow-ar">
         <p>{titleItem.title}</p>
         <p className="text-sm">by {titleItem.nickname}</p>
       </div>

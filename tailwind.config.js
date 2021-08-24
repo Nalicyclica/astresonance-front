@@ -29,5 +29,20 @@ module.exports = {
     boxShadow: ['hover', 'focus']
   },
   plugins: [
+    function({ addUtilities }) {
+      const newUtilities = {
+        ".text-shadow-ar": {
+          textShadow: "0px 2px 1px white",
+          textShadow: "2px 0px 1px white",
+          textShadow: "0px -2px 1px white",
+          textShadow: "-2px 0px 1px white",
+        },
+        ".text-shadow-none": {
+          textShadow: "none"
+        }
+      };
+
+      addUtilities(newUtilities);
+    }
   ],
 }
