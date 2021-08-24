@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import {TiWaves} from 'react-icons/ti'
 import {BsMusicNoteList} from 'react-icons/bs'
 import {FaGooglePlay} from 'react-icons/fa'
+import { Link } from 'react-router-dom';
 
 export type selectIds = {
   genre_id: number
@@ -38,7 +39,7 @@ export const categoryList: idList[] = [
   { id: 2, name: "歌"},
 ];
 
-type musicInfo = {
+export type musicInfo = {
   id: number
   genre_id: number
   genreName: string
@@ -48,7 +49,7 @@ type musicInfo = {
   user_id: number
 }
 
-const getGenreName = (genreId: number): string => {
+export const getGenreName = (genreId: number): string => {
   let thisGenreName: string = "";
   genreList.map((genre) =>{
     if(genre.id == genreId){
@@ -59,7 +60,7 @@ const getGenreName = (genreId: number): string => {
   return thisGenreName;
 };
 
-const getCategoryName = (categoryId: number): string => {
+export const getCategoryName = (categoryId: number): string => {
   let thisCategoryName: string = "";
   categoryList.map((category) =>{
     if(category.id == categoryId){
@@ -116,15 +117,15 @@ const Home: React.FC = () => {
   const [ musicItems, setMusic ] = useState<musicInfo[]>([]);
   
   const musicList = musicItems.map((musicItem) =>
-  <li key={musicItem.id} className="flex justify-between bg-gray-800 p-2 mb-1 h-12 w-72 rounded-md shadow-bright hover:shadow-gold hover:bg-gray-600 text-gray-100">
-    <div>
+  <li key={musicItem.id} className="bg-gray-800 p-2 mb-1 h-12 w-72 rounded-md shadow-bright hover:shadow-gold hover:bg-gray-600 text-gray-100">
+    <Link to={`/Musics/${musicItem.id}`} className="flex justify-between">
       <div className ="w-56 pr-6 text-sm">
         <p>カテゴリー：{musicItem.genreName}の{musicItem.categoryName}</p>
       </div>
-    </div>
-    <div className = "w-8 h-8 rounded-full shadow-bright flex justify-center items-center">
-      <FaGooglePlay size={20} />
-    </div>
+      <div className = "w-8 h-8 rounded-full shadow-bright flex justify-center items-center">
+        <FaGooglePlay size={20} />
+      </div>
+    </Link>
   </li>
   );
   

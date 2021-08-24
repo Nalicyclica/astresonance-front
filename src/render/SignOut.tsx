@@ -3,7 +3,7 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 import { deleteAuth, getAuth } from "../functions/Auth";
 import { useContext } from "react";
-import { CurrentUser, UserInfo } from "./Main";
+import { CurrentUser, UserInfo, defaultUserInfo } from "./Main";
 
 const SignOut: React.FC = () => {
   const history = useHistory();
@@ -17,12 +17,7 @@ const SignOut: React.FC = () => {
         { headers: currentAuth}
       );
       deleteAuth();
-      const userData: UserInfo = {
-        nickname: "",
-        iconColor: "",
-        isSignIn: false
-      };
-      setUserInfo(userData);
+      setUserInfo({...defaultUserInfo});
       history.push('/');
       alert('ログアウトしました');
     } catch (error){

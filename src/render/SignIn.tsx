@@ -25,19 +25,15 @@ const SignIn: React.FC = () => {
         inputInfo
       );
       const headerInfo = response.headers;
-      const headerData = response.data.data;
+      const userData: UserInfo = {...response.data.data};
       const inputAuth: authToken = {
         'access-token': headerInfo["access-token"],
         client: headerInfo.client,
         uid: headerInfo.uid,
       };
       setAuth(inputAuth);
-      const userData: UserInfo = {
-        nickname: headerData.nickname,
-        iconColor: headerData.icon_color,
-        isSignIn: true
-      };
-      setUserInfo(userData);
+      userData.isSignIn = true;
+      setUserInfo({...userData});
     } catch (error){
       setErrors(error)
     };
