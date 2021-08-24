@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom'
+import axios from 'axios';
 import { useSelector, useDispatch } from "react-redux";
 import { selectMusic, fetchMusic } from "../redux/reducers/music"
 import Header from './Header';
@@ -8,6 +9,8 @@ import SignIn from './SignIn';
 import SignUp from './SignUp';
 import MusicShow from './MusicShow';
 import PostMusic from './PostMusic';
+import { authToken, getAuth } from '../functions/Auth';
+import { useEffect } from 'react';
 
 export type UserInfo = {
   id: number
@@ -41,6 +44,24 @@ const Main: React.FC = () => {
     userInfo,
     setUserInfo,
   };
+  
+  const fetchUserInfo = async () => {
+    const currentAuth: authToken = getAuth();
+    try{  
+      const response = await axios.get('http://localhost:3000/auth/validate_token',{headers: currentAuth});
+      const userData: UserInfo = {...response.data.data};
+      userData.isSignIn = true;
+      setUserInfo({...userData});
+      console.log(userData);
+    }catch (errors) {
+      console.log(errors);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserInfo();
+  },[]);
+
 	return (
     <div className="inline-flex">
       <div className="flex flex-col w-screen h-screen text-yellow-300 font-serif z-50">
