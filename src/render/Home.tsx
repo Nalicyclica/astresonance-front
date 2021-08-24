@@ -71,11 +71,11 @@ export const getCategoryName = (categoryId: number): string => {
   return thisCategoryName;
 };
 
-const genreItems = genreList.map((genre) =>
+export const genreItems = genreList.map((genre) =>
   <option value={genre.id}>{genre.name}</option>
 );
 
-const categoryItems = categoryList.map((category) =>
+export const categoryItems = categoryList.map((category) =>
   <option value={category.id}>{category.name}</option>
 );
 

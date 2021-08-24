@@ -72,6 +72,7 @@ const Main: React.FC = () => {
             <Route path='/SignUp' component = {SignUp} />
             <Route path='/SignIn' component = {SignIn} />
             <Route path='/Musics/:id' component = {MusicShow} />
+            <Route path='/PostMusic' component = {PostMusic} />
           </Router>
         </CurrentUser.Provider>
       </div>

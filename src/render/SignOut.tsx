@@ -26,10 +26,7 @@ const SignOut: React.FC = () => {
   };
 
   return(
-    <div className="flex justify-between items-center text-center align-middle">
-      <p>ようこそ、{userInfo.nickname}さん</p>
-      <button onClick={signOut} className="bg-gray-800 flex justify-center items-center m-2 h-12 w-24 rounded-md shadow-lg hover:shadow-bright">Sign out</button>
-    </div>
+      <button onClick={signOut} className="w-full h-full text-left">Sign out</button>
   );
 };
 

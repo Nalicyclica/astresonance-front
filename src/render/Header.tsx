@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
-import { CurrentUser } from './Main';
+import { CurrentUser, UserInfo } from './Main';
 import { Link } from 'react-router-dom'
 import SignOut from './SignOut';
+import UserMenuDrop from './UserMenuDrop'
 
 const SignOutMenu: React.FC = () => {
   return(
@@ -12,9 +13,12 @@ const SignOutMenu: React.FC = () => {
   )
 };
 
-const SignInMenu: React.FC = () => {
+const SignInMenu: React.FC<{userInfo: UserInfo}> = props => {
   return(
-        <SignOut />
+    <div className="flex justify-between items-center text-center align-middle">
+        <p className="mr-4">ようこそ、{props.userInfo.nickname}さん</p>
+        <UserMenuDrop />
+    </div>
   )
 };
 
@@ -26,7 +30,7 @@ const Header: React.FC = () => {
       <Link to="/">
         <img src={logo_url} alt="AstResonance" className="h-16 m-2"></img>
       </Link>
-      { userInfo.isSignIn ? <SignInMenu /> : <SignOutMenu />}
+      { userInfo.isSignIn ? <SignInMenu userInfo={userInfo}/> : <SignOutMenu />}
     </header>
 	);
 }
