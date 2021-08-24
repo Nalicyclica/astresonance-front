@@ -27,22 +27,18 @@ const SignUp: React.FC = () => {
         'http://localhost:3000/auth/',
         inputInfo
         );
-        const headerInfo = response.headers;
-        const headerData = response.data.data;
+        const headerInfo = {...response.headers};
+        const userData: UserInfo = {...response.data.data};
         const inputAuth: authToken = {
           'access-token': headerInfo["access-token"],
           client: headerInfo.client,
           uid: headerInfo.uid,
         };
         setAuth(inputAuth);
-        const userData: UserInfo = {
-          nickname: headerData.nickname,
-          iconColor: headerData.icon_color,
-          isSignIn: true
-        };
-        setUserInfo(userData);
-      } catch (error){
-        setErrors(error.response)
+        userData.isSignIn = true;
+        setUserInfo({...userData});
+      } catch (errors){
+        setErrors(errors);
       };
     };
     

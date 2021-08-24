@@ -42,13 +42,13 @@ const defaultUserTitleInfo: userTitleInfo = {
 };
 
 const defaultMusicInfo: musicInfo = {
-  id: 1,
-  genre_id: 1,
+  id: 0,
+  genre_id: 0,
   genreName: "",
-  category_id: 1,
+  category_id: 0,
   categoryName: "", 
   music_url: "",
-  user_id: 1
+  user_id: 0
 };
 
 const MusicTitled: React.FC<{userTitle: titleInfo}> = props => {
@@ -72,7 +72,6 @@ const MakeTitleForSignedIn: React.FC<{currentMusicId: string}> = props => {
         {title: inputInfo},
         {headers: currentAuth}
       );
-      console.log(inputInfo);
     } catch (error) {
       setErrors(error);
       console.log(error);
@@ -82,7 +81,7 @@ const MakeTitleForSignedIn: React.FC<{currentMusicId: string}> = props => {
         setErrors({});
         postTitle(props.currentMusicId, data);
         if(true){
-          console.log("true");
+          window.location.reload();
         }else{
           console.log(responseErrors);
         }
@@ -91,7 +90,7 @@ const MakeTitleForSignedIn: React.FC<{currentMusicId: string}> = props => {
     <form onSubmit={handleSubmit(onSubmit)} className="w-96 mx-8 my-6 rounded-md text-gray-100 px-3 py-1 shadow-bright">
       <div className="">曲を聴いたイメージでタイトルをつけて下さい</div>
       <label className="my-2">
-        <input type="text" {...register("title")} placeholder="タイトルを入力してください" onChange={hoge => hoge} className="w-full my-2 p-2 bg-gray-300 focus:bg-gray-100 focus:outline-none focus:shadow-bright rounded-md text-black"/>
+        <input type="text" {...register("title")} placeholder="タイトルを入力してください" className="w-full my-2 p-2 bg-gray-300 focus:bg-gray-100 focus:outline-none focus:shadow-bright rounded-md text-black"/>
       </label>
       <div className="flex justify-between items-center px-8">
         <label className="text-center my-2">
@@ -114,6 +113,14 @@ const RejectTitleForSignOut: React.FC = () => {
       </div>
     </div>
   )
+};
+
+const YourPostedMusic: React.FC = () => {
+  return(
+    <div className="flex flex-col items-center w-96 h-16 mx-8 my-6 rounded-md text-gray-100 px-3 py-1 shadow-bright">
+      <p className="text-lg"> あなたが投稿した音楽</p>
+    </div>
+  );
 };
 
 const MusicShow: React.FC = () => {
@@ -164,7 +171,7 @@ const MusicShow: React.FC = () => {
     <div>
       <div className="flex justify-between">
         <div className= "flex flex-col justify-between items-center w-screen h-home">
-          { userInfo.isSignIn? ( currentUserTitle.isTitled? <MusicTitled userTitle = {currentUserTitle.titleData}/> : <MakeTitleForSignedIn currentMusicId={currentMusicId}/>) : <RejectTitleForSignOut />}
+          { userInfo.isSignIn? ( currentMusic.user_id == userInfo.id? <YourPostedMusic /> : (currentUserTitle.isTitled? <MusicTitled userTitle = {currentUserTitle.titleData}/> : <MakeTitleForSignedIn currentMusicId={currentMusicId}/>)) : <RejectTitleForSignOut />}
           <div className="my-8">
             <audio controls src={currentMusic.music_url}/>
           </div>

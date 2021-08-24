@@ -10,6 +10,7 @@ import MusicShow from './MusicShow';
 import PostMusic from './PostMusic';
 
 export type UserInfo = {
+  id: number
   nickname: string
   iconColor: string
   isSignIn: boolean
@@ -20,7 +21,8 @@ type StateUserInfo = {
   setUserInfo: (userInfo: UserInfo) => void;
 };
 
-const defaultUserInfo: UserInfo = {
+export const defaultUserInfo: UserInfo = {
+  id: 0,
   nickname: "",
   iconColor: "",
   isSignIn: false
