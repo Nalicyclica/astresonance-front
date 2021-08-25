@@ -18,7 +18,7 @@ module.exports = {
         'gold': '0 0 10px rgba(255, 225, 128, 0.9)',
       },
       height: {
-        'main' : 'calc(100vh - 20rem)',
+        'main' : 'calc(100vh - 5rem)',
         'home' : 'calc(100vh - 5rem - 5rem)',
       }
     },

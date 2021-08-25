@@ -16,7 +16,7 @@ import { useEffect } from 'react';
 export type UserInfo = {
   id: number
   nickname: string
-  iconColor: string
+  icon_color: string
   isSignIn: boolean
 };
 
@@ -28,7 +28,7 @@ type StateUserInfo = {
 export const defaultUserInfo: UserInfo = {
   id: 0,
   nickname: "",
-  iconColor: "",
+  icon_color: "",
   isSignIn: false
 };
 
