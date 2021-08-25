@@ -4,7 +4,8 @@ import { useForm } from "react-hook-form"
 import { Link, useHistory, useParams } from "react-router-dom";
 import { CurrentUser } from "./Main";
 import { musicInfo, getGenreName, getCategoryName } from "./Home";
-import { authToken, getAuth } from "../functions/Auth"
+import { authToken, getAuth } from "../functions/Auth";
+import TitleShow from './TitleShow';
 
 type titleInput = {
   title: string
@@ -193,10 +194,6 @@ const MusicShow: React.FC = () => {
     fetchMusic(currentMusicId);
   },[]);
 
-  useEffect(()=>{
-    console.log(currentTitleShow);
-  },[currentTitleShow]);
-
   const titleList = musicTitles.map((titleItem) => 
     <TitleItem titleItem={titleItem} setTitleShow={setTitleShow} />
   );
@@ -219,10 +216,7 @@ const MusicShow: React.FC = () => {
             </ul>
           </div>
         }
-        { currentTitleShow.showFlag &&
-          <div className="w-96 bg-gray-600">
-            <p className="text-lg">タイトル個別ページ欄 {currentTitleShow.showId}</p>
-          </div>
+        { currentTitleShow.showFlag && <TitleShow titleId={currentTitleShow.showId} />
         }
       </div>
       <div className= "flex justify-between items-center p-1 h-20">
