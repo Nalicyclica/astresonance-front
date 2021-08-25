@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from "react";
+import React, {useState, useEffect, useContext, useRef} from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form"
 import { Link, useHistory, useParams } from "react-router-dom";
@@ -166,6 +166,19 @@ const MusicShow: React.FC = () => {
   const [ currentTitleShow, setTitleShow ] = useState<currentShow>(defaultShow);
   const { userInfo, setUserInfo} = useContext(CurrentUser);
   const {id: currentMusicId} = useParams<{id: string}>();
+  const musicShowRef: any = useRef();
+  const titleShowRef: any = useRef();
+
+  useEffect(() => {
+    musicShowRef.current.addEventListener("mousedown", handleOutsideClick);
+    return () => musicShowRef.current.removeEventListener("mousedown", handleOutsideClick);
+  }, []);
+
+  const handleOutsideClick = (event: any) => {
+    if (titleShowRef.current && !titleShowRef.current.contains(event.target)) {
+      setTitleShow(defaultShow);
+    }
+  }
 
   const fetchMusic = async (musicId: string) => {
     const musicShowUrl = `http://localhost:3000/musics/${musicId}`
@@ -199,7 +212,7 @@ const MusicShow: React.FC = () => {
   );
 
   return (
-    <div>
+    <div ref={musicShowRef}>
       <div className="flex justify-between">
         <div className= "flex flex-col justify-between items-center w-screen h-home">
           { userInfo.isSignIn? ( currentMusic.user_id == userInfo.id? <YourPostedMusic /> : (currentUserTitle.isTitled? <MusicTitled userTitle = {currentUserTitle.titleData}/> : <MakeTitleForSignedIn currentMusicId={currentMusicId}/>)) : <RejectTitleForSignOut />}
@@ -216,7 +229,7 @@ const MusicShow: React.FC = () => {
             </ul>
           </div>
         }
-        { currentTitleShow.showFlag && <TitleShow titleId={currentTitleShow.showId} />
+        { currentTitleShow.showFlag && <div ref={titleShowRef} className= "absolute"><TitleShow titleId={currentTitleShow.showId} /></div>
         }
       </div>
       <div className= "flex justify-between items-center p-1 h-20">

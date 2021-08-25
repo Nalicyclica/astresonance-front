@@ -88,7 +88,7 @@ const TitleShow: React.FC<{titleId: number}> = ({titleId}) => {
   );
 
   return(
-    <div className= "flex flex-col justify-start h-home w-96 bg-gray-600 absolute">
+    <div className= "flex flex-col justify-start h-home w-96 bg-gray-600">
       <div className="m-2 flex justify-center items-center">
         <p style={{color: currentTitle.color}} className="text-lg mr-4">{currentTitle.title}</p>
         <p className="text-sm mr-2">by</p>
