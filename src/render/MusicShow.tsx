@@ -171,7 +171,6 @@ const MusicShow: React.FC = () => {
 
   useEffect(() => {
     musicShowRef.current.addEventListener("mousedown", handleOutsideClick);
-    return () => musicShowRef.current.removeEventListener("mousedown", handleOutsideClick);
   }, []);
 
   const handleOutsideClick = (event: any) => {
