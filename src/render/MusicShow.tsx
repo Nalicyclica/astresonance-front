@@ -17,7 +17,7 @@ type currentShow = {
   showId: number
 }
 
-type titleInfo = {
+export type titleInfo = {
   id: number
   title: string
   color: string
@@ -37,7 +37,7 @@ const defaultShow: currentShow = {
   showId: -1
 };
 
-const  defaultTitleInfo: titleInfo = {
+export const  defaultTitleInfo: titleInfo = {
   id: 0,
   title: "",
   color: "",
