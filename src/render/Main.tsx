@@ -9,13 +9,14 @@ import SignIn from './SignIn';
 import SignUp from './SignUp';
 import MusicShow from './MusicShow';
 import PostMusic from './PostMusic';
+import AccountUpdate from './AccountUpdate';
 import { authToken, getAuth } from '../functions/Auth';
 import { useEffect } from 'react';
 
 export type UserInfo = {
   id: number
   nickname: string
-  iconColor: string
+  icon_color: string
   isSignIn: boolean
 };
 
@@ -27,7 +28,7 @@ type StateUserInfo = {
 export const defaultUserInfo: UserInfo = {
   id: 0,
   nickname: "",
-  iconColor: "",
+  icon_color: "",
   isSignIn: false
 };
 
@@ -71,6 +72,7 @@ const Main: React.FC = () => {
             <Route exact path='/' component = {Home} />
             <Route path='/SignUp' component = {SignUp} />
             <Route path='/SignIn' component = {SignIn} />
+            <Route path='/AccountUpdate' component = {AccountUpdate} />
             <Route path='/Musics/:id' component = {MusicShow} />
             <Route path='/PostMusic' component = {PostMusic} />
           </Router>

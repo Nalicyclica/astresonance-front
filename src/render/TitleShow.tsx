@@ -62,7 +62,7 @@ const TitleShow: React.FC<{titleId: number}> = ({titleId}) => {
         { headers: currentAuth}
         );
         const addComment: commentInfo = {...response.data};
-        addComment.icon_color = userInfo.iconColor;
+        addComment.icon_color = userInfo.icon_color;
         addComment.nickname = userInfo.nickname;
         setComments([...titleComments, addComment]);
         console.log("success");
