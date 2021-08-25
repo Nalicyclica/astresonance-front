@@ -36,7 +36,7 @@ const UserMenuDrop: React.FC = () => {
             <div className='absolute top-12 right-2 w-64 p-4 bg-white z-50 shadow-lg border border-gray-100 rounded'>
                 <ul>
                     <li onClick={handleInsideClick}><Link to="/PostMusic" className="h-full w-full">音楽を投稿する</Link></li>
-                    <li onClick={handleInsideClick}><Link to="/AccountUpdate" className="h-full w-full">アカウント情報を更新する</Link></li>
+                    <li onClick={handleInsideClick}><Link to="/AccountUpdate" className="h-full w-full">アカウント情報を確認する</Link></li>
                     <li><a>menu2</a></li>
                     <li onClick={handleInsideClick}><SignOut /></li>
                 </ul>
