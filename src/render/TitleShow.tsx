@@ -3,10 +3,11 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { getAuth, authToken } from '../functions/Auth'
-import {titleInfo, defaultTitleInfo} from './MusicShow'
+import {titleInfo, defaultTitleInfo, currentShow, defaultShow} from './MusicShow'
 import { CurrentUser } from "./Main";
+import {AiOutlineArrowRight} from 'react-icons/ai'
 
-type commentInfo = {
+export type commentInfo = {
   id: number
   text: string
   user_id: number
@@ -15,7 +16,7 @@ type commentInfo = {
   icon_color: string
 };
 
-const defaultCommentInfo: commentInfo = {
+export const defaultCommentInfo: commentInfo = {
   id: -1,
   text: "",
   user_id: -1,
@@ -24,7 +25,7 @@ const defaultCommentInfo: commentInfo = {
   icon_color: ""
 };
 
-const TitleShow: React.FC<{titleId: number}> = ({titleId}) => {
+const TitleShow: React.FC<{titleId: number, musicId: number, setTitleShow: (setShow: currentShow)=> void}> = ({titleId, musicId, setTitleShow}) => {
   const [currentTitle, setTitle] = useState<titleInfo>(defaultTitleInfo);
   const [userTitle, setUserTitle] = useState<titleInfo>(defaultTitleInfo);
   const [titleComments, setComments] = useState<commentInfo[]>([]);
@@ -40,6 +41,11 @@ const TitleShow: React.FC<{titleId: number}> = ({titleId}) => {
       const titleData: titleInfo = {...response.data};
       const userTitleData: titleInfo = {...response.data.user_title};
       const commentsData: commentInfo[] = [...response.data.comments];
+
+      if(titleData.music_id != musicId){
+        setTitleShow(defaultShow);
+      }
+
       setTitle(titleData);
       setUserTitle(userTitleData);
       setComments(commentsData);
@@ -88,8 +94,13 @@ const TitleShow: React.FC<{titleId: number}> = ({titleId}) => {
   </li>
   );
 
+  const closeTitleShow = () => {
+    setTitleShow(defaultShow);
+  };
+
   return(
-    <div className= "flex flex-col justify-start h-home w-96 bg-gray-600">
+    <div className= "flex flex-col justify-start relative h-home w-96 bg-gray-600">
+      <AiOutlineArrowRight size={40} onClick={closeTitleShow} className="absolute top-4 right-4" />
       <div className="m-2 flex justify-center items-center">
         <p style={{color: currentTitle.color}} className="text-lg mr-4">{currentTitle.title}</p>
         <p className="text-sm mr-2">by</p>

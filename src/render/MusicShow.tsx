@@ -12,7 +12,7 @@ type titleInput = {
   color: string
 };
 
-type currentShow = {
+export type currentShow = {
   showFlag: boolean
   showId: number
 }
@@ -32,7 +32,7 @@ type userTitleInfo = {
   isTitled: boolean
 };
 
-const defaultShow: currentShow = {
+export const defaultShow: currentShow = {
   showFlag: false,
   showId: -1
 };
@@ -52,7 +52,7 @@ const defaultUserTitleInfo: userTitleInfo = {
   isTitled: false
 };
 
-const defaultMusicInfo: musicInfo = {
+export const defaultMusicInfo: musicInfo = {
   id: 0,
   genre_id: 0,
   genreName: "",
@@ -145,7 +145,7 @@ const TitleItem: React.FC<{titleItem: titleInfo, setTitleShow: (value: currentSh
     };
     props.setTitleShow(setCurrent);
   };
-
+  
   return(
     <li key={props.titleItem.id} className="bg-gray-800 p-2 mb-1 w-64 rounded-md shadow-bright hover:shadow-gold hover:bg-gray-600 text-gray-100">
     <button onClick={(e) => thisTitleShow(e)} className="flex justify-start">
@@ -167,20 +167,8 @@ const MusicShow: React.FC = () => {
   const [ currentUserTitle, setUserTitle ] = useState<userTitleInfo>(defaultUserTitleInfo);
   const [ currentTitleShow, setTitleShow ] = useState<currentShow>(defaultShow);
   const { userInfo, setUserInfo} = useContext(CurrentUser);
-  const {id: currentMusicId} = useParams<{id: string}>();
-  const musicShowRef: any = useRef();
-  const titleShowRef: any = useRef();
-
-  useEffect(() => {
-    musicShowRef.current.addEventListener("mousedown", handleOutsideClick);
-  }, []);
-
-  const handleOutsideClick = (event: any) => {
-    if (titleShowRef.current && !titleShowRef.current.contains(event.target)) {
-      setTitleShow(defaultShow);
-    }
-  }
-
+  const {id: currentMusicId, title_id: initialTitleId} = useParams<{id: string, title_id: string}>();
+  
   const fetchMusic = async (musicId: string) => {
     const musicShowUrl = `http://localhost:3000/musics/${musicId}`
     const currentAuth: authToken = getAuth();
@@ -200,20 +188,27 @@ const MusicShow: React.FC = () => {
         userTitleData.isTitled = true;
       }
       setUserTitle(userTitleData);
-      } catch(errors){
+    } catch(errors){
       console.log(errors);
     };
   };
   useEffect(()=>{
     fetchMusic(currentMusicId);
+    if(initialTitleId){
+      const setCurrent: currentShow = {
+        showFlag: true,
+        showId: Number(initialTitleId),
+      };
+      setTitleShow(setCurrent);
+    }
   },[]);
-
+  
   const titleList = musicTitles.map((titleItem) => 
-    <TitleItem titleItem={titleItem} setTitleShow={setTitleShow} />
+  <TitleItem titleItem={titleItem} setTitleShow={setTitleShow} />
   );
-
+  
   return (
-    <div ref={musicShowRef}>
+    <div>
       <div className="flex justify-between">
         <div className= "flex flex-col justify-between items-center w-screen h-home">
           { userInfo.isSignIn? ( currentMusic.user_id == userInfo.id? <YourPostedMusic /> : (currentUserTitle.isTitled? <MusicTitled userTitle = {currentUserTitle.titleData}/> : <MakeTitleForSignedIn currentMusicId={currentMusicId}/>)) : <RejectTitleForSignOut />}
@@ -230,7 +225,7 @@ const MusicShow: React.FC = () => {
             </ul>
           </div>
         }
-        { currentTitleShow.showFlag && <div ref={titleShowRef} className= "absolute"><TitleShow titleId={currentTitleShow.showId} /></div>
+        { currentTitleShow.showFlag && <div className= "absolute"><TitleShow titleId={currentTitleShow.showId} musicId={Number(currentMusicId)} setTitleShow={setTitleShow} /></div>
         }
       </div>
       <div className= "flex justify-between items-center p-1 h-20">
