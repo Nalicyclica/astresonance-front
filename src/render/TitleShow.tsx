@@ -1,6 +1,7 @@
 import React, {useEffect, useState, useContext} from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 import { getAuth, authToken } from '../functions/Auth'
 import {titleInfo, defaultTitleInfo} from './MusicShow'
 import { CurrentUser } from "./Main";
@@ -79,7 +80,7 @@ const TitleShow: React.FC<{titleId: number}> = ({titleId}) => {
     <li key={commentItem.id} className="bg-gray-800 p-1 mb-1 h-12 w-72 rounded-md shadow-bright text-gray-100">
     <div className="flex justify-start items-center pl-2">
       <div style={{backgroundColor: commentItem.icon_color}} className = "w-2 h-2 m-1 rounded-full shadow-bright"></div>
-      <p className="text-sm text-center">{commentItem.nickname}</p>
+      <Link to={`/UserShow/${commentItem.user_id}`} className="text-sm text-center">{commentItem.nickname}</Link>
     </div>
     <div>
       <p className ="w-full pl-4">{commentItem.text}</p>
@@ -93,7 +94,7 @@ const TitleShow: React.FC<{titleId: number}> = ({titleId}) => {
         <p style={{color: currentTitle.color}} className="text-lg mr-4">{currentTitle.title}</p>
         <p className="text-sm mr-2">by</p>
         <div style={{backgroundColor: currentTitle.icon_color}} className = "w-2 h-2 m-1 rounded-full shadow-bright"></div>
-        <p className="text-sm">{currentTitle.nickname}</p>
+        <Link to={`/UserShow/${currentTitle.user_id}`} className="text-sm">{currentTitle.nickname}</Link>
       </div>
       <ul className="overflow-auto p-4 h-96">
         {commentList}

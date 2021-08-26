@@ -59,7 +59,9 @@ const defaultMusicInfo: musicInfo = {
   category_id: 0,
   categoryName: "", 
   music_url: "",
-  user_id: 0
+  user_id: 0,
+  nickname: "",
+  icon_color: "",
 };
 
 const MusicTitled: React.FC<{userTitle: titleInfo}> = props => {
@@ -232,8 +234,19 @@ const MusicShow: React.FC = () => {
         }
       </div>
       <div className= "flex justify-between items-center p-1 h-20">
-        <div className="mx-4">
-          ジャンル:{currentMusic.genreName}の{currentMusic.categoryName}
+        <div className="flex justify-start items-center">
+          <p className="mx-4">
+            ジャンル:{currentMusic.genreName}の{currentMusic.categoryName}
+          </p>
+          { userInfo.isSignIn && ( currentMusic.user_id == userInfo.id || currentUserTitle.isTitled ) &&
+          <div className="flex justify-start items-end" >
+            <p className="mr-3">投稿者:</p> 
+            <div style={{backgroundColor: currentMusic.icon_color}} className="w-6 h-6 mr-2 rounded-full shadow-bright hover:shadow-gold"></div>
+            <Link to={`/UserShow/${currentMusic.user_id}`}>
+              {currentMusic.nickname}
+            </Link>
+          </div>
+          }
         </div>
         <Link to="/" className="bg-gray-800 flex justify-center items-center m-2 h-12 px-8 rounded-md shadow-bright hover:shadow-gold">別の曲を探す</Link>
       </div>

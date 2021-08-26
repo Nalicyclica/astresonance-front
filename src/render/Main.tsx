@@ -10,6 +10,7 @@ import SignUp from './SignUp';
 import MusicShow from './MusicShow';
 import PostMusic from './PostMusic';
 import AccountUpdate from './AccountUpdate';
+import UserShow from './UserShow';
 import { authToken, getAuth } from '../functions/Auth';
 import { useEffect } from 'react';
 
@@ -53,7 +54,6 @@ const Main: React.FC = () => {
       const userData: UserInfo = {...response.data.data};
       userData.isSignIn = true;
       setUserInfo({...userData});
-      console.log(userData);
     }catch (errors) {
       console.log(errors);
     }
@@ -75,6 +75,7 @@ const Main: React.FC = () => {
             <Route path='/AccountUpdate' component = {AccountUpdate} />
             <Route path='/Musics/:id' component = {MusicShow} />
             <Route path='/PostMusic' component = {PostMusic} />
+            <Route path='/UserShow/:id' component = {UserShow} />
           </Router>
         </CurrentUser.Provider>
       </div>

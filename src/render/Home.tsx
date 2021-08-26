@@ -47,6 +47,8 @@ export type musicInfo = {
   categoryName: string 
   music_url: string
   user_id: number
+  nickname: string
+  icon_color: string
 }
 
 export const getGenreName = (genreId: number): string => {
