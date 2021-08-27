@@ -13,6 +13,7 @@ import AccountUpdate from './AccountUpdate';
 import UserShow from './UserShow';
 import { authToken, getAuth } from '../functions/Auth';
 import { useEffect } from 'react';
+import Background from './Background';
 
 export type UserInfo = {
   id: number
@@ -82,8 +83,7 @@ const Main: React.FC = () => {
           </Router>
         </CurrentUser.Provider>
       </div>
-      <div className = "absolute w-screen h-screen bg-gray-900"></div>
-      <div className = "absolute w-96 h-96 shadow-gold rounded-full z-10"></div>
+      <Background />
     </div>
 	);
 }
