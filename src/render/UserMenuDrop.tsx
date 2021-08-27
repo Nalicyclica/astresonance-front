@@ -40,7 +40,7 @@ const UserMenuDrop: React.FC = () => {
                 <ul>
                     <li onClick={handleInsideClick}><Link to="/PostMusic" className="h-full w-full">音楽を投稿する</Link></li>
                     <li onClick={handleInsideClick}><Link to="/AccountUpdate" className="h-full w-full">アカウント情報を確認する</Link></li>
-                    <li onClick={handleInsideClick}><Link to={`UserShow/${userInfo.id}`} className="h-full w-full">マイページに移動する</Link></li>
+                    <li onClick={handleInsideClick}><Link to={`/UserShow/${userInfo.id}`} className="h-full w-full">マイページに移動する</Link></li>
                     <li><a>menu2</a></li>
                     <li onClick={handleInsideClick}><SignOut /></li>
                 </ul>

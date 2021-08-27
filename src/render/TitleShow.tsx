@@ -100,7 +100,9 @@ const TitleShow: React.FC<{titleId: number, musicId: number, setTitleShow: (setS
 
   return(
     <div className= "flex flex-col justify-start relative h-home w-96 bg-gray-600">
-      <AiOutlineArrowRight size={40} onClick={closeTitleShow} className="absolute top-4 right-4" />
+      <button>
+        <AiOutlineArrowRight size={40} onClick={closeTitleShow} className="absolute top-4 right-4" />
+      </button>
       <div className="m-2 flex justify-center items-center">
         <p style={{color: currentTitle.color}} className="text-lg mr-4">{currentTitle.title}</p>
         <p className="text-sm mr-2">by</p>

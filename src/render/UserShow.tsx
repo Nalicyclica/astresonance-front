@@ -1,15 +1,13 @@
 import React, { useContext, useState, useEffect, useRef, ChangeEventHandler } from 'react';
 import axios from 'axios';
-import { useForm } from "react-hook-form"
 import { useHistory } from 'react-router';
-import { CurrentUser, UserInfo } from './Main';
-import { authToken, setAuth, getAuth } from '../functions/Auth';
+import {FaGooglePlay} from 'react-icons/fa'
+import { authToken, getAuth } from '../functions/Auth';
 import {AppBar, Tabs, Toolbar, Tab } from '@material-ui/core'
 import { Link, useParams } from 'react-router-dom';
-import { defaultMusicInfo, defaultTitleInfo, titleInfo } from './MusicShow';
-import { musicInfo } from './Home';
-import { commentInfo, defaultCommentInfo } from './TitleShow';
-import Header from './Header';
+import { titleInfo } from './MusicShow';
+import { musicInfo, getGenreName, getCategoryName } from './Home';
+import { commentInfo } from './TitleShow';
 
 type profileInfo = {
   nickname: string
@@ -19,7 +17,10 @@ type profileInfo = {
 
 type titledMusicInfo = musicInfo & {
   title: string
+  color: string
 };
+
+type postedTitleInfo = Omit<titleInfo, 'nickname' | 'icon_color' >
 
 
 type titleCommentInfo = commentInfo & {
@@ -36,9 +37,9 @@ const UserShow: React.FC = () => {
   const history = useHistory();
   const [responseErrors, setErrors] = useState<object>({});
   const [currentProfileInfo, setProfileInfo ] = useState<profileInfo>(defaultProfileInfo);
-  const [currentTitledMusic, setTitledMusic ] = useState<titledMusicInfo[]>([]);
-  const [currentTitles, setTitles ] = useState<titleInfo[]>([]);
-  const [currentTitleComment, setTitleComment ] = useState<titleCommentInfo[]>([]);
+  const [titledMusics, setTitledMusic ] = useState<titledMusicInfo[]>([]);
+  const [postedTitles, setTitles ] = useState<postedTitleInfo[]>([]);
+  const [titleCommented, setTitleComment ] = useState<titleCommentInfo[]>([]);
   const [selectTab, setSelectTab] = useState<number>(0);
   const {id: currentUserId} = useParams<{id: string}>();
   
@@ -48,13 +49,21 @@ const UserShow: React.FC = () => {
     try{  
       const response = await axios.get(userShowUrl,{headers: currentAuth});
       const userData: profileInfo = {...response.data};
-      const musicData: titledMusicInfo[] = [...response.data.musics];
-      const titleData: titleInfo[] = [...response.data.titles];
+      const titleData: postedTitleInfo[] = [...response.data.titles];
       const commentData: titleCommentInfo[] = [...response.data.comments];
+
+      const musicData: titledMusicInfo[] = [];
+      response.data.musics.map((data: titledMusicInfo) => {
+        data.genreName = getGenreName(data.genre_id);
+        data.categoryName = getCategoryName(data.category_id);
+        musicData.push(data);
+      })
+
       setProfileInfo(userData);
       setTitledMusic(musicData);
       setTitles(titleData);
       setTitleComment(commentData);
+      console.log(response.data);
     }catch (errors) {
       console.log(errors);
     }
@@ -63,6 +72,44 @@ const UserShow: React.FC = () => {
   useEffect(() => {
     fetchUserShow(currentUserId);
   },[]);
+
+  const musicList = titledMusics.map((musicItem) =>
+  <li key={musicItem.id} className="list-none bg-gray-800 p-2 mb-1 h-12 w-96 rounded-md shadow-bright hover:shadow-gold hover:bg-gray-600 text-gray-100">
+    <Link to={`/Musics/${musicItem.id}`} className="flex justify-between">
+      <div className ="w-56 pr-6 text-sm">
+        <p style={{color: musicItem.color}}>タイトル：{musicItem.title}</p>
+        <p>カテゴリー：{musicItem.genreName}の{musicItem.categoryName}</p>
+      </div>
+      <div className = "w-8 h-8 rounded-full shadow-bright flex justify-center items-center">
+        <FaGooglePlay size={20} />
+      </div>
+    </Link>
+  </li>
+  );
+
+  const titleList = postedTitles.map((titleItem) =>
+  <li key={titleItem.id} className="list-none bg-gray-800 p-2 mb-1 h-12 w-96 rounded-md shadow-bright hover:shadow-gold hover:bg-gray-600 text-gray-100">
+    <Link to={`/Musics/${titleItem.music_id}/Titles/${titleItem.id}`} className="flex justify-between">
+      <div className ="w-56 pr-6 text-sm">
+        <p style={{color: titleItem.color}}>タイトル：{titleItem.title}</p>
+      </div>
+      <div className = "w-8 h-8 rounded-full shadow-bright flex justify-center items-center">
+        <FaGooglePlay size={20} />
+      </div>
+    </Link>
+  </li>
+  );
+
+  const commentList = titleCommented.map((commentItem) =>
+  <li key={commentItem.id} className="list-none bg-gray-800 p-2 mb-1 h-12 w-96 rounded-md shadow-bright hover:shadow-gold hover:bg-gray-600 text-gray-100">
+    <Link to={`/Musics/${commentItem.title.music_id}/Titles/${commentItem.title_id}`} className="">
+      <div className ="w-full pr-6 text-sm">
+        <p>コメント：{commentItem.text}</p>
+        <p className="w-full text-right">for タイトル：{commentItem.title.title}</p>
+      </div>
+    </Link>
+  </li>
+  );
     
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setSelectTab(newValue);
@@ -90,12 +137,11 @@ const UserShow: React.FC = () => {
                 <Tab label="投稿したコメント" />
               </Tabs>
             </Toolbar>
-          { selectTab == 0 && <div className="bg-gray-100 w-screen h-96"></div>}
-          { selectTab == 1 && <div className="bg-gray-300 w-screen h-96"></div>}
-          { selectTab == 2 && <div className="bg-gray-500 w-screen h-96"></div>}
+          { selectTab == 0 && <div className="flex flex-col items-center bg-gray-300 w-screen h-96 overflow-auto">{musicList}</div>}
+          { selectTab == 1 && <div className="flex flex-col items-center bg-gray-300 w-screen h-96 overflow-auto">{titleList}</div>}
+          { selectTab == 2 && <div className="flex flex-col items-center bg-gray-300 w-screen h-96 overflow-auto">{commentList}</div>}
           </AppBar>
         </div>
-        <Link to="/Musics/3/Titles/3">ここをクリック</Link>
     </div>
 	);
 }
