@@ -1,11 +1,13 @@
 import React, {useEffect, useState, useContext} from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 import { getAuth, authToken } from '../functions/Auth'
-import {titleInfo, defaultTitleInfo} from './MusicShow'
+import {titleInfo, defaultTitleInfo, currentShow, defaultShow} from './MusicShow'
 import { CurrentUser } from "./Main";
+import {AiOutlineArrowRight} from 'react-icons/ai'
 
-type commentInfo = {
+export type commentInfo = {
   id: number
   text: string
   user_id: number
@@ -14,7 +16,7 @@ type commentInfo = {
   icon_color: string
 };
 
-const defaultCommentInfo: commentInfo = {
+export const defaultCommentInfo: commentInfo = {
   id: -1,
   text: "",
   user_id: -1,
@@ -23,7 +25,7 @@ const defaultCommentInfo: commentInfo = {
   icon_color: ""
 };
 
-const TitleShow: React.FC<{titleId: number}> = ({titleId}) => {
+const TitleShow: React.FC<{titleId: number, musicId: number, setTitleShow: (setShow: currentShow)=> void}> = ({titleId, musicId, setTitleShow}) => {
   const [currentTitle, setTitle] = useState<titleInfo>(defaultTitleInfo);
   const [userTitle, setUserTitle] = useState<titleInfo>(defaultTitleInfo);
   const [titleComments, setComments] = useState<commentInfo[]>([]);
@@ -39,6 +41,11 @@ const TitleShow: React.FC<{titleId: number}> = ({titleId}) => {
       const titleData: titleInfo = {...response.data};
       const userTitleData: titleInfo = {...response.data.user_title};
       const commentsData: commentInfo[] = [...response.data.comments];
+
+      if(titleData.music_id != musicId){
+        setTitleShow(defaultShow);
+      }
+
       setTitle(titleData);
       setUserTitle(userTitleData);
       setComments(commentsData);
@@ -79,7 +86,7 @@ const TitleShow: React.FC<{titleId: number}> = ({titleId}) => {
     <li key={commentItem.id} className="bg-gray-800 p-1 mb-1 h-12 w-72 rounded-md shadow-bright text-gray-100">
     <div className="flex justify-start items-center pl-2">
       <div style={{backgroundColor: commentItem.icon_color}} className = "w-2 h-2 m-1 rounded-full shadow-bright"></div>
-      <p className="text-sm text-center">{commentItem.nickname}</p>
+      <Link to={`/UserShow/${commentItem.user_id}`} className="text-sm text-center">{commentItem.nickname}</Link>
     </div>
     <div>
       <p className ="w-full pl-4">{commentItem.text}</p>
@@ -87,13 +94,20 @@ const TitleShow: React.FC<{titleId: number}> = ({titleId}) => {
   </li>
   );
 
+  const closeTitleShow = () => {
+    setTitleShow(defaultShow);
+  };
+
   return(
-    <div className= "flex flex-col justify-start h-home w-96 bg-gray-600">
+    <div className= "flex flex-col justify-start relative h-home w-96 bg-gray-600">
+      <button>
+        <AiOutlineArrowRight size={40} onClick={closeTitleShow} className="absolute top-4 right-4" />
+      </button>
       <div className="m-2 flex justify-center items-center">
         <p style={{color: currentTitle.color}} className="text-lg mr-4">{currentTitle.title}</p>
         <p className="text-sm mr-2">by</p>
         <div style={{backgroundColor: currentTitle.icon_color}} className = "w-2 h-2 m-1 rounded-full shadow-bright"></div>
-        <p className="text-sm">{currentTitle.nickname}</p>
+        <Link to={`/UserShow/${currentTitle.user_id}`} className="text-sm">{currentTitle.nickname}</Link>
       </div>
       <ul className="overflow-auto p-4 h-96">
         {commentList}

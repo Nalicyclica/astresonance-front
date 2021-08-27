@@ -45,4 +45,5 @@ module.exports = {
       addUtilities(newUtilities);
     }
   ],
+  important: true,
 }

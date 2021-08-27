@@ -2,8 +2,11 @@ import React, {useRef, useEffect, useState} from "react";
 import { Link } from "react-router-dom";
 import { IoIosArrowDown } from 'react-icons/io'
 import SignOut from "./SignOut";
+import { useContext } from "react";
+import { CurrentUser } from "./Main";
 
 const UserMenuDrop: React.FC = () => {
+  const { userInfo, setUserInfo } = useContext(CurrentUser);
   const [isOpen, setOpen] = useState<boolean>(false);
   const menuDropRef: any = useRef();
 
@@ -33,10 +36,11 @@ const UserMenuDrop: React.FC = () => {
         </span>
 
         {isOpen && (
-            <div className='absolute top-12 right-2 w-64 p-4 bg-white z-50 shadow-lg border border-gray-100 rounded'>
+            <div className='absolute top-12 right-2 w-64 p-4 bg-gray-900 z-50 shadow-bright border border-gray-100 rounded'>
                 <ul>
                     <li onClick={handleInsideClick}><Link to="/PostMusic" className="h-full w-full">音楽を投稿する</Link></li>
                     <li onClick={handleInsideClick}><Link to="/AccountUpdate" className="h-full w-full">アカウント情報を確認する</Link></li>
+                    <li onClick={handleInsideClick}><Link to={`/UserShow/${userInfo.id}`} className="h-full w-full">マイページに移動する</Link></li>
                     <li><a>menu2</a></li>
                     <li onClick={handleInsideClick}><SignOut /></li>
                 </ul>
