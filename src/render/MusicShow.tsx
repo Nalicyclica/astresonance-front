@@ -7,6 +7,7 @@ import { musicInfo, getGenreName, getCategoryName } from "./Home";
 import { authToken, getAuth } from "../functions/Auth";
 import TitleShow from './TitleShow';
 import { responseInfo, useMusicDelete } from "../functions/DeleteMusic";
+import MusicEdit from "./MusicEdit";
 
 type titleInput = {
   title: string
@@ -129,12 +130,16 @@ const RejectTitleForSignOut: React.FC = () => {
   )
 };
 
-const YourPostedMusic: React.FC<{musicId: number}> = ({musicId}) => {
+const YourPostedMusic: React.FC<{musicId: number, setEditShow: (setShow: boolean)=>void}> = ({musicId, setEditShow}) => {
   const history = useHistory();
   const [deleteResponse, musicDelete] = useMusicDelete();
   
   const handleClickDelete = () => {
     musicDelete(musicId);
+  };
+
+  const handleClickEdit = () => {
+    setEditShow(true);
   };
 
   useEffect(() => {
@@ -152,7 +157,7 @@ const YourPostedMusic: React.FC<{musicId: number}> = ({musicId}) => {
     <div className="flex flex-col items-center w-96 h-16 mx-8 my-6 rounded-md text-gray-100 px-3 py-1 shadow-bright">
       <p className="text-lg"> あなたが投稿した音楽</p>
       <div className="flex justify-between w-full">
-        <button>音楽情報を編集する</button>
+        <button onClick={handleClickEdit}>音楽情報を編集する</button>
         <button onClick={handleClickDelete} >音楽を削除する</button>
       </div>
     </div>
@@ -189,6 +194,7 @@ const MusicShow: React.FC = () => {
   const [ musicTitles, setmusicTitles ] = useState<titleInfo[]>([]);
   const [ currentUserTitle, setUserTitle ] = useState<userTitleInfo>(defaultUserTitleInfo);
   const [ currentTitleShow, setTitleShow ] = useState<currentShow>(defaultShow);
+  const [ musicEditShow, setEditShow ] = useState<boolean>(false);
   const { userInfo, setUserInfo} = useContext(CurrentUser);
   const {id: currentMusicId, title_id: initialTitleId} = useParams<{id: string, title_id: string}>();
   
@@ -234,7 +240,7 @@ const MusicShow: React.FC = () => {
     <div>
       <div className="flex justify-between">
         <div className= "flex flex-col justify-between items-center w-screen h-home">
-          { userInfo.isSignIn? ( currentMusic.user_id == userInfo.id? <YourPostedMusic musicId={currentMusic.id} /> : (currentUserTitle.isTitled? <MusicTitled userTitle = {currentUserTitle.titleData}/> : <MakeTitleForSignedIn currentMusicId={currentMusicId}/>)) : <RejectTitleForSignOut />}
+          { userInfo.isSignIn? ( currentMusic.user_id == userInfo.id? <YourPostedMusic musicId={currentMusic.id} setEditShow={setEditShow} /> : (currentUserTitle.isTitled? <MusicTitled userTitle = {currentUserTitle.titleData}/> : <MakeTitleForSignedIn currentMusicId={currentMusicId}/>)) : <RejectTitleForSignOut />}
           <div className="my-8">
             <audio controls src={currentMusic.music_url}/>
           </div>
@@ -268,6 +274,7 @@ const MusicShow: React.FC = () => {
         </div>
         <Link to="/" className="bg-gray-800 flex justify-center items-center m-2 h-12 px-8 rounded-md shadow-bright hover:shadow-gold">別の曲を探す</Link>
       </div>
+      { musicEditShow && <MusicEdit musicItem={currentMusic} setEditShow={setEditShow} />}
     </div>
   );
 };

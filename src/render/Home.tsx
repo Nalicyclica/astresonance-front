@@ -113,7 +113,7 @@ const HomeFooter: React.FC<Props> = ({fetchMusic}) => {
       </form>
     </footer>
 	);
-}
+};
 
 const Home: React.FC = () => {
   const [ musicItems, setMusic ] = useState<musicInfo[]>([]);
