@@ -119,7 +119,7 @@ const Home: React.FC = () => {
   const [ musicItems, setMusic ] = useState<musicInfo[]>([]);
   
   const musicList = musicItems.map((musicItem) =>
-  <li key={musicItem.id} className="bg-gray-800 p-2 mb-1 h-12 w-72 rounded-md shadow-bright hover:shadow-gold hover:bg-gray-600 text-gray-100">
+  <li key={musicItem.id} className="backdrop-filter backdrop-blur-lg p-2 mb-4 h-12 w-96 rounded-md shadow-bright hover:shadow-gold hover:bg-gray-600 text-gray-100">
     <Link to={`/Musics/${musicItem.id}`} className="flex justify-between">
       <div className ="w-56 pr-6 text-sm">
         <p>カテゴリー：{musicItem.genreName}の{musicItem.categoryName}</p>
