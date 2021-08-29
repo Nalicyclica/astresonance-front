@@ -99,7 +99,7 @@ const TitleShow: React.FC<{titleId: number, musicId: number, setTitleShow: (setS
   };
 
   return(
-    <div className= "flex flex-col justify-start relative h-home w-96 bg-gray-600">
+    <div className= "flex flex-col justify-start relative h-home w-96 backdrop-filter backdrop-blur-xl">
       <button>
         <AiOutlineArrowRight size={40} onClick={closeTitleShow} className="absolute top-4 right-4" />
       </button>

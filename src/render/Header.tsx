@@ -26,7 +26,7 @@ const Header: React.FC = () => {
   const logo_url = "./img/logo.png"
   const { userInfo, setUserInfo } = useContext(CurrentUser);
 	return (
-    <header className="flex justify-between items-center bg-gray-700 w-screen h-20 sticky top-0">
+    <header className="flex justify-between items-center backdrop-filter backdrop-blur backdrop-contrast-75 shadow-inner w-screen h-20 sticky top-0">
       <Link to="/">
         <img src={logo_url} alt="AstResonance" className="h-16 m-2"></img>
       </Link>
