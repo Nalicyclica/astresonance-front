@@ -33,6 +33,26 @@ const defaultProfileInfo: profileInfo = {
   introduce: ""
 };
 
+const UserMusicList: React.FC<{titledMusics: titledMusicInfo[]}> = ({titledMusics})=> {
+  return(
+    <div  className="flex flex-col items-center bg-gray-300 w-screen h-96 overflow-auto">
+      {titledMusics.map((musicItem) =>
+        <li key={musicItem.id} className="list-none bg-gray-800 p-2 mb-1 h-12 w-96 rounded-md shadow-bright hover:shadow-gold hover:bg-gray-600 text-gray-100">
+          <Link to={`/Musics/${musicItem.id}`} className="flex justify-between">
+            <div className ="w-56 pr-6 text-sm">
+              <p style={{color: musicItem.color}}>タイトル：{musicItem.title}</p>
+              <p>カテゴリー：{musicItem.genreName}の{musicItem.categoryName}</p>
+            </div>
+            <div className = "w-8 h-8 rounded-full shadow-bright flex justify-center items-center">
+              <FaGooglePlay size={20} />
+            </div>
+          </Link>
+        </li>
+      )}
+    </div>
+  );
+};
+
 const UserShow: React.FC = () => {
   const history = useHistory();
   const [responseErrors, setErrors] = useState<object>({});
@@ -72,20 +92,6 @@ const UserShow: React.FC = () => {
   useEffect(() => {
     fetchUserShow(currentUserId);
   },[]);
-
-  const musicList = titledMusics.map((musicItem) =>
-  <li key={musicItem.id} className="list-none bg-gray-800 p-2 mb-1 h-12 w-96 rounded-md shadow-bright hover:shadow-gold hover:bg-gray-600 text-gray-100">
-    <Link to={`/Musics/${musicItem.id}`} className="flex justify-between">
-      <div className ="w-56 pr-6 text-sm">
-        <p style={{color: musicItem.color}}>タイトル：{musicItem.title}</p>
-        <p>カテゴリー：{musicItem.genreName}の{musicItem.categoryName}</p>
-      </div>
-      <div className = "w-8 h-8 rounded-full shadow-bright flex justify-center items-center">
-        <FaGooglePlay size={20} />
-      </div>
-    </Link>
-  </li>
-  );
 
   const titleList = postedTitles.map((titleItem) =>
   <li key={titleItem.id} className="list-none bg-gray-800 p-2 mb-1 h-12 w-96 rounded-md shadow-bright hover:shadow-gold hover:bg-gray-600 text-gray-100">
@@ -137,7 +143,7 @@ const UserShow: React.FC = () => {
                 <Tab label="投稿したコメント" />
               </Tabs>
             </Toolbar>
-          { selectTab == 0 && <div className="flex flex-col items-center bg-gray-300 w-screen h-96 overflow-auto">{musicList}</div>}
+          { selectTab == 0 && <UserMusicList titledMusics={titledMusics} />}
           { selectTab == 1 && <div className="flex flex-col items-center bg-gray-300 w-screen h-96 overflow-auto">{titleList}</div>}
           { selectTab == 2 && <div className="flex flex-col items-center bg-gray-300 w-screen h-96 overflow-auto">{commentList}</div>}
           </AppBar>

@@ -6,6 +6,9 @@ import { getAuth, authToken } from '../functions/Auth'
 import {titleInfo, defaultTitleInfo, currentShow, defaultShow} from './MusicShow'
 import { CurrentUser } from "./Main";
 import {AiOutlineArrowRight} from 'react-icons/ai'
+import {ImCross} from 'react-icons/im'
+import { useTitleDelete } from "../functions/DeleteTitle";
+import { useCommentDelete } from "../functions/DeleteComment";
 
 export type commentInfo = {
   id: number
@@ -24,6 +27,81 @@ export const defaultCommentInfo: commentInfo = {
   nickname: "",
   icon_color: ""
 };
+
+const TitleDelete: React.FC<{titleId: number}> = ({titleId}) => {
+  const [deleteResponse, titleDelete] = useTitleDelete();
+  
+  const handleClickDelete = () => {
+    titleDelete(titleId);
+  };
+
+  useEffect(() => {
+    if(deleteResponse.valid){
+      alert("タイトルを削除しました");
+      window.location.reload();
+    }else{
+      if(deleteResponse.id > 0){
+        alert("削除できませんでした");
+      }
+    }
+  }, [deleteResponse]);
+
+  return(
+    <button onClick={handleClickDelete}>
+      タイトルを削除する
+    </button>
+  );
+};
+
+const CommentDelete: React.FC<{commentId: number, removeCommentItem: (commentId: number)=>void}> = ({commentId, removeCommentItem}) => {
+  const [deleteResponse, commentDelete] = useCommentDelete();
+  
+  const handleClickDelete = () => {
+    commentDelete(commentId);
+  };
+
+  useEffect(() => {
+    if(deleteResponse.valid){
+      alert("コメントを削除しました");
+      removeCommentItem(commentId);
+    }else{
+      if(deleteResponse.id > 0){
+        alert("削除できませんでした");
+      }
+    }
+  }, [deleteResponse]);
+
+  return(
+    <button onClick={handleClickDelete} className="mr-4">
+      <ImCross size={16} />
+    </button>
+  );
+};
+
+const TitleCommentList: React.FC<{titleComments: commentInfo[], currentUserId: number, removeCommentItem: (commentId: number) => void}> = ({titleComments, currentUserId, removeCommentItem})=> {
+
+  return(
+    <ul className="overflow-auto p-4 h-96">
+      {
+        titleComments.map((commentItem) =>
+          <li key={commentItem.id} className="flex justify-between bg-gray-800 p-1 mb-1 h-12 w-72 rounded-md shadow-bright text-gray-100">
+            <div>
+              <div className="flex justify-start items-center pl-2">
+                <div style={{backgroundColor: commentItem.icon_color}} className = "w-2 h-2 m-1 rounded-full shadow-bright"></div>
+                <Link to={`/UserShow/${commentItem.user_id}`} className="text-sm text-center">{commentItem.nickname}</Link>
+              </div>
+              <div>
+                <p className ="w-full pl-4">{commentItem.text}</p>
+              </div>
+            </div>
+            { commentItem.user_id == currentUserId && <CommentDelete commentId={commentItem.id} removeCommentItem={removeCommentItem}/>}
+          </li>
+        )
+      }
+    </ul>
+  );
+};
+
 
 const TitleShow: React.FC<{titleId: number, musicId: number, setTitleShow: (setShow: currentShow)=> void}> = ({titleId, musicId, setTitleShow}) => {
   const [currentTitle, setTitle] = useState<titleInfo>(defaultTitleInfo);
@@ -45,19 +123,19 @@ const TitleShow: React.FC<{titleId: number, musicId: number, setTitleShow: (setS
       if(titleData.music_id != musicId){
         setTitleShow(defaultShow);
       }
-
+      
       setTitle(titleData);
       setUserTitle(userTitleData);
       setComments(commentsData);
-      } catch(errors){
+    } catch(errors){
       console.log(errors);
     };
   };
-
+  
   useEffect(()=>{
     fetchComments(titleId);
   },[titleId]);
-
+  
   
   const postComment = async (titleId: number, comment: {text: string}) => {
     const postUrl=`http://localhost:3000/titles/${titleId}/comments`
@@ -77,22 +155,16 @@ const TitleShow: React.FC<{titleId: number, musicId: number, setTitleShow: (setS
         setErrors(error)
       };
     };
+
+    const removeCommentItem = (commentId: number) => {
+      const otherComments = titleComments.filter(commentItem => commentItem.id != commentId);
+      setComments(otherComments);
+    };
     
     const onSubmit = (data: {text: string}) => {
       postComment(currentTitle.id, data);
     };
 
-    const commentList = titleComments.map((commentItem) =>
-    <li key={commentItem.id} className="bg-gray-800 p-1 mb-1 h-12 w-72 rounded-md shadow-bright text-gray-100">
-    <div className="flex justify-start items-center pl-2">
-      <div style={{backgroundColor: commentItem.icon_color}} className = "w-2 h-2 m-1 rounded-full shadow-bright"></div>
-      <Link to={`/UserShow/${commentItem.user_id}`} className="text-sm text-center">{commentItem.nickname}</Link>
-    </div>
-    <div>
-      <p className ="w-full pl-4">{commentItem.text}</p>
-    </div>
-  </li>
-  );
 
   const closeTitleShow = () => {
     setTitleShow(defaultShow);
@@ -109,9 +181,8 @@ const TitleShow: React.FC<{titleId: number, musicId: number, setTitleShow: (setS
         <div style={{backgroundColor: currentTitle.icon_color}} className = "w-2 h-2 m-1 rounded-full shadow-bright"></div>
         <Link to={`/UserShow/${currentTitle.user_id}`} className="text-sm">{currentTitle.nickname}</Link>
       </div>
-      <ul className="overflow-auto p-4 h-96">
-        {commentList}
-      </ul>
+      { userInfo.id == currentTitle.user_id && <TitleDelete titleId={currentTitle.id} />}
+      <TitleCommentList titleComments={titleComments} currentUserId={userInfo.id} removeCommentItem={removeCommentItem} />
       <form onSubmit={handleSubmit(onSubmit)} className="px-8 py-4">
         <p>タイトルに対してコメントを投稿できます：</p>
         <div className="flex justify-between items-center">
