@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { useForm } from "react-hook-form"
 import { useHistory } from 'react-router';
 import { CurrentUser } from '../functions/UserInfo';
+import ErrorList from './ErrorList';
 
 export type SignUpInfo = {
   email: string
@@ -40,7 +41,7 @@ const SignUp: React.FC = () => {
     <div className="flex-grow bg-gray-900">
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col justify-start items-center text-gray-100">
         <h1 className="text-2xl mt-8 mb-6 px-4 text-yellow-300 border-b border-yellow-300">Please enter your information</h1>
-        { Object.keys(userInfo.errors).length > 0 && <p>{`${String(userInfo.errors)}`}</p>}
+        { userInfo.action=="signUp" && !userInfo.valid && <ErrorList errors={userInfo.errors.response.data.errors.full_messages}/>}
         <label className="my-2">
           <p>Nickname:</p>
           <input type="text" {...register("nickname")} placeholder="ex.) ARGuy" className="my-2 p-2 bg-gray-300 focus:bg-gray-100 focus:outline-none focus:shadow-bright rounded-md text-black"/>

@@ -11,7 +11,7 @@ export type UserInfo = {
   isSignIn: boolean
   valid: boolean
   action: string
-  errors: object
+  errors: any
 };
 
 export const defaultUserInfo: UserInfo = {
