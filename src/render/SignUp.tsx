@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form"
 import { useHistory } from 'react-router';
 import { CurrentUser } from '../functions/UserInfo';
 import ErrorList from './ErrorList';
+import { preventEnter } from '../functions/FormFunc';
 
 export type SignUpInfo = {
   email: string
@@ -39,7 +40,7 @@ const SignUp: React.FC = () => {
 
   return (
     <div className="flex-grow bg-gray-900">
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col justify-start items-center text-gray-100">
+      <form onKeyPress={(e) => preventEnter(e)} onSubmit={handleSubmit(onSubmit)} className="flex flex-col justify-start items-center text-gray-100">
         <h1 className="text-2xl mt-8 mb-6 px-4 text-yellow-300 border-b border-yellow-300">Please enter your information</h1>
         { userInfo.action=="signUp" && !userInfo.valid && <ErrorList errors={userInfo.errors.response.data.errors.full_messages}/>}
         <label className="my-2">

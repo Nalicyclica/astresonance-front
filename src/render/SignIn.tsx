@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form"
 import { useHistory } from 'react-router-dom';
 import { CurrentUser } from '../functions/UserInfo';
 import ErrorList from './ErrorList'
+import { preventEnter } from '../functions/FormFunc';
 
 export type SignInInfo = {
   email: string
@@ -12,14 +13,14 @@ export type SignInInfo = {
 const SignIn: React.FC = () => {
   const history = useHistory();
   const { userInfo, setUserInfo } = useContext(CurrentUser);
-  const { register, handleSubmit, watch, formState: {errors} } = useForm();
+  const { register, handleSubmit, watch, formState: {errors}} = useForm();
 
   if(userInfo.isSignIn){
     history.push('/');
   }
 
   const onSubmit = (data: SignInInfo) => {
-        setUserInfo.signIn(data);
+    setUserInfo.signIn(data);
   };
 
   useEffect(() => {
@@ -30,10 +31,10 @@ const SignIn: React.FC = () => {
         console.log(userInfo.errors);
       }
     }
-  }, [userInfo])
+  }, [userInfo]);
 
 	return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex-grow flex flex-col justify-start items-center w-screen text-gray-100">
+    <form onKeyPress={(e) => preventEnter(e)} onSubmit={handleSubmit(onSubmit)} className="flex-grow flex flex-col justify-start items-center w-screen text-gray-100">
       <h1 className="text-2xl mt-8 mb-6 px-4 text-yellow-300 border-b border-yellow-300">Sign in with your nickname</h1>
       { userInfo.action=="signIn" && !userInfo.valid && <ErrorList errors={userInfo.errors.response.data.errors}/>}
       <label className="my-2">
