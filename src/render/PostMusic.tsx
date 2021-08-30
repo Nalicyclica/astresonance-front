@@ -2,7 +2,7 @@ import React, {useState, useCallback, useEffect} from 'react';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import {useDropzone} from 'react-dropzone'
-import { genreItems, categoryItems } from './Home';
+import { genreItems, categoryItems } from '../functions/MusicGenre';
 import { authToken, getAuth } from '../functions/Auth';
 import { useHistory } from 'react-router-dom';
 

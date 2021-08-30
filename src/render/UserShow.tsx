@@ -6,7 +6,8 @@ import { authToken, getAuth } from '../functions/Auth';
 import {AppBar, Tabs, Toolbar, Tab } from '@material-ui/core'
 import { Link, useParams } from 'react-router-dom';
 import { titleInfo } from './MusicShow';
-import { musicInfo, getGenreName, getCategoryName } from './Home';
+import { MusicInfo } from "../functions/IndexMusic";
+import { getGenreName, getCategoryName } from "../functions/MusicGenre"
 import { commentInfo } from './TitleShow';
 
 type profileInfo = {
@@ -15,7 +16,7 @@ type profileInfo = {
   introduce: string
 };
 
-type titledMusicInfo = musicInfo & {
+type titledMusicInfo = MusicInfo & {
   title: string
   color: string
 };

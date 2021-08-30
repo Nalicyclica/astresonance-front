@@ -3,7 +3,8 @@ import axios from "axios";
 import { useForm } from "react-hook-form"
 import { Link, useHistory, useParams } from "react-router-dom";
 import { CurrentUser } from "../functions/UserInfo";
-import { musicInfo, getGenreName, getCategoryName } from "./Home";
+import { MusicInfo } from "../functions/IndexMusic"
+import { getGenreName, getCategoryName } from "../functions/MusicGenre";
 import { authToken, getAuth } from "../functions/Auth";
 import TitleShow from './TitleShow';
 import { responseInfo, useMusicDelete } from "../functions/DeleteMusic";
@@ -54,7 +55,7 @@ const defaultUserTitleInfo: userTitleInfo = {
   isTitled: false
 };
 
-export const defaultMusicInfo: musicInfo = {
+export const defaultMusicInfo: MusicInfo = {
   id: 0,
   genre_id: 0,
   genreName: "",
@@ -190,7 +191,7 @@ const TitleItem: React.FC<{titleItem: titleInfo, setTitleShow: (value: currentSh
 
 
 const MusicShow: React.FC = () => {
-  const [ currentMusic, setMusic ] = useState<musicInfo>(defaultMusicInfo);
+  const [ currentMusic, setMusic ] = useState<MusicInfo>(defaultMusicInfo);
   const [ musicTitles, setmusicTitles ] = useState<titleInfo[]>([]);
   const [ currentUserTitle, setUserTitle ] = useState<userTitleInfo>(defaultUserTitleInfo);
   const [ currentTitleShow, setTitleShow ] = useState<currentShow>(defaultShow);
@@ -204,7 +205,7 @@ const MusicShow: React.FC = () => {
     const userTitleData: userTitleInfo = {...defaultUserTitleInfo};
     try{
       const response = await axios.get(musicShowUrl,{headers: currentAuth});
-      const data: musicInfo = {...response.data};
+      const data: MusicInfo = {...response.data};
       data.genreName = getGenreName(data.genre_id);
       data.categoryName = getCategoryName(data.category_id);
       setMusic({...data});
