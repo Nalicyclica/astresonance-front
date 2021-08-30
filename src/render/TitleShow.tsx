@@ -3,7 +3,7 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { getAuth, authToken } from '../functions/Auth'
-import {titleInfo, defaultTitleInfo, currentShow, defaultShow} from './MusicShow'
+import {TitleInfo, defaultTitleInfo, CurrentShow, defaultShow} from './MusicShow'
 import { CurrentUser } from "../functions/UserInfo";
 import {AiOutlineArrowRight} from 'react-icons/ai'
 import {ImCross} from 'react-icons/im'
@@ -103,9 +103,9 @@ const TitleCommentList: React.FC<{titleComments: commentInfo[], currentUserId: n
 };
 
 
-const TitleShow: React.FC<{titleId: number, musicId: number, setTitleShow: (setShow: currentShow)=> void}> = ({titleId, musicId, setTitleShow}) => {
-  const [currentTitle, setTitle] = useState<titleInfo>(defaultTitleInfo);
-  const [userTitle, setUserTitle] = useState<titleInfo>(defaultTitleInfo);
+const TitleShow: React.FC<{titleId: number, musicId: number, setTitleShow: (setShow: CurrentShow)=> void}> = ({titleId, musicId, setTitleShow}) => {
+  const [currentTitle, setTitle] = useState<TitleInfo>(defaultTitleInfo);
+  const [userTitle, setUserTitle] = useState<TitleInfo>(defaultTitleInfo);
   const [titleComments, setComments] = useState<commentInfo[]>([]);
   const [responseErrors, setErrors] = useState<object>({});
   const {userInfo, setUserInfo} = useContext(CurrentUser);
@@ -116,8 +116,8 @@ const TitleShow: React.FC<{titleId: number, musicId: number, setTitleShow: (setS
     const currentAuth: authToken = getAuth();
     try{
       const response = await axios.get(musicShowUrl,{headers: currentAuth});
-      const titleData: titleInfo = {...response.data};
-      const userTitleData: titleInfo = {...response.data.user_title};
+      const titleData: TitleInfo = {...response.data};
+      const userTitleData: TitleInfo = {...response.data.user_title};
       const commentsData: commentInfo[] = [...response.data.comments];
 
       if(titleData.music_id != musicId){

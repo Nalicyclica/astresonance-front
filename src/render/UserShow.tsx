@@ -5,7 +5,7 @@ import {FaGooglePlay} from 'react-icons/fa'
 import { authToken, getAuth } from '../functions/Auth';
 import {AppBar, Tabs, Toolbar, Tab } from '@material-ui/core'
 import { Link, useParams } from 'react-router-dom';
-import { titleInfo } from './MusicShow';
+import { TitleInfo } from './MusicShow';
 import { MusicInfo } from "../functions/IndexMusic";
 import { getGenreName, getCategoryName } from "../functions/MusicGenre"
 import { commentInfo } from './TitleShow';
@@ -21,11 +21,11 @@ type titledMusicInfo = MusicInfo & {
   color: string
 };
 
-type postedTitleInfo = Omit<titleInfo, 'nickname' | 'icon_color' >
+type postedTitleInfo = Omit<TitleInfo, 'nickname' | 'icon_color' >
 
 
 type titleCommentInfo = commentInfo & {
-  title: titleInfo
+  title: TitleInfo
 };
 
 const defaultProfileInfo: profileInfo = {
