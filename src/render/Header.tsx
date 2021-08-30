@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { CurrentUser, UserInfo } from './Main';
+import { CurrentUser, UserInfo } from '../functions/UserInfo';
 import { Link } from 'react-router-dom'
 import SignOut from './SignOut';
 import UserMenuDrop from './UserMenuDrop'

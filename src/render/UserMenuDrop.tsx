@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { IoIosArrowDown } from 'react-icons/io'
 import SignOut from "./SignOut";
 import { useContext } from "react";
-import { CurrentUser } from "./Main";
+import { CurrentUser } from "../functions/UserInfo";
 
 const UserMenuDrop: React.FC = () => {
   const { userInfo, setUserInfo } = useContext(CurrentUser);

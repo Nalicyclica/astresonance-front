@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useForm } from "react-hook-form"
 import { useHistory } from 'react-router';
-import { CurrentUser, UserInfo } from './Main';
+import { CurrentUser, UserInfo } from '../functions/UserInfo';
 import { authToken, setAuth, getAuth } from '../functions/Auth';
 
 type accountInfo = {
@@ -152,7 +152,6 @@ const IntroduceUpdateForm: React.FC<{introduce: string, patchAccountUpdate:(inpu
 };
 
 const AccountUpdate: React.FC = () => {
-  const history = useHistory();
   const { userInfo, setUserInfo } = useContext(CurrentUser);
   const [responseErrors, setErrors] = useState<object>({});
   const [ prevInfo, setPrevInfo ] = useState<accountInfo>(defaultUpdateInfo);
@@ -193,7 +192,7 @@ const AccountUpdate: React.FC = () => {
         };
         setAuth(inputAuth);
         userData.isSignIn = true;
-        setUserInfo({...userData});
+        setUserInfo.setUserInfo({...userData});
         setPrevInfo({...prevInfo,...inputInfo});
         console.log(inputInfo);
         console.log(userData);

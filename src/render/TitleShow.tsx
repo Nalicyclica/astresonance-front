@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { getAuth, authToken } from '../functions/Auth'
 import {titleInfo, defaultTitleInfo, currentShow, defaultShow} from './MusicShow'
-import { CurrentUser } from "./Main";
+import { CurrentUser } from "../functions/UserInfo";
 import {AiOutlineArrowRight} from 'react-icons/ai'
 import {ImCross} from 'react-icons/im'
 import { useTitleDelete } from "../functions/DeleteTitle";

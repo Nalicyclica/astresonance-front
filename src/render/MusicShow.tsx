@@ -2,7 +2,7 @@ import React, {useState, useEffect, useContext, useRef} from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form"
 import { Link, useHistory, useParams } from "react-router-dom";
-import { CurrentUser } from "./Main";
+import { CurrentUser } from "../functions/UserInfo";
 import { musicInfo, getGenreName, getCategoryName } from "./Home";
 import { authToken, getAuth } from "../functions/Auth";
 import TitleShow from './TitleShow';

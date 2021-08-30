@@ -1,8 +1,5 @@
 import React, { useState, useCallback } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import axios from 'axios';
-import { useSelector, useDispatch } from "react-redux";
-import { selectMusic, fetchMusic } from "../redux/reducers/music"
 import Header from './Header';
 import Home from './Home';
 import SignIn from './SignIn';
@@ -11,63 +8,21 @@ import MusicShow from './MusicShow';
 import PostMusic from './PostMusic';
 import AccountUpdate from './AccountUpdate';
 import UserShow from './UserShow';
-import { authToken, getAuth } from '../functions/Auth';
 import { useEffect } from 'react';
 import Background from './Background';
-
-export type UserInfo = {
-  id: number
-  nickname: string
-  icon_color: string
-  isSignIn: boolean
-};
-
-type StateUserInfo = {
-  userInfo: UserInfo
-  setUserInfo: (userInfo: UserInfo) => void;
-};
-
-export const defaultUserInfo: UserInfo = {
-  id: 0,
-  nickname: "",
-  icon_color: "",
-  isSignIn: false
-};
-
-const defaultUser: StateUserInfo = {
-  userInfo: defaultUserInfo,
-  setUserInfo: () => {}
-};
-
-export const CurrentUser = React.createContext<StateUserInfo>(defaultUser)
+import { CurrentUser, useUserContext } from '../functions/UserInfo';
 
 const Main: React.FC = () => {
-  const [userInfo, setUserInfo] = useState(defaultUserInfo);
-  const ctx = {
-    userInfo,
-    setUserInfo,
-  };
-  
-  const fetchUserInfo = async () => {
-    const currentAuth: authToken = getAuth();
-    try{  
-      const response = await axios.get('http://localhost:3000/auth/validate_token',{headers: currentAuth});
-      const userData: UserInfo = {...response.data.data};
-      userData.isSignIn = true;
-      setUserInfo({...userData});
-    }catch (errors) {
-      console.log(errors);
-    }
-  };
+  const {userInfo, setUserInfo} = useUserContext();
 
   useEffect(() => {
-    fetchUserInfo();
+    setUserInfo.validateToken();
   },[]);
 
 	return (
     <div className="inline-flex">
       <div className="flex flex-col w-screen h-screen text-yellow-300 font-serif z-50">
-        <CurrentUser.Provider value = {ctx}>
+        <CurrentUser.Provider value = {{userInfo, setUserInfo}}>
           <Router>
             <Header />
             <Switch>
