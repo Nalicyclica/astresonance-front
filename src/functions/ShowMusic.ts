@@ -3,7 +3,7 @@ import axios from "axios";
 import { authToken, getAuth } from "./Auth";
 import { getGenreName, getCategoryName } from "./MusicGenre";
 import { MusicInfo } from "./IndexMusic";
-import {TitleInfo} from "../render/MusicShow"
+import {TitleInfo} from "./ShowTitle"
 
 type MusicShowInfo = {
   musicItem: MusicInfo

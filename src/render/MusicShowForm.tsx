@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import { Link, useHistory } from "react-router-dom"
 import { useForm } from "react-hook-form";
-import { TitleInfo } from "./MusicShow";
+import { TitleInfo } from "../functions/ShowTitle"
 import { useTitleCreate } from "../functions/CreateTitle";
 import { useMusicDelete } from "../functions/DeleteMusic";
 

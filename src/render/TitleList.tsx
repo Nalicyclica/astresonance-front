@@ -1,4 +1,4 @@
-import { TitleInfo } from "./MusicShow";
+import { TitleInfo } from "../functions/ShowTitle"
 import { CurrentShow } from "./MusicShow";
 
 const TitleItem: React.FC<{titleItem: TitleInfo, setTitleShow: (value: CurrentShow) => void}> = ({titleItem, setTitleShow}) => {

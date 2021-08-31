@@ -10,31 +10,11 @@ import { MusicTitled, MakeTitleForSignedIn, RejectTitleForSignOut, YourPostedMus
 export type CurrentShow = {
   showFlag: boolean
   showId: number
-}
-
-export type TitleInfo = {
-  id: number
-  title: string
-  color: string
-  user_id: number
-  music_id: number
-  nickname: string
-  icon_color: string
 };
 
 export const defaultShow: CurrentShow = {
   showFlag: false,
   showId: -1
-};
-
-export const  defaultTitleInfo: TitleInfo = {
-  id: 0,
-  title: "",
-  color: "",
-  user_id: 0,
-  music_id: 0,
-  nickname: "",
-  icon_color: ""
 };
 
 const MusicShow: React.FC = () => {
