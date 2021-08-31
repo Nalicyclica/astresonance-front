@@ -5,7 +5,7 @@ import Home from './Home';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
 import MusicShow from './MusicShow';
-import PostMusic from './PostMusic';
+import MusicCreate from './MusicCreate';
 import AccountUpdate from './AccountUpdate';
 import UserShow from './UserShow';
 import { useEffect } from 'react';
@@ -21,7 +21,7 @@ const Main: React.FC = () => {
 
 	return (
     <div className="inline-flex">
-      <div className="flex flex-col w-screen h-screen text-yellow-300 font-serif z-50">
+      <div className="flex flex-col w-screen h-screen text-yellow-300 font-serif z-30">
         <CurrentUser.Provider value = {{userInfo, setUserInfo}}>
           <Router>
             <Header />
@@ -32,7 +32,7 @@ const Main: React.FC = () => {
               <Route path='/AccountUpdate' component = {AccountUpdate} />
               <Route path='/Musics/:id/Titles/:title_id' component = {MusicShow} />
               <Route path='/Musics/:id' component = {MusicShow} />
-              <Route path='/PostMusic' component = {PostMusic} />
+              <Route path='/MusicCreate' component = {MusicCreate} />
               <Route path='/UserShow/:id' component = {UserShow} />
             </Switch>
           </Router>
