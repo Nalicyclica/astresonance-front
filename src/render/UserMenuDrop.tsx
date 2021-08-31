@@ -26,7 +26,6 @@ const UserMenuDrop: React.FC = () => {
   }
 
   return(
-    <>
     <div ref={menuDropRef} className="relative inline-block text-left mr-4">
         <span className="rounded-md shadow-sm">
             <button onClick={() => setOpen(!isOpen)} type="button" className="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-sm leading-5 font-medium text-gray-700 hover:text-gray-500 focus:outline-none active:bg-gray-50 active:text-gray-800 transition ease-in-out duration-150" id="options-menu" aria-haspopup="true" aria-expanded={isOpen}>
@@ -47,7 +46,6 @@ const UserMenuDrop: React.FC = () => {
             </div>
         )}
     </div>
-</>
   );
 };
 
