@@ -1,24 +1,23 @@
-import React, {useState, useCallback, useEffect} from 'react';
-import axios from 'axios';
+import React, {useState, useCallback, useEffect, useRef} from 'react';
 import { useForm } from 'react-hook-form';
 import {useDropzone} from 'react-dropzone'
-import { genreItems, categoryItems } from './Home';
-import { authToken, getAuth } from '../functions/Auth';
+import { genreItems, categoryItems } from '../functions/MusicGenre';
 import { useHistory } from 'react-router-dom';
+import { useMusicCreate } from '../functions/CreateMusic';
 
-type postMusicInfo = {
+export type PostMusicInfo = {
   music: File
   category_id: number
   genre_id: number
-}
+};
 
 const emptyFile = new File([],"",{});
 
-const PostMusic: React.FC = () => {
+const MusicCreate: React.FC = () => {
   const history = useHistory();
-  const [responseErrors, setErrors] = useState<object>({});
-  const [selectedMusic, setSelectedMusic] = useState<File>(emptyFile);
+  const [responseState, musicCreate] = useMusicCreate();
   const {register, handleSubmit, watch, formState: {errors}, setValue} = useForm();
+  const [selectedMusic, setSelectedMusic] = useState<File>(emptyFile);
 
   const onDropAccepted = useCallback((acceptedFiles) => {
     setValue("music", acceptedFiles[0]);
@@ -39,35 +38,23 @@ const PostMusic: React.FC = () => {
     register("music");
   },[]);
 
-  const postMusic = async (postMusic: postMusicInfo) => {
-    const currentAuth: any =  getAuth();
-    currentAuth["Content-Type"] = "multipart/form-data";
-    const formData = new FormData();
-    formData.append("music", postMusic.music);
-    formData.append("category_id", String(postMusic.category_id));
-    formData.append("genre_id", String(postMusic.genre_id));
-    try{
-      const response = await axios.post("http://localhost:3000/musics",
-      formData,
-      {headers: currentAuth});
-      console.log("successed!");
-    } catch(errors){
-      console.log("error!")
-    };
+  const onSubmit = (data: PostMusicInfo) => {
+    musicCreate(data);
   };
-  const onSubmit = (data: postMusicInfo) => {
-    setErrors({});
-    postMusic(data);
-    if(true){
+  
+  useEffect(() => {
+    if(responseState.valid){
       history.push('/');
     }else{
-      console.log(responseErrors);
+      console.log(responseState.errors.errors);
     }
-  };
-
+  }, [responseState]);
+  
 	return (
-    <div className="flex-grow bg-gray-900">
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col justify-start items-center">
+    <div className="flex justify-center h-main overflow-auto">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col justify-start items-center p-12 w-120 rounded-lg backdrop-filter backdrop-blur-md">
+        <h1 className="m-4 text-xl">音楽を投稿してください</h1>
+        {responseState.errors.errors && <p className="text-red-600">音楽を投稿できませんでした</p>}
         <div className="mb-4">
           <div {...getRootProps()} className="flex justify-center items-center w-96 h-48 bg-gray-300 text-black rounded-md shadow-bright hover:shadow-gold hover:bg-gray-100">
           <input {...getInputProps()} />
@@ -94,4 +81,4 @@ const PostMusic: React.FC = () => {
 	);
 }
 
-export default PostMusic
+export default MusicCreate

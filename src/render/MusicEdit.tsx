@@ -1,12 +1,12 @@
 import React, {useEffect} from "react";
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
-import { useHistory } from "react-router-dom";
 import { useMusicEdit } from "../functions/EditMusic";
-import { genreItems, categoryItems, selectIds, musicInfo } from "./Home";
-import { currentShow, defaultShow } from "./MusicShow";
+import { selectIds } from "./Home";
+import { MusicInfo } from "../functions/IndexMusic";
+import { genreItems, categoryItems } from "../functions/MusicGenre";
 
-const MusicEdit: React.FC<{musicItem: musicInfo, setEditShow: (setShow: boolean)=>void}> = ({musicItem, setEditShow}) => {
+const MusicEdit: React.FC<{musicItem: MusicInfo, setEditShow: (setShow: boolean)=>void}> = ({musicItem, setEditShow}) => {
   const [editResponse, musicEdit] = useMusicEdit();
   const { register, handleSubmit, watch, formState: {errors} } = useForm();
   const popUpRef: any = useRef();

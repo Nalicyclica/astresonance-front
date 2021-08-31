@@ -5,7 +5,7 @@ import { authToken, getAuth } from "./Auth";
 export type responseInfo = {
   valid: boolean
   id: number
-  errors: object
+  errors: any
 };
 
 export const defaultResponseInfo: responseInfo = {

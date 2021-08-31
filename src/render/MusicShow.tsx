@@ -1,230 +1,33 @@
 import React, {useState, useEffect, useContext, useRef} from "react";
-import axios from "axios";
-import { useForm } from "react-hook-form"
 import { Link, useHistory, useParams } from "react-router-dom";
-import { CurrentUser } from "./Main";
-import { musicInfo, getGenreName, getCategoryName } from "./Home";
-import { authToken, getAuth } from "../functions/Auth";
+import { CurrentUser } from "../functions/UserInfo";
 import TitleShow from './TitleShow';
-import { responseInfo, useMusicDelete } from "../functions/DeleteMusic";
 import MusicEdit from "./MusicEdit";
+import { useMusicShow } from "../functions/ShowMusic";
+import TitleList from "./TitleList"
+import { MusicTitled, MakeTitleForSignedIn, RejectTitleForSignOut, YourPostedMusic } from "./MusicShowForm";
 
-type titleInput = {
-  title: string
-  color: string
-};
-
-export type currentShow = {
+export type CurrentShow = {
   showFlag: boolean
   showId: number
-}
-
-export type titleInfo = {
-  id: number
-  title: string
-  color: string
-  user_id: number
-  music_id: number
-  nickname: string
-  icon_color: string
 };
 
-type userTitleInfo = {
-  titleData: titleInfo
-  isTitled: boolean
-};
-
-export const defaultShow: currentShow = {
+export const defaultShow: CurrentShow = {
   showFlag: false,
   showId: -1
 };
 
-export const  defaultTitleInfo: titleInfo = {
-  id: 0,
-  title: "",
-  color: "",
-  user_id: 0,
-  music_id: 0,
-  nickname: "",
-  icon_color: ""
-};
-
-const defaultUserTitleInfo: userTitleInfo = {
-  titleData: defaultTitleInfo,
-  isTitled: false
-};
-
-export const defaultMusicInfo: musicInfo = {
-  id: 0,
-  genre_id: 0,
-  genreName: "",
-  category_id: 0,
-  categoryName: "", 
-  music_url: "",
-  user_id: 0,
-  nickname: "",
-  icon_color: "",
-};
-
-const MusicTitled: React.FC<{userTitle: titleInfo}> = props => {
-  return(
-    <div className="flex flex-col items-center w-96 h-16 mx-8 my-6 rounded-md text-gray-100 px-3 py-1 shadow-bright">
-      <div className="">あなたがつけたタイトル:</div>
-      <p>{props.userTitle.title}</p>
-    </div>
-  )
-};
-
-const MakeTitleForSignedIn: React.FC<{currentMusicId: string}> = props => {
-  const [responseErrors, setErrors] = useState<object>({});
-  const history = useHistory();
-  const { register, handleSubmit, watch, formState: {errors} } = useForm();
-  const postTitle = async (musicId: string, inputInfo: titleInput) => {
-    const currentAuth: authToken = getAuth();
-    try {
-      const response = await axios.post(
-        `http://localhost:3000/musics/${musicId}/titles`,
-        {title: inputInfo},
-        {headers: currentAuth}
-      );
-    } catch (error) {
-      setErrors(error);
-      console.log(error);
-    };
-  };
-  const onSubmit = (data: titleInput) => {
-        setErrors({});
-        postTitle(props.currentMusicId, data);
-        if(true){
-          window.location.reload();
-        }else{
-          console.log(responseErrors);
-        }
-  };
-  return(
-    <form onSubmit={handleSubmit(onSubmit)} className="w-96 mx-8 my-6 rounded-md text-gray-100 px-3 py-1 shadow-bright">
-      <div className="">曲を聴いたイメージでタイトルをつけて下さい</div>
-      <label className="my-2">
-        <input type="text" {...register("title")} placeholder="タイトルを入力してください" className="w-full my-2 p-2 bg-gray-300 focus:bg-gray-100 focus:outline-none focus:shadow-bright rounded-md text-black"/>
-      </label>
-      <div className="flex justify-between items-center px-8">
-        <label className="text-center my-2">
-            <span>Text color:</span>
-            <input type="color" {...register("color")} className="h-8 w-16 my-2 px-0.5 bg-gray-300 focus:bg-gray-100 focus:outline-none focus:shadow-bright rounded-md"/>
-          </label>
-        <input type="submit" value="投稿" className="text-xl my-4 px-5 py-3 bg-gray-900 rounded-md shadow-bright hover:shadow-gold"/>
-      </div>
-    </form>
-  )
-};
-
-const RejectTitleForSignOut: React.FC = () => {
-  return(
-    <div className="flex flex-col items-center w-96 h-16 mx-8 my-6 rounded-md text-gray-100 px-3 py-1 shadow-bright">
-      <div className="">タイトルをつけるにはログインして下さい:</div>
-      <div>
-      <Link to="/SignUp" className="hover:text-yellow-300">新規登録</Link>または
-      <Link to="/SignIn" className="hover:text-yellow-300">ログイン</Link>
-      </div>
-    </div>
-  )
-};
-
-const YourPostedMusic: React.FC<{musicId: number, setEditShow: (setShow: boolean)=>void}> = ({musicId, setEditShow}) => {
-  const history = useHistory();
-  const [deleteResponse, musicDelete] = useMusicDelete();
-  
-  const handleClickDelete = () => {
-    musicDelete(musicId);
-  };
-
-  const handleClickEdit = () => {
-    setEditShow(true);
-  };
-
-  useEffect(() => {
-    if(deleteResponse.valid){
-      alert("音楽を削除しました");
-      history.push('/');
-    }else{
-      if(deleteResponse.id > 0){
-        alert("削除できませんでした");
-      }
-    }
-  }, [deleteResponse]);
-
-  return(
-    <div className="flex flex-col items-center w-96 h-16 mx-8 my-6 rounded-md text-gray-100 px-3 py-1 shadow-bright">
-      <p className="text-lg"> あなたが投稿した音楽</p>
-      <div className="flex justify-between w-full">
-        <button onClick={handleClickEdit}>音楽情報を編集する</button>
-        <button onClick={handleClickDelete} >音楽を削除する</button>
-      </div>
-    </div>
-  );
-};
-
-const TitleItem: React.FC<{titleItem: titleInfo, setTitleShow: (value: currentShow) => void}> = props => {
-  const thisTitleShow = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.preventDefault();
-    const setCurrent: currentShow = {
-      showFlag: true,
-      showId: props.titleItem.id,
-    };
-    props.setTitleShow(setCurrent);
-  };
-  
-  return(
-    <li key={props.titleItem.id} className="bg-gray-800 p-2 mb-1 w-64 rounded-md shadow-bright hover:shadow-gold hover:bg-gray-600 text-gray-100">
-    <button onClick={(e) => thisTitleShow(e)} className="flex justify-start">
-      <div style={{backgroundColor: props.titleItem.icon_color}} className = "w-8 h-8 rounded-full shadow-bright">
-      </div>
-      <div style={{color: props.titleItem.color}} className ="flex justify-between items-center w-full pr-6 text-shadow-ar">
-        <p>{props.titleItem.title}</p>
-        <p className="text-sm">by {props.titleItem.nickname}</p>
-      </div>
-    </button>
-  </li>
-  );
-};
-
-
 const MusicShow: React.FC = () => {
-  const [ currentMusic, setMusic ] = useState<musicInfo>(defaultMusicInfo);
-  const [ musicTitles, setmusicTitles ] = useState<titleInfo[]>([]);
-  const [ currentUserTitle, setUserTitle ] = useState<userTitleInfo>(defaultUserTitleInfo);
-  const [ currentTitleShow, setTitleShow ] = useState<currentShow>(defaultShow);
+  const [{musicItem, titleItems, userTitle, response}, musicShow] = useMusicShow();
+  const [ currentTitleShow, setTitleShow ] = useState<CurrentShow>(defaultShow);
   const [ musicEditShow, setEditShow ] = useState<boolean>(false);
   const { userInfo, setUserInfo} = useContext(CurrentUser);
   const {id: currentMusicId, title_id: initialTitleId} = useParams<{id: string, title_id: string}>();
   
-  const fetchMusic = async (musicId: string) => {
-    const musicShowUrl = `http://localhost:3000/musics/${musicId}`
-    const currentAuth: authToken = getAuth();
-    const userTitleData: userTitleInfo = {...defaultUserTitleInfo};
-    try{
-      const response = await axios.get(musicShowUrl,{headers: currentAuth});
-      const data: musicInfo = {...response.data};
-      data.genreName = getGenreName(data.genre_id);
-      data.categoryName = getCategoryName(data.category_id);
-      setMusic({...data});
-      if(response.data.titles){
-        const musicTitlesData: titleInfo[] = response.data.titles;
-        setmusicTitles(musicTitlesData);
-      }
-      if(response.data.user_title){
-        userTitleData.titleData = {...response.data.user_title};
-        userTitleData.isTitled = true;
-      }
-      setUserTitle(userTitleData);
-    } catch(errors){
-      console.log(errors);
-    };
-  };
   useEffect(()=>{
-    fetchMusic(currentMusicId);
+    musicShow(currentMusicId);
     if(initialTitleId){
-      const setCurrent: currentShow = {
+      const setCurrent: CurrentShow = {
         showFlag: true,
         showId: Number(initialTitleId),
       };
@@ -232,26 +35,20 @@ const MusicShow: React.FC = () => {
     }
   },[]);
   
-  const titleList = musicTitles.map((titleItem) => 
-  <TitleItem titleItem={titleItem} setTitleShow={setTitleShow} />
-  );
-  
   return (
     <div>
       <div className="flex justify-between">
         <div className= "flex flex-col justify-between items-center w-screen h-home">
-          { userInfo.isSignIn? ( currentMusic.user_id == userInfo.id? <YourPostedMusic musicId={currentMusic.id} setEditShow={setEditShow} /> : (currentUserTitle.isTitled? <MusicTitled userTitle = {currentUserTitle.titleData}/> : <MakeTitleForSignedIn currentMusicId={currentMusicId}/>)) : <RejectTitleForSignOut />}
+          { (!response.valid && response.errors.errors)? <p className="text-red-600"></p> : userInfo.isSignIn? ( musicItem.user_id == userInfo.id? <YourPostedMusic musicId={musicItem.id} setEditShow={setEditShow} /> : (userTitle.isTitled? <MusicTitled userTitle = {userTitle.titleData}/> : <MakeTitleForSignedIn currentMusicId={currentMusicId}/>)) : <RejectTitleForSignOut />}
           <div className="my-8">
-            <audio controls src={currentMusic.music_url}/>
+            <audio controls src={musicItem.music_url}/>
           </div>
         </div>
 
-        { userInfo.isSignIn && ( currentMusic.user_id == userInfo.id || currentUserTitle.isTitled ) &&
+        { userInfo.isSignIn && ( musicItem.user_id == userInfo.id || userTitle.isTitled ) &&
           <div className="w-96 bg-gray-300">
             <p className="text-lg">他の人がつけたタイトル</p>
-            <ul className="overflow-y-auto p-4 h-96 m-12">
-              { titleList }
-            </ul>
+            <TitleList titleItems={titleItems} setTitleShow={setTitleShow}/>
           </div>
         }
         { currentTitleShow.showFlag && <div className= "absolute"><TitleShow titleId={currentTitleShow.showId} musicId={Number(currentMusicId)} setTitleShow={setTitleShow} /></div>
@@ -260,21 +57,21 @@ const MusicShow: React.FC = () => {
       <div className= "flex justify-between items-center p-1 h-20">
         <div className="flex justify-start items-center">
           <p className="mx-4">
-            ジャンル:{currentMusic.genreName}の{currentMusic.categoryName}
+            ジャンル:{musicItem.genreName}の{musicItem.categoryName}
           </p>
-          { userInfo.isSignIn && ( currentMusic.user_id == userInfo.id || currentUserTitle.isTitled ) &&
+          { userInfo.isSignIn && ( musicItem.user_id == userInfo.id || userTitle.isTitled ) &&
           <div className="flex justify-start items-end" >
             <p className="mr-3">投稿者:</p> 
-            <div style={{backgroundColor: currentMusic.icon_color}} className="w-6 h-6 mr-2 rounded-full shadow-bright hover:shadow-gold"></div>
-            <Link to={`/UserShow/${currentMusic.user_id}`}>
-              {currentMusic.nickname}
+            <div style={{backgroundColor: musicItem.icon_color}} className="w-6 h-6 mr-2 rounded-full shadow-bright hover:shadow-gold"></div>
+            <Link to={`/UserShow/${musicItem.user_id}`}>
+              {musicItem.nickname}
             </Link>
           </div>
           }
         </div>
         <Link to="/" className="bg-gray-800 flex justify-center items-center m-2 h-12 px-8 rounded-md shadow-bright hover:shadow-gold">別の曲を探す</Link>
       </div>
-      { musicEditShow && <MusicEdit musicItem={currentMusic} setEditShow={setEditShow} />}
+      { musicEditShow && <MusicEdit musicItem={musicItem} setEditShow={setEditShow} />}
     </div>
   );
 };

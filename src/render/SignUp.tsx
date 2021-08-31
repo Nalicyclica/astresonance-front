@@ -1,11 +1,11 @@
-import React, { useContext, useState } from 'react';
-import axios from 'axios';
+import React, { useContext, useState, useEffect } from 'react';
 import { useForm } from "react-hook-form"
 import { useHistory } from 'react-router';
-import { CurrentUser, UserInfo } from './Main';
-import { authToken, setAuth } from '../functions/Auth';
+import { CurrentUser } from '../functions/UserInfo';
+import ErrorList from './ErrorList';
+import { preventEnter } from '../functions/FormFunc';
 
-type signUpInfo = {
+export type SignUpInfo = {
   email: string
   password: string
   password_confirmation: string
@@ -17,46 +17,32 @@ type signUpInfo = {
 const SignUp: React.FC = () => {
   const history = useHistory();
   const { userInfo, setUserInfo } = useContext(CurrentUser);
-  const [responseErrors, setErrors] = useState<object>({});
+  const { register, handleSubmit, watch, formState: {errors} } = useForm();
+
   if(userInfo.isSignIn){
     history.push('/');
   }
-  const signUp = async (inputInfo: signUpInfo) => {
-    try {
-      const response = await axios.post(
-        'http://localhost:3000/auth/',
-        inputInfo
-        );
-        const headerInfo = {...response.headers};
-        const userData: UserInfo = {...response.data.data};
-        const inputAuth: authToken = {
-          'access-token': headerInfo["access-token"],
-          client: headerInfo.client,
-          uid: headerInfo.uid,
-        };
-        setAuth(inputAuth);
-        userData.isSignIn = true;
-        setUserInfo({...userData});
-      } catch (errors){
-        setErrors(errors);
-      };
-    };
     
-    const { register, handleSubmit, watch, formState: {errors} } = useForm();
-    const onSubmit = (data: signUpInfo) => {
-      data['introduce'] = "よろしくお願いします";
-      setErrors({})
-      signUp(data);
-      if(true){
+  const onSubmit = (data: SignUpInfo) => {
+    data.introduce = "よろしくお願いします";
+    setUserInfo.signUp(data);
+  };
+  
+  useEffect(() => {
+    if(userInfo.action == "signUp"){
+      if(userInfo.valid){
         history.goBack();
       }else{
-        console.log(responseErrors);
+        console.log(userInfo.errors);
       }
-    };
-    return (
-      <div className="flex-grow bg-gray-900">
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col justify-start items-center text-gray-100">
+    }
+  }, [userInfo])
+
+  return (
+    <div className="flex-grow bg-gray-900">
+      <form onKeyPress={(e) => preventEnter(e)} onSubmit={handleSubmit(onSubmit)} className="flex flex-col justify-start items-center text-gray-100">
         <h1 className="text-2xl mt-8 mb-6 px-4 text-yellow-300 border-b border-yellow-300">Please enter your information</h1>
+        { userInfo.action=="signUp" && !userInfo.valid && <ErrorList errors={userInfo.errors.response.data.errors.full_messages}/>}
         <label className="my-2">
           <p>Nickname:</p>
           <input type="text" {...register("nickname")} placeholder="ex.) ARGuy" className="my-2 p-2 bg-gray-300 focus:bg-gray-100 focus:outline-none focus:shadow-bright rounded-md text-black"/>
@@ -67,7 +53,7 @@ const SignUp: React.FC = () => {
         </label>
         <label className="my-2">
           <p>Password:</p>
-          <input type="password" {...register("password",{pattern: /\A(?=.*?[a-z])(?=.*?\d)[a-z\d]+\z/i})} placeholder="at least 6 letters" className="my-2 p-2 bg-gray-300 focus:bg-gray-100 focus:outline-none focus:shadow-bright rounded-md text-black"/>
+          <input type="password" {...register("password")} placeholder="at least 6 letters" className="my-2 p-2 bg-gray-300 focus:bg-gray-100 focus:outline-none focus:shadow-bright rounded-md text-black"/>
         </label>
           {errors.password && <p>"passwordは英数字をそれぞれ１字以上含みかつ６文字以上である必要があります"</p>}
         <label className="my-2">
