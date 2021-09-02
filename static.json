@@ -2,6 +2,6 @@
   "root": "build/",
   "routes": {
     "/**": "index.html"
-  },
-  "basic_auth": true
+  }
+  // "basic_auth": true
 }
