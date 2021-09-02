@@ -1,7 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import { authToken, getAuth } from "./Auth";
-import { responseInfo, defaultResponseInfo } from "./DeleteMusic";
+import { BasicAuthToken, getBasicAuth } from "./Auth";
 import { selectIds } from "../render/Home";
 import { getGenreName, getCategoryName } from "./MusicGenre";
 
@@ -34,6 +33,7 @@ export const useMusicIndex = () => {
 
   const musicIndex = async (idParams: selectIds) => {
     let params: any = {...idParams};
+    let basicAuth: BasicAuthToken = getBasicAuth();
     const url: string = `${process.env.REACT_APP_SERVER_DOMAIN}/musics/`
     if(params.genre_id<0){
       delete params.genre_id;
@@ -42,7 +42,12 @@ export const useMusicIndex = () => {
       delete params.category_id;
     }
     try{
-      const response = await axios.get(url,{params: params});
+      const response = await axios.get(
+        url,
+        {
+          params: params,
+          headers: basicAuth
+      });
       const musicItemsData: MusicInfo[] = [];
       response.data.map((data: MusicInfo) => {
         data.genreName = getGenreName(data.genre_id);

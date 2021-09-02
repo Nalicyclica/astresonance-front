@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import { authToken, getAuth } from "./Auth";
+import { AuthHeaders, getAuth } from "./Auth";
 import { UserInfo } from "./UserInfo";
 
 export type CommentInfo = {
@@ -41,7 +41,7 @@ export const useCommentIndex = () => {
   const [commentItems, setCommentItems] = useState<CommentItemsInfo>(defaultCommentItemsInfo);
   
   const commentIndex = async (titleId: number) => {
-    const currentAuth: authToken = getAuth();
+    const currentAuth: AuthHeaders = getAuth();
     const url: string = `${process.env.REACT_APP_SERVER_DOMAIN}/titles/${titleId}/comments`
     try{
       const response = await axios.get(url, {headers: currentAuth});
@@ -68,7 +68,7 @@ export const useCommentIndex = () => {
 
   const commentCreate = async (titleId: number, comment: {text: string}, userInfo: UserInfo) => {
     const url: string = `${process.env.REACT_APP_SERVER_DOMAIN}/titles/${titleId}/comments`;
-    const currentAuth: authToken = getAuth();
+    const currentAuth: AuthHeaders = getAuth();
     try {
       const response = await axios.post(
         url,

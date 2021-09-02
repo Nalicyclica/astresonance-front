@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import { authToken, getAuth } from "./Auth";
+import { AuthHeaders, getAuth } from "./Auth";
 
 export type responseInfo = {
   valid: boolean
@@ -17,7 +17,7 @@ export const defaultResponseInfo: responseInfo = {
 export const useMusicDelete = () => {
   const [responseState, setResponseInfo] = useState<responseInfo>(defaultResponseInfo);
   const musicDelete = async (musicId: number) => {
-    const currentAuth: authToken = getAuth();
+    const currentAuth: AuthHeaders = getAuth();
     const url: string = `${process.env.REACT_APP_SERVER_DOMAIN}/musics/${musicId}`
     try {
       const response = await axios.delete(

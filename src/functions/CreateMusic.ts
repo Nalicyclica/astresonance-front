@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import { authToken, getAuth } from "./Auth";
+import { AuthHeaders, getAuth } from "./Auth";
 import { responseInfo, defaultResponseInfo } from "./DeleteMusic";
 import { PostMusicInfo } from "../render/MusicCreate"
 
@@ -8,7 +8,7 @@ export const useMusicCreate = () => {
   const [responseState, setResponseInfo] = useState<responseInfo>(defaultResponseInfo);
 
   const musicCreate = async (postMusic: PostMusicInfo) => {
-    const currentAuth: authToken & {"Content-Type": string} = {...getAuth(), "Content-Type": "multipart/form-data"};
+    const currentAuth: AuthHeaders & {"Content-Type": string} = {...getAuth(), "Content-Type": "multipart/form-data"};
     const url: string = `${process.env.REACT_APP_SERVER_DOMAIN}/musics`
     const formData = new FormData();
     formData.append("music", postMusic.music);
