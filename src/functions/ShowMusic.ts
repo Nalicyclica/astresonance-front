@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import { authToken, getAuth } from "./Auth";
+import { AuthHeaders, getAuth } from "./Auth";
 import { getGenreName, getCategoryName } from "./MusicGenre";
 import { MusicInfo } from "./IndexMusic";
 import {TitleInfo} from "./ShowTitle"
@@ -62,7 +62,7 @@ export const useMusicShow = () => {
 
 
   const musicShow = async (musicId: string) => {
-    const currentAuth: authToken = getAuth();
+    const currentAuth: AuthHeaders = getAuth();
     const url: string = `${process.env.REACT_APP_SERVER_DOMAIN}/musics/${musicId}`
     try{
       const response = await axios.get(url,{headers: currentAuth});

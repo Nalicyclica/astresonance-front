@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import { authToken, getAuth } from "./Auth";
+import { AuthHeaders, getAuth } from "./Auth";
 import { MusicInfo } from "./IndexMusic"
 import { TitleInfo } from "./ShowTitle"
 import { CommentInfo } from "../functions/IndexComment"
@@ -57,7 +57,7 @@ export const useUserShow = () => {
   
   
   const userShow = async (userId: string) => {
-    const currentAuth: authToken = getAuth();
+    const currentAuth: AuthHeaders = getAuth();
     const url: string = `${process.env.REACT_APP_SERVER_DOMAIN}/users/${userId}`
     try{  
       const response = await axios.get(url, {headers: currentAuth});

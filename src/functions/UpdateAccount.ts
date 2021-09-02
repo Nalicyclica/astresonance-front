@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import { authToken, getAuth, setAuth } from "./Auth";
+import { AuthHeaders, AuthToken, getAuth, setAuth } from "./Auth";
 import { UserInfo } from "./UserInfo";
 
 export type UpdateAccountArg = {
@@ -39,7 +39,7 @@ export const useAccountUpdate = () => {
   const [accountItem, setAccountItem] = useState<AccountItemInfo>(defaultAccountInfo);
 
   const getAccount = async () => {
-    const currentAuth: authToken = getAuth();
+    const currentAuth: AuthHeaders = getAuth();
     const url: string = `${process.env.REACT_APP_SERVER_DOMAIN}/auth/validate_token`
     try{  
       const response = await axios.get(url,{headers: currentAuth});
@@ -63,7 +63,7 @@ export const useAccountUpdate = () => {
       
       const updateAccount = async ({inputInfo, setUserInfo} :UpdateAccountArg) => {
         const url: string = `${process.env.REACT_APP_SERVER_DOMAIN}/auth/`
-        const currentAuth: authToken = getAuth();
+        const currentAuth: AuthHeaders = getAuth();
         try {
           const response = await axios.patch(
             url,
@@ -71,7 +71,7 @@ export const useAccountUpdate = () => {
             {headers: currentAuth}
           );
         const headerInfo = {...response.headers};
-        const inputAuth: authToken = {
+        const inputAuth: AuthToken = {
           'access-token': headerInfo["access-token"],
           client: headerInfo.client,
           uid: headerInfo.uid,

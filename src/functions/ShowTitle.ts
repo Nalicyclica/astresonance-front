@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import { authToken, getAuth } from "./Auth";
+import { AuthHeaders, getAuth } from "./Auth";
 
 export type TitleInfo = {
   id: number
@@ -42,7 +42,7 @@ export const useTitleShow = () => {
   const [titleItem, setTitleShowItem] = useState<TitleItemInfo>(defaultTitleItemInfo);
 
   const titleShow = async (titleId: number) => {
-    const currentAuth: authToken = getAuth();
+    const currentAuth: AuthHeaders = getAuth();
     const url: string = `${process.env.REACT_APP_SERVER_DOMAIN}/titles/${titleId}`
     try{
       const response = await axios.get(url, {headers: currentAuth});

@@ -1,12 +1,12 @@
 import { useState } from "react";
 import axios from "axios";
-import { authToken, getAuth } from "./Auth";
+import { AuthHeaders, getAuth } from "./Auth";
 import { responseInfo, defaultResponseInfo } from "./DeleteMusic";
 
 export const useTitleDelete = () => {
   const [responseState, setResponseInfo] = useState<responseInfo>(defaultResponseInfo);
   const titleDelete = async (titleId: number) => {
-    const currentAuth: authToken = getAuth();
+    const currentAuth: AuthHeaders = getAuth();
     const url: string = `${process.env.REACT_APP_SERVER_DOMAIN}/titles/${titleId}`
     try {
       const response = await axios.delete(
