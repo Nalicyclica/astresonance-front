@@ -36,12 +36,12 @@ module.exports = {
         spinBlinkTwo: 'blink 5s ease-in-out infinite alternate, spin 8s linear infinite reverse',
       },
       boxShadow: {
-        'rd': 'inset 0 0 45px rgba(0,0,0,0.8)',
+        'header': '0 2px 10px rgb(5,8,12)',
         'bright': '0 0 5px rgba(255, 255, 255, 0.9)',
+        'gold': '0 0 10px rgba(255, 225, 128, 0.9)',
         'blueInnerOne': "inset 15px 25px 60px rgba(64, 255, 255, 0.75)",
         'redInnerOne': "inset 25px 15px 60px rgba(255, 100, 200, 0.75)",
         'half': '0 10px 10px 0 5px rgba(255, 255, 255, 0.9)',
-        'gold': '0 0 10px rgba(255, 225, 128, 0.9)',
       },
       width: {
         '120' : '30rem',
@@ -55,6 +55,9 @@ module.exports = {
         '160' : '40rem',
         '200' : '50rem',
       },
+      fontFamily: {
+        'sawarabi' : 'Sawarabi Mincho, sans-serif',
+      }
     },
   },
   variants: {
@@ -70,6 +73,9 @@ module.exports = {
           textShadow: "2px 0px 1px white",
           textShadow: "0px -2px 1px white",
           textShadow: "-2px 0px 1px white",
+        },
+        ".text-shadow-black": {
+          textShadow: "1px 2px 3px black"
         },
         ".text-shadow-none": {
           textShadow: "none"
