@@ -13,7 +13,7 @@ const HomeFooter: React.FC<{searchMusic: (value: selectIds)=>void}> = ({searchMu
   };
   
 	return (
-    <footer className="sticky bottom-0 h-20 px-4 py-3 backdrop-filter backdrop-blur-lg backdrop-contrast-75 shadow-header">
+    <footer className="absolute bottom-0 w-screen h-20 px-4 py-3 backdrop-filter backdrop-blur-lg backdrop-contrast-75 shadow-header">
       <form onSubmit={handleSubmit(onSubmit)} className="flex justify-between items-center align-middle">
         <label className="flex flex-col bg-gray-800 px-4 py-2 rounded-md shadow-lg hover:shadow-bright">
           <div>

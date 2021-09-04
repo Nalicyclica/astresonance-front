@@ -71,14 +71,11 @@ module.exports = {
   plugins: [
     function({ addUtilities }) {
       const newUtilities = {
-        ".text-shadow-ar": {
-          textShadow: "0px 2px 1px white",
-          textShadow: "2px 0px 1px white",
-          textShadow: "0px -2px 1px white",
-          textShadow: "-2px 0px 1px white",
-        },
         ".text-shadow-black": {
-          textShadow: "1px 2px 3px black"
+          textShadow: "0 0 2px black"
+        },
+        ".text-shadow-white": {
+          textShadow: "0 0 2px white"
         },
         ".text-shadow-none": {
           textShadow: "none"

@@ -57,19 +57,25 @@ const TitleShow: React.FC<{titleId: number, musicId: number, setTitleShow: (setS
   },[titleId]);
 
   return(
-    <div className= "flex flex-col justify-start relative h-home w-96 backdrop-filter backdrop-blur-xl">
-      <button>
-        <AiOutlineArrowRight size={40} onClick={closeTitleShow} className="absolute top-4 right-4" />
-      </button>
-      <div className="m-2 flex justify-center items-center">
-        <p style={{color: titleItem.color}} className="text-lg mr-4">{titleItem.title}</p>
-        <p className="text-sm mr-2">by</p>
-        <div style={{backgroundColor: titleItem.icon_color}} className = "w-2 h-2 m-1 rounded-full shadow-bright"></div>
-        <Link to={`/UserShow/${titleItem.user_id}`} className="text-sm">{titleItem.nickname}</Link>
+    <div>
+      <div className= "h-home w-96 flex flex-col justify-between items-center backdrop-filter backdrop-blur-xl shadow-header relative text-gray-100">
+        <div className="flex flex-col justify-start items-center">
+          <div className="m-2 flex justify-center items-end text-shadow-black">
+            <p style={{color: titleItem.color}} className="text-xl mr-4 text-shadow-white text-xl font-extrabold">{titleItem.title}</p>
+            <p className="text-sm mr-2">by</p>
+            <div className="flex justify-start items-center pr-2">
+              <div style={{backgroundColor: titleItem.icon_color}} className = "w-3 h-3 mr-1 rounded-full shadow-bright"></div>
+              <Link to={`/UserShow/${titleItem.user_id}`} className="hover:text-yellow-400">{titleItem.nickname}</Link>
+            </div>
+          </div>
+          { userInfo.id == titleItem.user_id && <TitleDelete titleId={titleItem.id} />}
+          <CommentList commentItems={commentItems} currentUserId={userInfo.id} removeCommentItem={removeCommentItem} />
+        </div>
+        <CommentCreate titleId={titleItem.id} userInfo={userInfo} commentCreate={commentCreate} />
       </div>
-      { userInfo.id == titleItem.user_id && <TitleDelete titleId={titleItem.id} />}
-      <CommentList commentItems={commentItems} currentUserId={userInfo.id} removeCommentItem={removeCommentItem} />
-      <CommentCreate titleId={titleItem.id} userInfo={userInfo} commentCreate={commentCreate} />
+      <button className="text-4xl text-yellow-400 hover:text-yellow-100">
+        <AiOutlineArrowRight onClick={closeTitleShow} className="absolute top-4 left-4" />
+      </button>
     </div>
   );
 };
