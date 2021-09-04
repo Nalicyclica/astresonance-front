@@ -55,6 +55,9 @@ module.exports = {
         '160' : '40rem',
         '200' : '50rem',
       },
+      minWidth: {
+        '120': '30rem'
+      },
       fontFamily: {
         'sawarabi' : 'Sawarabi Mincho, sans-serif',
       }

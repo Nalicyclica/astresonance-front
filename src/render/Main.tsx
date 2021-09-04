@@ -25,7 +25,7 @@ const Main: React.FC = () => {
         <CurrentUser.Provider value = {{userInfo, setUserInfo}}>
           <Router>
             <Header />
-            <div className="w-screen h-main overflow-auto">
+            <div className="w-screen h-main min-w-120 overflow-auto">
               <Switch>
                 <Route exact path='/' component = {Home} />
                 <Route path='/SignUp' component = {SignUp} />

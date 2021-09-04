@@ -25,7 +25,7 @@ const Home: React.FC = () => {
   
 	return (
     <div>
-      <div className= "flex flex-col justify-start items-center w-screen h-home text-gray-100">
+      <div className= "flex flex-col justify-start items-center h-home text-gray-100">
         <div className="w-120 mx-8 my-6 px-5 py-3 rounded-md shadow-bright backdrop-filter backdrop-blur-lg">
           <p className="text-lg mb-3">無名の曲にあなただけのタイトルをつけましょう</p>
           { musicItems.errors.errors && <p className="text-red-600 text-center">音楽リストの読み込みに失敗しました</p>}
