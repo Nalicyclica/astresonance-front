@@ -62,8 +62,8 @@ module.exports = {
   },
   variants: {
     extend: {},
-    // backdropContrast: ['hover'],
-    boxShadow: ['hover', 'focus']
+    boxShadow: ['hover', 'focus'],
+    height: ['hover'],
   },
   plugins: [
     function({ addUtilities }) {
