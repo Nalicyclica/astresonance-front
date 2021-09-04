@@ -21,11 +21,11 @@ export type UserTitleInfo = {
 };
 
 const  defaultTitleInfo: TitleInfo = {
-  id: 0,
+  id: -1,
   title: "",
   color: "",
-  user_id: 0,
-  music_id: 0,
+  user_id: -1,
+  music_id: -1,
   nickname: "",
   icon_color: ""
 };
@@ -83,14 +83,15 @@ export const useMusicShow = () => {
       musicShowData.musicItem = musicItemData;
 
       if(data.titles){
-        musicShowData.titleItems = response.data.titles;
+        musicShowData.titleItems = data.titles;
       }
-
-      if(response.data.user_title){
-        musicShowData.userTitle.titleData = {...response.data.user_title};
-        musicShowData.userTitle.isTitled = true;
+      if(data.user_title){
+        const userTitleData: UserTitleInfo = {
+          titleData: {...data.user_title},
+          isTitled: true
+        }
+        musicShowData.userTitle = userTitleData;
       }
-
       setMusicShow(musicShowData);      
     } catch(errors){
       const musicShowData: MusicShowInfo = {

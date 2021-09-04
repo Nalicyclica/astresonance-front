@@ -38,7 +38,7 @@ const MusicShow: React.FC = () => {
   
   return (
     <div>
-      <div className="flex justify-between h-home">
+      <div className="flex justify-center h-home">
         <div className= "flex flex-col justify-between items-center my-2">
           <div className="w-96 mx-8 my-6 rounded-md text-gray-100 px-4 pt-2 pb-3 shadow-bright backdrop-filter backdrop-blur-lg">
             { (!response.valid && response.errors.errors)? <p className="text-red-600"></p> :

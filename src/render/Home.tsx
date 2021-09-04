@@ -30,7 +30,7 @@ const Home: React.FC = () => {
           <p className="text-lg mb-3">無名の曲にあなただけのタイトルをつけましょう</p>
           { musicItems.errors.errors && <p className="text-red-600 text-center">音楽リストの読み込みに失敗しました</p>}
         </div>
-        <p className="w-full pb-2 text-lg text-center text-shadow-black">-新着音楽の一覧-</p>
+        <p className="mb-2 pt-1 px-3 text-lg text-center text-shadow-black border-b backdrop-filter backdrop-blur-lg font-extrabold">-新着音楽の一覧-</p>
         <MusicList musicItems={musicItems.musicItems} />
       </div>
       <HomeFooter searchMusic={musicIndex} />
