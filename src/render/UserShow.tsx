@@ -25,17 +25,19 @@ const UserShow: React.FC = () => {
     setSelectTab(newValue);
   };
     return (
-      <div className="flex flex-col items-center">
-        <div className="flex items-end w-120 mt-8 mb-6 py-2 px-4 border-b border-yellow-400">
-          <div style={{backgroundColor: profile.icon_color}} className="w-10 h-10 mr-5 rounded-full shadow-bright"></div>
-          <h1 className="text-lg text-yellow-400 text-shadow-black"><span className="text-4xl">{profile.nickname}    </span>さんの投稿</h1>
-        </div>
-        {response.errors.errors && <p className="text-red-600">ユーザー情報を読み込めませんでした</p>}
-        <div className="w-96 flex flex-col items-center text-shadow-black">
-          <div className="w-full p-2 mb-16 border-b border-yellow-400">
-            <div className="" >
-              <p className="m-2">自己紹介:</p>
-              <p className="text-lg mx-4 mb-2">{profile.introduce}</p>
+      <div>
+        <div className="flex flex-col items-center mb-12 pb-16 backdrop-filter backdrop-blur rounded-lg shadow-header">
+          <div className="flex items-end w-120 mt-8 py-2 px-4 border-b border-yellow-400">
+            <div style={{backgroundColor: profile.icon_color}} className="w-10 h-10 mr-5 rounded-full shadow-bright"></div>
+            <h1 className="text-lg text-yellow-400 text-shadow-black"><span className="text-4xl">{profile.nickname}    </span>さんの投稿</h1>
+          </div>
+          {response.errors.errors && <p className="text-red-600">ユーザー情報を読み込めませんでした</p>}
+          <div className="w-96 flex flex-col items-center text-shadow-black">
+            <div className="w-full p-2 border-b border-yellow-400">
+              <div className="" >
+                <p className="m-2">自己紹介:</p>
+                <p className="text-lg mx-4 mb-2">{profile.introduce}</p>
+              </div>
             </div>
           </div>
         </div>
