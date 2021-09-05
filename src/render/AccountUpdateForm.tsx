@@ -27,10 +27,10 @@ export const IconUpdateForm: React.FC<{icon_color: string, updateAccount:(value:
     updateAccount(inputInfo);
   };
   return(
-    <div ref={popUpRef} className="flex justify-center items-center w-screen h-main absolute">
-      <form ref={formRef} onSubmit={handleSubmit(onSubmit)} className="flex justify-between items-end p-2 border-b border-yellow-300 bg-gray-600">
+    <div ref={popUpRef} className="absolute bg-gray-900 bg-opacity-80 flex justify-center items-center w-screen h-main">
+      <form ref={formRef} onSubmit={handleSubmit(onSubmit)} className="flex justify-between items-end p-6 rounded-md bg-gray-600">
         <div className="" >
-          <p className="m-2">アイコンカラーの変更:</p>
+          <p className="text-xl mt-2 mb-6">アイコンカラーの変更:</p>
           <input type="color" {...register("icon_color")} defaultValue={icon_color} className="h-12 w-24 mx-4 mb-2 rounded-md" />
         </div>
         <input type="submit" value="変更" className="ml-10 my-2 px-5 py-2 bg-gray-900 rounded-md shadow-bright hover:shadow-gold" />
@@ -63,11 +63,11 @@ export const EmailUpdateForm: React.FC<{email: string, updateAccount:(value: Upd
     updateAccount(inputInfo);
   };
   return(
-    <div ref={popUpRef} className="flex justify-center items-center w-screen h-main absolute">
-      <form ref={formRef} onSubmit={handleSubmit(onSubmit)} className="flex justify-between items-end p-2 border-b border-yellow-300 bg-gray-600">
+    <div ref={popUpRef} className="absolute bg-gray-900 bg-opacity-80 flex justify-center items-center w-screen h-main">
+      <form ref={formRef} onSubmit={handleSubmit(onSubmit)} className="flex justify-between items-end p-6 rounded-md bg-gray-600">
         <div className="" >
-          <p className="m-2">E-mailの変更:</p>
-          <input type="text" {...register("email")} defaultValue={email} className="text-lg mx-4 mb-2" />
+          <p className="text-xl mb-2">E-mailの変更:</p>
+          <input type="text" {...register("email")} defaultValue={email} className="text-lg mx-4 mb-2 px-2 py-1 bg-gray-300 focus:bg-gray-100 focus:outline-none focus:shadow-bright rounded-md text-black" />
         </div>
         <input type="submit" value="変更" className="ml-10 my-2 px-5 py-2 bg-gray-900 rounded-md shadow-bright hover:shadow-gold" />
       </form>
@@ -99,13 +99,13 @@ export const PasswordUpdateForm: React.FC<{updateAccount:(value: UpdateAccountAr
     updateAccount(inputInfo);
   };
   return(
-    <div ref={popUpRef} className="flex justify-center items-center w-screen h-main absolute">
-      <form ref={formRef} onSubmit={handleSubmit(onSubmit)} className="flex justify-between items-end p-2 border-b border-yellow-300 bg-gray-600">
+    <div ref={popUpRef} className="absolute bg-gray-900 bg-opacity-80 flex justify-center items-center w-screen h-main">
+      <form ref={formRef} onSubmit={handleSubmit(onSubmit)} className="flex justify-between items-end p-6 rounded-md bg-gray-600">
         <div className="" >
-          <p className="m-2">Passwordの変更:</p>
-          <input type="password" {...register("password")} placeholder={"********"} className="text-lg mx-4 mb-2" />
-          <p className="m-2">Password変更の確認:</p>
-          <input type="password" {...register("password_confirmation")} className="text-lg mx-4 mb-2" />
+          <p className="text-xl mb-2">Passwordの変更:</p>
+          <input type="password" {...register("password")} placeholder={"********"} className="text-lg mx-4 mb-2 px-2 py-1 bg-gray-300 focus:bg-gray-100 focus:outline-none focus:shadow-bright rounded-md text-black" />
+          <p className="text-xl mt-4 mb-2">Passwordの確認:</p>
+          <input type="password" {...register("password_confirmation")} placeholder={"********"} className="text-lg mx-4 mb-2 px-2 py-1 bg-gray-300 focus:bg-gray-100 focus:outline-none focus:shadow-bright rounded-md text-black" />
         </div>
         <input type="submit" value="変更" className="ml-10 my-2 px-5 py-2 bg-gray-900 rounded-md shadow-bright hover:shadow-gold" />
       </form>
@@ -138,11 +138,11 @@ export const IntroduceUpdateForm: React.FC<{introduce: string, updateAccount:(va
   };
 
   return(
-    <div ref={popUpRef} className="flex justify-center items-center w-screen h-main absolute">
-      <form ref={formRef} onSubmit={handleSubmit(onSubmit)} className="flex justify-between items-end p-2 border-b border-yellow-300 bg-gray-600">
+    <div ref={popUpRef} className="absolute bg-gray-900 bg-opacity-80 flex justify-center items-center w-screen h-main">
+      <form ref={formRef} onSubmit={handleSubmit(onSubmit)} className="flex justify-between items-end p-6 rounded-md bg-gray-600">
         <div className="" >
-          <p className="m-2">自己紹介の変更:</p>
-          <textarea {...register("introduce")} defaultValue={introduce} className="w-96 h-48 text-lg mx-4 mb-2" />
+          <p className="text-xl mt-2 mb-3">自己紹介の変更:</p>
+          <textarea {...register("introduce")} defaultValue={introduce} className="w-96 h-48 text-lg text-black p-2 bg-gray-300 focus:bg-gray-100 focus:outline-none focus:shadow-bright rounded-md" />
         </div>
         <input type="submit" value="変更" className="ml-10 my-2 px-5 py-2 bg-gray-900 rounded-md shadow-bright hover:shadow-gold" />
       </form>

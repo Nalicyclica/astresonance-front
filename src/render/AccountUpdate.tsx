@@ -43,46 +43,50 @@ const AccountUpdate: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col items-center overflow-auto backdrop-filter backdrop-blur">
-      <h1 className="text-2xl mt-8 mb-6 px-4 text-yellow-300 border-b border-yellow-300">ユーザー情報の確認</h1>
-      <div className="flex w-96 justify-between items-end p-2 border-b border-yellow-300">
-        <div className="" >
-          <p className="m-2">Nickname:</p>
-          <p className="text-lg mx-4 mb-2">{accountItem.nickname}</p>
+    <div className="inline-flex backdrop-filter backdrop-blur w-screen h-screen overflow-auto">
+      <div className="flex flex-col items-center w-screen">
+        <h1 className="w-120 text-center text-2xl mt-8 mb-6 px- py-2 text-yellow-400 border-b border-yellow-300">ユーザー情報の確認</h1>
+        <div className="w-96">
+          <div className="flex w-full justify-between items-end p-2 border-b border-yellow-300">
+            <div className="" >
+              <p className="m-2">Nickname:</p>
+              <p className="text-2xl mx-4 mb-2">{accountItem.nickname}</p>
+            </div>
+            <button  onClick={popUpIconForm} style={{backgroundColor: accountItem.icon_color}} className="w-16 h-16 rounded-full shadow-bright hover:shadow-gold">
+            </button>
+          </div>
+          <div className="flex w-full justify-between items-end p-2 border-b border-yellow-300">
+            <div className="" >
+              <p className="m-2">E-mail:</p>
+              <p className="text-xl mx-4 mb-2">{accountItem.email}</p>
+            </div>
+            <button  onClick={popUpEmailForm} className="ml-10 my-2 px-5 py-2 bg-gray-900 rounded-md shadow-bright hover:shadow-gold">
+              変更
+            </button>
+          </div>
+          <div className="flex w-full justify-between items-end p-2 border-b border-yellow-300">
+            <div className="" >
+              <p className="m-2">Password:</p>
+              <p className="text-xl mx-4 mb-2">********</p>
+            </div>
+            <button  onClick={popUpPasswordForm} className="ml-10 my-2 px-5 py-2 bg-gray-900 rounded-md shadow-bright hover:shadow-gold">
+              変更
+            </button>
+          </div>
+          <div className="flex justify-between items-center p-2 border-b border-yellow-300">
+            <div className="" >
+              <p className="m-2">自己紹介:</p>
+              <p className="w-full text-lg mx-4 mb-2">{accountItem.introduce}</p>
+            </div>
+            <button  onClick={popUpIntroduceForm} className="ml-10 my-2 px-5 py-2 bg-gray-900 rounded-md shadow-bright hover:shadow-gold">
+              変更
+            </button>
+          </div>
         </div>
-        <button  onClick={popUpIconForm} style={{backgroundColor: accountItem.icon_color}} className="w-16 h-16 rounded-full shadow-bright hover:shadow-gold">
-        </button>
       </div>
       {iconFormShow && <IconUpdateForm icon_color={accountItem.icon_color} updateAccount={updateAccount} setFormShow={setIconShow} />}
-      <div className="flex w-96 justify-between items-end p-2 border-b border-yellow-300">
-        <div className="" >
-          <p className="m-2">E-mail:</p>
-          <p className="text-lg mx-4 mb-2">{accountItem.email}</p>
-        </div>
-        <button  onClick={popUpEmailForm} className="ml-10 my-2 px-5 py-2 bg-gray-900 rounded-md shadow-bright hover:shadow-gold">
-          変更
-        </button>
-      </div>
       {emailFormShow && <EmailUpdateForm email={accountItem.email} updateAccount={updateAccount} setFormShow={setEmailShow} />}
-      <div className="flex w-96 justify-between items-end p-2 border-b border-yellow-300">
-        <div className="" >
-          <p className="m-2">Password:</p>
-          <p className="text-lg mx-4 mb-2">********</p>
-        </div>
-        <button  onClick={popUpPasswordForm} className="ml-10 my-2 px-5 py-2 bg-gray-900 rounded-md shadow-bright hover:shadow-gold">
-          変更
-        </button>
-      </div>
       {passwordFormShow && <PasswordUpdateForm updateAccount={updateAccount} setFormShow={setPasswordShow} />}
-      <div className="flex justify-between items-center p-2 border-b border-yellow-300">
-        <div className="" >
-          <p className="m-2">自己紹介:</p>
-          <p className="w-96 text-lg mx-4 mb-2">{accountItem.introduce}</p>
-        </div>
-        <button  onClick={popUpIntroduceForm} className="ml-10 my-2 px-5 py-2 bg-gray-900 rounded-md shadow-bright hover:shadow-gold">
-          変更
-        </button>
-      </div>
       {introduceFormShow && <IntroduceUpdateForm introduce={accountItem.introduce} updateAccount={updateAccount} setFormShow={setIntroduceShow} />}
     </div>
 	);

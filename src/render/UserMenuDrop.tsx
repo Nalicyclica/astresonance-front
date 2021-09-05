@@ -34,7 +34,7 @@ const UserMenuDrop: React.FC = () => {
         <IoIosArrowDown />
       </button>
       {isOpen &&
-          <div className='absolute top-12 right-2 p-4 bg-gray-800 shadow-bright rounded'>
+          <div className='absolute top-12 right-2 p-4 bg-gray-800 shadow-bright rounded-lg'>
               <ul className="flex flex-col justify-start items-center">
                   <button onClick={e => handleInsideClick("/MusicCreate")} className="w-64 p-1 hover:bg-gray-700">音楽を投稿する</button>
                   <button onClick={e => handleInsideClick("/AccountUpdate")} className="w-full p-1 hover:bg-gray-700">アカウント情報を確認する</button>
