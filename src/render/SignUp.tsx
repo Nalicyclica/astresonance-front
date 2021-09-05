@@ -39,32 +39,32 @@ const SignUp: React.FC = () => {
   }, [userInfo])
 
   return (
-    <div className="flex-grow bg-gray-900">
+    <div className="flex-grow">
       <form onKeyPress={(e) => preventEnter(e)} onSubmit={handleSubmit(onSubmit)} className="flex flex-col justify-start items-center text-gray-100">
-        <h1 className="text-2xl mt-8 mb-6 px-4 text-yellow-300 border-b border-yellow-300">Please enter your information</h1>
+        <h1 className="text-2xl mt-8 mb-6 px-4 text-yellow-300 border-b border-yellow-300">ユーザー情報を入力して下さい</h1>
         { userInfo.action=="signUp" && !userInfo.valid && <ErrorList errors={userInfo.errors.response.data.errors.full_messages}/>}
         <label className="my-2">
-          <p>Nickname:</p>
-          <input type="text" {...register("nickname")} placeholder="ex.) ARGuy" className="my-2 p-2 bg-gray-300 focus:bg-gray-100 focus:outline-none focus:shadow-bright rounded-md text-black"/>
+          <p className="text-shadow-black">ニックネーム:</p>
+          <input type="text" {...register("nickname")} placeholder="例.）太郎" className="my-2 p-2 bg-gray-300 focus:bg-gray-100 focus:outline-none focus:shadow-bright rounded-md text-black"/>
         </label>
         <label className="my-2">
-          <p>Email:</p>
-          <input type="text" {...register("email")}  placeholder="Enter your email" className="my-2 p-2 bg-gray-300 focus:bg-gray-100 focus:outline-none focus:shadow-bright rounded-md text-black"/>
+          <p className="text-shadow-black">E-mail:</p>
+          <input type="text" {...register("email")}  placeholder="メールアドレスを入力して下さい" className="my-2 p-2 bg-gray-300 focus:bg-gray-100 focus:outline-none focus:shadow-bright rounded-md text-black"/>
         </label>
         <label className="my-2">
-          <p>Password:</p>
-          <input type="password" {...register("password")} placeholder="at least 6 letters" className="my-2 p-2 bg-gray-300 focus:bg-gray-100 focus:outline-none focus:shadow-bright rounded-md text-black"/>
+          <p className="text-shadow-black">パスワード:</p>
+          <input type="password" {...register("password")} placeholder="６文字以上、英数字を各１字以上含む" className="my-2 p-2 bg-gray-300 focus:bg-gray-100 focus:outline-none focus:shadow-bright rounded-md text-black"/>
         </label>
           {errors.password && <p>"passwordは英数字をそれぞれ１字以上含みかつ６文字以上である必要があります"</p>}
         <label className="my-2">
-          <p>Password confirmation:</p>
-          <input type="password" {...register("password_confirmation")}  placeholder="verify password" className="my-2 p-2 bg-gray-300 focus:bg-gray-100 focus:outline-none focus:shadow-bright rounded-md text-black"/>
+          <p className="text-shadow-black">パスワード（確認）:</p>
+          <input type="password" {...register("password_confirmation")}  placeholder="確認のためもう１度入力して下さい" className="my-2 p-2 bg-gray-300 focus:bg-gray-100 focus:outline-none focus:shadow-bright rounded-md text-black"/>
         </label>
-        <label className="my-2">
-          <p>Icon color:</p>
-          <input type="color" {...register("icon_color")} placeholder="verify password" className="h-8 w-16 my-2 px-0.5 bg-gray-300 focus:bg-gray-100 focus:outline-none focus:shadow-bright rounded-md"/>
+        <label className="my-2 flex flex-col items-center">
+          <p className="text-shadow-black">アイコンカラー:</p>
+          <input type="color" {...register("icon_color")} className="h-8 w-16 my-2 px-0.5 bg-gray-300 focus:bg-gray-100 focus:outline-none focus:shadow-bright rounded-md"/>
         </label>
-        <input type="submit" value="Sign up" className="text-xl my-4 px-5 py-3 bg-gray-900 rounded-md shadow-bright hover:shadow-gold"/>
+        <input type="submit" value="新規登録" className="text-xl my-4 px-5 py-3 bg-gray-900 rounded-md shadow-bright hover:shadow-gold"/>
       </form>
     </div>
 	);

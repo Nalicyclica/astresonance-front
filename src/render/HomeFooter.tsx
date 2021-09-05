@@ -13,9 +13,9 @@ const HomeFooter: React.FC<{searchMusic: (value: selectIds)=>void}> = ({searchMu
   };
   
 	return (
-    <footer className="sticky bottom-0 bg-gray-700 h-20 w-screen">
-      <form onSubmit={handleSubmit(onSubmit)} className="flex justify-between items-center  align-middle">
-        <label className="flex flex-col bg-gray-800 m-2 h-12 w-auto px-4 rounded-md shadow-lg hover:shadow-bright">
+    <footer className="absolute bottom-0 w-screen h-20 px-4 py-3 backdrop-filter backdrop-blur-lg backdrop-contrast-75 shadow-header">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex justify-between items-center align-middle">
+        <label className="flex flex-col bg-gray-800 px-4 py-2 rounded-md shadow-lg hover:shadow-bright">
           <div>
           <BsMusicNoteList size={20} color={'#ccc'} className="inline mr-1.5"/>
           <span>ジャンル</span>
@@ -25,7 +25,7 @@ const HomeFooter: React.FC<{searchMusic: (value: selectIds)=>void}> = ({searchMu
             {genreItems}
           </select>
         </label>
-        <label className="flex flex-col bg-gray-800 m-2 h-12 w-auto px-4 rounded-md shadow-lg hover:shadow-bright">
+        <label className="flex flex-col bg-gray-800 px-4 py-2 rounded-md shadow-lg hover:shadow-bright">
           <div>
           <TiWaves size={20} color={'#ccc'} className="inline mr-1.5"/>
           <span>曲/歌</span>
@@ -35,7 +35,7 @@ const HomeFooter: React.FC<{searchMusic: (value: selectIds)=>void}> = ({searchMu
             {categoryItems}
           </select>
         </label>
-        <input type="submit" value="リロード" className="bg-gray-800 m-2 h-12 w-auto px-4 rounded-md shadow-lg hover:shadow-bright" />
+        <input type="submit" value="リロード" className="bg-gray-800 h-12 w-auto px-4 py-2 rounded-md shadow-lg hover:shadow-bright" />
       </form>
     </footer>
 	);

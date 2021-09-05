@@ -11,9 +11,12 @@ import UserShow from './UserShow';
 import { useEffect } from 'react';
 import Background from './Background';
 import { CurrentUser, useUserContext } from '../functions/UserInfo';
+import { logoLoad } from '../functions/LogoLoad';
+
 
 const Main: React.FC = () => {
   const {userInfo, setUserInfo} = useUserContext();
+  const img = logoLoad();
 
   useEffect(() => {
     setUserInfo.validateToken();
@@ -21,20 +24,22 @@ const Main: React.FC = () => {
 
 	return (
     <div className="inline-flex">
-      <div className="flex flex-col w-screen h-screen text-yellow-300 font-serif z-30">
+      <div className="flex flex-col text-yellow-400 font-sawarabi z-30">
         <CurrentUser.Provider value = {{userInfo, setUserInfo}}>
           <Router>
             <Header />
-            <Switch>
-              <Route exact path='/' component = {Home} />
-              <Route path='/SignUp' component = {SignUp} />
-              <Route path='/SignIn' component = {SignIn} />
-              <Route path='/AccountUpdate' component = {AccountUpdate} />
-              <Route path='/Musics/:id/Titles/:title_id' component = {MusicShow} />
-              <Route path='/Musics/:id' component = {MusicShow} />
-              <Route path='/MusicCreate' component = {MusicCreate} />
-              <Route path='/UserShow/:id' component = {UserShow} />
-            </Switch>
+            <div className="w-screen h-main min-w-120 overflow-auto">
+              <Switch>
+                <Route exact path='/' component = {Home} />
+                <Route path='/SignUp' component = {SignUp} />
+                <Route path='/SignIn' component = {SignIn} />
+                <Route path='/AccountUpdate' component = {AccountUpdate} />
+                <Route path='/Musics/:id/Titles/:title_id' component = {MusicShow} />
+                <Route path='/Musics/:id' component = {MusicShow} />
+                <Route path='/MusicCreate' component = {MusicCreate} />
+                <Route path='/UserShow/:id' component = {UserShow} />
+              </Switch>
+            </div>
           </Router>
         </CurrentUser.Provider>
       </div>

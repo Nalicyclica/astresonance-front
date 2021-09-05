@@ -1,11 +1,13 @@
 import React, {useState, useEffect, useContext, useRef} from "react";
-import { Link, useHistory, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { CurrentUser } from "../functions/UserInfo";
 import TitleShow from './TitleShow';
 import MusicEdit from "./MusicEdit";
 import { useMusicShow } from "../functions/ShowMusic";
 import TitleList from "./TitleList"
 import { MusicTitled, MakeTitleForSignedIn, RejectTitleForSignOut, YourPostedMusic } from "./MusicShowForm";
+import MusicFooter from "./MusicFooter";
+import ReactAudioPlayer from "react-audio-player";
 
 export type CurrentShow = {
   showFlag: boolean
@@ -37,40 +39,27 @@ const MusicShow: React.FC = () => {
   
   return (
     <div>
-      <div className="flex justify-between">
-        <div className= "flex flex-col justify-between items-center w-screen h-home">
-          { (!response.valid && response.errors.errors)? <p className="text-red-600"></p> : userInfo.isSignIn? ( musicItem.user_id == userInfo.id? <YourPostedMusic musicId={musicItem.id} setEditShow={setEditShow} /> : (userTitle.isTitled? <MusicTitled userTitle = {userTitle.titleData}/> : <MakeTitleForSignedIn currentMusicId={currentMusicId}/>)) : <RejectTitleForSignOut />}
-          <div className="my-8">
-            <audio controls src={musicItem.music_url}/>
+      <div className="flex justify-center h-home">
+        <div className= "flex flex-col justify-between items-center my-2">
+          <div className="w-96 mx-8 my-6 rounded-md text-gray-100 px-4 pt-2 pb-3 shadow-bright backdrop-filter backdrop-blur-lg">
+            { (!response.valid && response.errors.errors)? <p className="text-red-600"></p> :
+              userInfo.isSignIn? ( musicItem.user_id == userInfo.id? <YourPostedMusic musicId={musicItem.id} setEditShow={setEditShow} /> :
+                ( userTitle.isTitled? <MusicTitled userTitle = {userTitle.titleData}/> : <MakeTitleForSignedIn currentMusicId={currentMusicId}/>)) : <RejectTitleForSignOut />}
+          </div>
+          <div className="my-4">
+            <ReactAudioPlayer controls src={musicItem.music_url} autoPlay={true} volume={0.5} controlsList="nodownload" />
           </div>
         </div>
-
         { userInfo.isSignIn && ( musicItem.user_id == userInfo.id || userTitle.isTitled ) &&
-          <div className="w-96 bg-gray-300">
-            <p className="text-lg">他の人がつけたタイトル</p>
+          <div className="p-8 flex flex-col justify-start items-center text-gray-100">
+            <p className="text-lg text-shadow-black border-b px-6">この音楽のタイトル一覧</p>
             <TitleList titleItems={titleItems} setTitleShow={setTitleShow}/>
           </div>
         }
-        { currentTitleShow.showFlag && <div className= "absolute"><TitleShow titleId={currentTitleShow.showId} musicId={Number(currentMusicId)} setTitleShow={setTitleShow} /></div>
+        { currentTitleShow.showFlag && <div className= "absolute right-0"><TitleShow titleId={currentTitleShow.showId} musicId={Number(currentMusicId)} setTitleShow={setTitleShow} /></div>
         }
       </div>
-      <div className= "flex justify-between items-center p-1 h-20">
-        <div className="flex justify-start items-center">
-          <p className="mx-4">
-            ジャンル:{musicItem.genreName}の{musicItem.categoryName}
-          </p>
-          { userInfo.isSignIn && ( musicItem.user_id == userInfo.id || userTitle.isTitled ) &&
-          <div className="flex justify-start items-end" >
-            <p className="mr-3">投稿者:</p> 
-            <div style={{backgroundColor: musicItem.icon_color}} className="w-6 h-6 mr-2 rounded-full shadow-bright hover:shadow-gold"></div>
-            <Link to={`/UserShow/${musicItem.user_id}`}>
-              {musicItem.nickname}
-            </Link>
-          </div>
-          }
-        </div>
-        <Link to="/" className="bg-gray-800 flex justify-center items-center m-2 h-12 px-8 rounded-md shadow-bright hover:shadow-gold">別の曲を探す</Link>
-      </div>
+      <MusicFooter musicItem={musicItem} userInfo={userInfo} userTitle={userTitle} />
       { musicEditShow && <MusicEdit musicItem={musicItem} setEditShow={setEditShow} />}
     </div>
   );
