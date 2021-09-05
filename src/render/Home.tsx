@@ -1,6 +1,4 @@
-import React, {useState, useEffect, useCallback } from 'react';
-import {FaGooglePlay} from 'react-icons/fa'
-import { Link } from 'react-router-dom';
+import React, {useEffect } from 'react';
 import { useMusicIndex } from '../functions/IndexMusic';
 import HomeFooter from './HomeFooter';
 import MusicList from './MusicList';
