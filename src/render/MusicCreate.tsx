@@ -6,6 +6,7 @@ import { useHistory } from 'react-router-dom';
 import { useMusicCreate } from '../functions/CreateMusic';
 import { useContext } from 'react';
 import { CurrentUser } from '../functions/UserInfo';
+import { requiredErrorMessage } from '../functions/FormFunc';
 
 export type PostMusicInfo = {
   music: File
@@ -58,7 +59,7 @@ const MusicCreate: React.FC = () => {
   }, [responseState]);
   
 	return (
-    <div className="flex justify-center">
+    <div className="flex justify-center backdrop-filter backdrop-blur">
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col justify-start items-center p-6 w-120 mb-12">
         <h1 className="text-2xl mt-8 mb-2 px-4 text-yellow-400 border-b border-yellow-400">音楽を投稿してください</h1>
         {responseState.errors.errors && <p className="text-red-600">音楽を投稿できませんでした</p>}
@@ -70,17 +71,21 @@ const MusicCreate: React.FC = () => {
         </div>
         <label className="my-2">
           <p className="text-shadow-black">曲/歌:</p>
-          <select {...register("category_id")} className="my-2 p-2 border-b border-gray-100 focus:outline-none hover:bg-gray-700 bg-transparent backdrop-filter backdrop-blur-lg text-gray-100">
-            <option hidden>音楽の種類を選択してください</option>
+          <select {...register("category_id",{ validate: (value) => value > 0 || requiredErrorMessage})}
+            className="my-2 p-2 border-b border-gray-100 focus:outline-none hover:bg-gray-700 bg-transparent backdrop-filter backdrop-blur-lg text-gray-100">
+            <option value={-1} hidden>音楽の種類を選択してください</option>
             {categoryItems}
           </select>
+          {errors.category_id && <p className="text-red-600 text-sm">{errors.category_id.message}</p>}
         </label>
         <label className="my-2">
           <p className="text-shadow-black">ジャンル:</p>
-          <select {...register("genre_id")} className="my-2 p-2 border-b border-gray-100 focus:outline-none hover:bg-gray-700 bg-transparent backdrop-filter backdrop-blur-lg text-gray-100">
+          <select {...register("genre_id", { validate: (value) => value > 0 || requiredErrorMessage})}
+            className="my-2 p-2 border-b border-gray-100 focus:outline-none hover:bg-gray-700 bg-transparent backdrop-filter backdrop-blur-lg text-gray-100">
             <option hidden>音楽の種類を選択してください</option>
             {genreItems}
           </select>
+          {errors.genre_id && <p className="text-red-600 text-sm">{errors.genre_id.message}</p>}
         </label>
         <input type="submit" value="音楽を投稿する" className="text-xl my-4 px-5 py-3 bg-gray-900 rounded-md text-yellow-400 shadow-bright hover:shadow-gold"/>
       </form>
