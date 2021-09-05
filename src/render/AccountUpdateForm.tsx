@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef } from 'react';
 import { useForm } from "react-hook-form"
 import { CurrentUser } from '../functions/UserInfo';
 import { AccountInfo, UpdateAccountArg } from '../functions/UpdateAccount';
+import { emailErrorMessage, emailValidate, passwordConfirmErrorMessage, passwordErrorMessage, passwordValidate, requiredErrorMessage } from '../functions/FormFunc';
 
 export const IconUpdateForm: React.FC<{icon_color: string, updateAccount:(value: UpdateAccountArg)=> void, setFormShow: (value: boolean) => void}> = ({icon_color, updateAccount, setFormShow}) => {
   const { register, handleSubmit, watch, formState: {errors} } = useForm();
@@ -65,9 +66,11 @@ export const EmailUpdateForm: React.FC<{email: string, updateAccount:(value: Upd
   return(
     <div ref={popUpRef} className="absolute bg-gray-900 bg-opacity-80 flex justify-center items-center w-screen h-main">
       <form ref={formRef} onSubmit={handleSubmit(onSubmit)} className="flex justify-between items-end p-6 rounded-md bg-gray-600">
-        <div className="" >
+        <div className="w-64" >
           <p className="text-xl mb-2">E-mailの変更:</p>
-          <input type="text" {...register("email")} defaultValue={email} className="text-lg mx-4 mb-2 px-2 py-1 bg-gray-300 focus:bg-gray-100 focus:outline-none focus:shadow-bright rounded-md text-black" />
+          <input type="text" {...register("email", { required: requiredErrorMessage, pattern: { value: emailValidate, message: emailErrorMessage }})}
+            defaultValue={email} className="w-full text-lg mr-4 mb-2 px-2 py-1 bg-gray-300 focus:bg-gray-100 focus:outline-none focus:shadow-bright rounded-md text-black" />
+          {errors.email && <p className="text-red-600 text-sm">{errors.email.message}</p>}
         </div>
         <input type="submit" value="変更" className="ml-10 my-2 px-5 py-2 bg-gray-900 rounded-md shadow-bright hover:shadow-gold" />
       </form>
@@ -101,11 +104,15 @@ export const PasswordUpdateForm: React.FC<{updateAccount:(value: UpdateAccountAr
   return(
     <div ref={popUpRef} className="absolute bg-gray-900 bg-opacity-80 flex justify-center items-center w-screen h-main">
       <form ref={formRef} onSubmit={handleSubmit(onSubmit)} className="flex justify-between items-end p-6 rounded-md bg-gray-600">
-        <div className="" >
+        <div className="w-64" >
           <p className="text-xl mb-2">Passwordの変更:</p>
-          <input type="password" {...register("password")} placeholder={"********"} className="text-lg mx-4 mb-2 px-2 py-1 bg-gray-300 focus:bg-gray-100 focus:outline-none focus:shadow-bright rounded-md text-black" />
+          <input type="password" {...register("password", { required: requiredErrorMessage, pattern: { value: passwordValidate, message: passwordErrorMessage }})}
+            placeholder={"********"} className="w-full text-lg mr-4 mb-2 px-2 py-1 bg-gray-300 focus:bg-gray-100 focus:outline-none focus:shadow-bright rounded-md text-black" />
+          {errors.password && <p className="text-red-600 text-sm">{errors.password.message}</p>}
           <p className="text-xl mt-4 mb-2">Passwordの確認:</p>
-          <input type="password" {...register("password_confirmation")} placeholder={"********"} className="text-lg mx-4 mb-2 px-2 py-1 bg-gray-300 focus:bg-gray-100 focus:outline-none focus:shadow-bright rounded-md text-black" />
+          <input type="password" {...register("password_confirmation", {required: requiredErrorMessage, validate: (value)=> value == watch('password') || passwordConfirmErrorMessage })}
+            placeholder={"********"} className="w-full text-lg mr-4 mb-2 px-2 py-1 bg-gray-300 focus:bg-gray-100 focus:outline-none focus:shadow-bright rounded-md text-black" />
+          {errors.password_confirmation && <p className="text-red-600 text-sm">{errors.password_confirmation.message}</p>}
         </div>
         <input type="submit" value="変更" className="ml-10 my-2 px-5 py-2 bg-gray-900 rounded-md shadow-bright hover:shadow-gold" />
       </form>

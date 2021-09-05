@@ -57,7 +57,7 @@ const AccountUpdate: React.FC = () => {
         <div className="w-96">
           <div className="flex w-full justify-between items-end p-2 border-b border-yellow-300">
             <div className="" >
-              <p className="m-2">Nickname:</p>
+              <p className="m-2">ニックネーム:</p>
               <p className="text-2xl mx-4 mb-2">{accountItem.nickname}</p>
             </div>
             <button  onClick={popUpIconForm} style={{backgroundColor: accountItem.icon_color}} className="w-16 h-16 rounded-full shadow-bright hover:shadow-gold">
@@ -74,7 +74,7 @@ const AccountUpdate: React.FC = () => {
           </div>
           <div className="flex w-full justify-between items-end p-2 border-b border-yellow-300">
             <div className="" >
-              <p className="m-2">Password:</p>
+              <p className="m-2">パスワード:</p>
               <p className="text-xl mx-4 mb-2">********</p>
             </div>
             <button  onClick={popUpPasswordForm} className="ml-10 my-2 px-5 py-2 bg-gray-900 rounded-md shadow-bright hover:shadow-gold">
