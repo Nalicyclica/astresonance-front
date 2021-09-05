@@ -9,6 +9,7 @@ export type UpdateAccountArg = {
 };
 
 export type AccountInfo = {
+  id: number
   nickname: string
   email: string
   password: string
@@ -24,6 +25,7 @@ type AccountItemInfo = AccountInfo & {
 };
 
 const defaultAccountInfo: AccountItemInfo = {
+  id: -1,
   nickname: "",
   email: "",
   password: "",

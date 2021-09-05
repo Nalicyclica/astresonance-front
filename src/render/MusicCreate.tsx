@@ -4,6 +4,8 @@ import {useDropzone} from 'react-dropzone'
 import { genreItems, categoryItems } from '../functions/MusicGenre';
 import { useHistory } from 'react-router-dom';
 import { useMusicCreate } from '../functions/CreateMusic';
+import { useContext } from 'react';
+import { CurrentUser } from '../functions/UserInfo';
 
 export type PostMusicInfo = {
   music: File
@@ -14,8 +16,9 @@ export type PostMusicInfo = {
 const emptyFile = new File([],"",{});
 
 const MusicCreate: React.FC = () => {
-  const history = useHistory();
   const [responseState, musicCreate] = useMusicCreate();
+  const { userInfo, setUserInfo } = useContext(CurrentUser);
+  const history = useHistory();
   const {register, handleSubmit, watch, formState: {errors}, setValue} = useForm();
   const [selectedMusic, setSelectedMusic] = useState<File>(emptyFile);
 
@@ -35,7 +38,11 @@ const MusicCreate: React.FC = () => {
   });
 
   useEffect(()=>{
-    register("music");
+    if(!userInfo.isSignIn){
+      history.push('/');
+    }else{
+      register("music");
+    }
   },[]);
 
   const onSubmit = (data: PostMusicInfo) => {

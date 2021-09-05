@@ -28,14 +28,17 @@ const MusicShow: React.FC = () => {
   
   useEffect(()=>{
     musicShow(currentMusicId);
-    if(initialTitleId){
+  },[]);
+
+  useEffect(()=>{
+    if(initialTitleId && userInfo.isSignIn && userTitle.isTitled){
       const setCurrent: CurrentShow = {
         showFlag: true,
         showId: Number(initialTitleId),
       };
       setTitleShow(setCurrent);
     }
-  },[]);
+  },[response]);
   
   return (
     <div>
@@ -56,7 +59,10 @@ const MusicShow: React.FC = () => {
             <TitleList titleItems={titleItems} setTitleShow={setTitleShow}/>
           </div>
         }
-        { currentTitleShow.showFlag && <div className= "absolute right-0"><TitleShow titleId={currentTitleShow.showId} musicId={Number(currentMusicId)} setTitleShow={setTitleShow} /></div>
+        { currentTitleShow.showFlag && 
+          <div className= "absolute right-0">
+            <TitleShow titleId={currentTitleShow.showId} musicId={Number(currentMusicId)} setTitleShow={setTitleShow} />
+          </div>
         }
       </div>
       <MusicFooter musicItem={musicItem} userInfo={userInfo} userTitle={userTitle} />

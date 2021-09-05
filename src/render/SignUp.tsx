@@ -18,10 +18,6 @@ const SignUp: React.FC = () => {
   const history = useHistory();
   const { userInfo, setUserInfo } = useContext(CurrentUser);
   const { register, handleSubmit, watch, formState: {errors} } = useForm();
-
-  if(userInfo.isSignIn){
-    history.push('/');
-  }
     
   const onSubmit = (data: SignUpInfo) => {
     data.introduce = "よろしくお願いします";
@@ -35,6 +31,8 @@ const SignUp: React.FC = () => {
       }else{
         console.log(userInfo.errors);
       }
+    }else if(userInfo.isSignIn){
+      history.push('/');
     }
   }, [userInfo])
 
