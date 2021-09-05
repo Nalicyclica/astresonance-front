@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import { CurrentUser, UserInfo } from '../functions/UserInfo';
 import { Link } from 'react-router-dom'
-import SignOut from './SignOut';
 import UserMenuDrop from './UserMenuDrop'
+import { logo_url } from '../functions/LogoLoad';
 
 const SignOutMenu: React.FC = () => {
   return(
@@ -23,7 +23,6 @@ const SignInMenu: React.FC<{userInfo: UserInfo}> = props => {
 };
 
 const Header: React.FC = () => {
-  const logo_url = "./img/logo.png"
   const { userInfo, setUserInfo } = useContext(CurrentUser);
 	return (
     <header className="z-50 h-20 sticky top-0 flex justify-between items-center backdrop-filter backdrop-blur-lg backdrop-contrast-75 shadow-header">

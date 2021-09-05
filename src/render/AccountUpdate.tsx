@@ -43,7 +43,7 @@ const AccountUpdate: React.FC = () => {
   };
 
   return (
-    <div className="inline-flex backdrop-filter backdrop-blur w-screen h-screen overflow-auto">
+    <div className="inline-flex backdrop-filter backdrop-blur w-screen h-main overflow-auto">
       <div className="flex flex-col items-center w-screen">
         <h1 className="w-120 text-center text-2xl mt-8 mb-6 px- py-2 text-yellow-400 border-b border-yellow-300">ユーザー情報の確認</h1>
         <div className="w-96">

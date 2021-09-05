@@ -52,7 +52,7 @@ const MusicCreate: React.FC = () => {
   
 	return (
     <div className="flex justify-center">
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col justify-start items-center p-6 w-120 text-gray-100 mb-12">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col justify-start items-center p-6 w-120 mb-12">
         <h1 className="text-2xl mt-8 mb-2 px-4 text-yellow-400 border-b border-yellow-400">音楽を投稿してください</h1>
         {responseState.errors.errors && <p className="text-red-600">音楽を投稿できませんでした</p>}
         <div className="mt-6 mb-4">
@@ -63,14 +63,14 @@ const MusicCreate: React.FC = () => {
         </div>
         <label className="my-2">
           <p className="text-shadow-black">曲/歌:</p>
-          <select {...register("category_id")} className="my-2 p-2 border-b border-gray-100 focus:outline-none hover:bg-gray-700 bg-transparent backdrop-filter backdrop-blur-lg">
+          <select {...register("category_id")} className="my-2 p-2 border-b border-gray-100 focus:outline-none hover:bg-gray-700 bg-transparent backdrop-filter backdrop-blur-lg text-gray-100">
             <option hidden>音楽の種類を選択してください</option>
             {categoryItems}
           </select>
         </label>
         <label className="my-2">
           <p className="text-shadow-black">ジャンル:</p>
-          <select {...register("genre_id")} className="my-2 p-2 border-b border-gray-100 focus:outline-none hover:bg-gray-700 bg-transparent backdrop-filter backdrop-blur-lg">
+          <select {...register("genre_id")} className="my-2 p-2 border-b border-gray-100 focus:outline-none hover:bg-gray-700 bg-transparent backdrop-filter backdrop-blur-lg text-gray-100">
             <option hidden>音楽の種類を選択してください</option>
             {genreItems}
           </select>
