@@ -1,16 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useAccountUpdate } from '../functions/UpdateAccount';
+import { CurrentUser } from '../functions/UserInfo';
 import { IconUpdateForm, EmailUpdateForm, PasswordUpdateForm, IntroduceUpdateForm } from './AccountUpdateForm';
 
 const AccountUpdate: React.FC = () => {
   const [accountItem, {getAccount, updateAccount}] = useAccountUpdate();
+  const { userInfo, setUserInfo } = useContext(CurrentUser);
+  const history = useHistory();
   const [iconFormShow, setIconShow] = useState<boolean>(false);
   const [emailFormShow, setEmailShow] = useState<boolean>(false);
   const [passwordFormShow, setPasswordShow] = useState<boolean>(false);
   const [introduceFormShow, setIntroduceShow] = useState<boolean>(false);
 
   useEffect(() => {
-    getAccount();
+    if(!userInfo.isSignIn){
+      history.push('/');
+    }else{
+      getAccount();
+    }
   },[]);
 
   useEffect(() => {

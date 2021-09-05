@@ -6,7 +6,7 @@ import { MusicInfo } from "../functions/IndexMusic";
 const MusicList: React.FC<{musicItems: MusicInfo[]}> = ({musicItems}) => {
 
   return(
-    <ul className="overflow-auto p-4 h-96 mb-12">{
+    <ul className="overflow-auto px-4 py-2 h-96 mb-12 mt-2">{
       musicItems.map((musicItem) =>
       <li key={musicItem.id} className="w-96 mb-4 p-2 rounded-md shadow-bright backdrop-filter backdrop-blur-lg hover:shadow-gold hover:bg-gray-600">
         <Link to={`/Musics/${musicItem.id}`} className="flex justify-between items-center">

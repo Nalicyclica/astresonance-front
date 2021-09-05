@@ -1,16 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import {AppBar, Tabs, Toolbar, Tab } from '@material-ui/core'
-import {  useParams } from 'react-router-dom';
+import {  useHistory, useParams } from 'react-router-dom';
 import { useUserShow } from "../functions/ShowUser"
 import { UserMusicList, UserTitleList, UserCommentList } from './UserShowList';
+import { useContext } from 'react';
+import { CurrentUser } from '../functions/UserInfo';
 
 const UserShow: React.FC = () => {
+  const { userInfo, setUserInfo } = useContext(CurrentUser);
   const [{profile, musicItems, titleItems, commentItems, response}, userShow] = useUserShow();
+  const history = useHistory();
   const [selectTab, setSelectTab] = useState<number>(0);
   const {id: currentUserId} = useParams<{id: string}>();
 
   useEffect(() => {
-    userShow(currentUserId);
+    if(!userInfo.isSignIn){
+      history.push('/');
+    }else{
+      userShow(currentUserId);
+    }
   },[]);
     
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {

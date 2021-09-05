@@ -48,12 +48,20 @@ const TitleShow: React.FC<{titleId: number, musicId: number, setTitleShow: (setS
       if(titleItem.music_id != musicId){
         setTitleShow(defaultShow);
       }
+    }else{
+      if(titleResponse.errors.errors){
+        setTitleShow(defaultShow);
+      }
     }
   },[titleResponse]);
   
   useEffect(()=>{
-    titleShow(titleId);
-    commentIndex(titleId);
+    if(!userInfo.isSignIn){
+      setTitleShow(defaultShow);
+    }else{
+      titleShow(titleId);
+      commentIndex(titleId);
+    }
   },[titleId]);
 
   return(
