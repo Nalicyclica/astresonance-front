@@ -7,6 +7,7 @@ import { useMusicShow } from "../functions/ShowMusic";
 import TitleList from "./TitleList"
 import { MusicTitled, MakeTitleForSignedIn, RejectTitleForSignOut, YourPostedMusic } from "./MusicShowForm";
 import MusicFooter from "./MusicFooter";
+import ReactAudioPlayer from "react-audio-player";
 
 export type CurrentShow = {
   showFlag: boolean
@@ -46,7 +47,7 @@ const MusicShow: React.FC = () => {
                 ( userTitle.isTitled? <MusicTitled userTitle = {userTitle.titleData}/> : <MakeTitleForSignedIn currentMusicId={currentMusicId}/>)) : <RejectTitleForSignOut />}
           </div>
           <div className="my-4">
-            <audio controls src={musicItem.music_url}/>
+            <ReactAudioPlayer controls src={musicItem.music_url} autoPlay={true} volume={0.5} controlsList="nodownload" />
           </div>
         </div>
         { userInfo.isSignIn && ( musicItem.user_id == userInfo.id || userTitle.isTitled ) &&
