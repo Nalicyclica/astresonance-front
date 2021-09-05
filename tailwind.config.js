@@ -75,7 +75,7 @@ module.exports = {
           textShadow: "0 0 2px black"
         },
         ".text-shadow-white": {
-          textShadow: "0 0 2px white"
+          textShadow: "0 0 2px rgb(200,200,200)"
         },
         ".text-shadow-none": {
           textShadow: "none"
