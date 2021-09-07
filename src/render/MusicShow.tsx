@@ -28,7 +28,7 @@ const MusicShow: React.FC = () => {
   
   useEffect(()=>{
     musicShow(currentMusicId);
-  },[]);
+  },[currentMusicId]);
 
   useEffect(()=>{
     if(initialTitleId && userInfo.isSignIn && userTitle.isTitled){
