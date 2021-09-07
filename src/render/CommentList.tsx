@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 import { Link } from "react-router-dom";
-import { ImCross } from "react-icons/im";
+import { BsFillTrashFill } from "react-icons/bs";
 import { CommentInfo } from "../functions/IndexComment";
 import { useCommentDelete } from "../functions/DeleteComment";
 
@@ -24,8 +24,8 @@ const CommentDelete: React.FC<{commentId: number, removeCommentItem: (commentId:
   }, [deleteResponse]);
 
   return(
-    <button onClick={handleClickDelete} className="mr-4">
-      <ImCross size={16} />
+    <button onClick={handleClickDelete} className="mx-4">
+      <BsFillTrashFill size={20} className="hover:text-yellow-400"/>
     </button>
   );
 };
