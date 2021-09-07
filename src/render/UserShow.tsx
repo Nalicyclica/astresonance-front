@@ -19,7 +19,7 @@ const UserShow: React.FC = () => {
     }else{
       userShow(currentUserId);
     }
-  },[]);
+  },[currentUserId]);
     
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setSelectTab(newValue);
