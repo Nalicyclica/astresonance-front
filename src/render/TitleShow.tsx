@@ -66,10 +66,10 @@ const TitleShow: React.FC<{titleId: number, musicId: number, setTitleShow: (setS
 
   return(
     <div>
-      <div className= "h-home w-96 flex flex-col justify-between items-center backdrop-filter backdrop-blur-xl shadow-header relative text-gray-100">
-        <div className="flex flex-col justify-start items-center">
-          <div className="m-2 flex justify-center items-end text-shadow-black">
-            <p style={{color: titleItem.color}} className="text-xl mr-4 text-shadow-white text-xl font-extrabold">{titleItem.title}</p>
+      <div className= "h-home w-96 pt-4 flex flex-col justify-between items-center backdrop-filter backdrop-blur-xl shadow-header relative text-gray-100">
+        <div className="w-full flex flex-col justify-start items-center pl-16 pr-6">
+          <p style={{textShadow: `2px 2px 2px ${titleItem.color}`}} className="text-2xl mr-4 text-xl font-extrabold">{titleItem.title}</p>
+          <div className="w-full m-2 flex justify-end items-end text-shadow-black">
             <p className="text-sm mr-2">by</p>
             <div className="flex justify-start items-center pr-2">
               <div style={{backgroundColor: titleItem.icon_color}} className = "w-3 h-3 mr-1 rounded-full shadow-bright"></div>

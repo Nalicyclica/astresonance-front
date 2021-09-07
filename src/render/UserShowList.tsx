@@ -35,7 +35,7 @@ export const UserTitleList: React.FC<{titleItems: PostedTitleInfo[]}> = ({titleI
     <li key={titleItem.id} className="list-none px-4 py-2 mb-3 w-96 rounded-md shadow-bright hover:shadow-gold hover:bg-gray-600 backdrop-filter backdrop-blur-xl">
       <Link to={`/Musics/${titleItem.music_id}/Titles/${titleItem.id}`} className="flex justify-between">
         <div className ="w-56 pr-6 ">
-          <p style={{color: titleItem.color}} className="text-xl font-extrabold text-shadow-white">{titleItem.title}</p>
+          <p style={{textShadow: `2px 2px 1px ${titleItem.color}`}} className="text-xl font-extrabold">{titleItem.title}</p>
         </div>
         <div className = "w-10 h-10 rounded-full shadow-bright flex justify-center items-center">
           <FaGooglePlay size={20} />

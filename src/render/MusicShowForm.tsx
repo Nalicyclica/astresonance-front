@@ -14,7 +14,7 @@ export const MusicTitled: React.FC<{userTitle: TitleInfo}> = ({userTitle}) => {
   return(
     <div className="flex flex-col items-center">
       <div className="">あなたがつけたタイトル:</div>
-      <p  style={{color: userTitle.color}} className="text-2xl text-shadow-white font-extrabold">{userTitle.title}</p>
+      <p  style={{textShadow: `2px 2px 2px ${userTitle.color}`}} className="text-4xl font-extrabold">{userTitle.title}</p>
     </div>
   )
 };
