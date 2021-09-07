@@ -35,7 +35,7 @@ const HomeFooter: React.FC<{searchMusic: (value: selectIds)=>void}> = ({searchMu
             {categoryItems}
           </select>
         </label>
-        <input type="submit" value="リロード" className="bg-gray-800 h-12 w-auto px-4 py-2 rounded-md shadow-lg hover:shadow-bright" />
+        <input type="submit" value="カテゴリーを変更" className="text-sm bg-gray-800 h-12 w-auto px-4 py-2 rounded-md shadow-lg hover:shadow-bright" />
       </form>
     </footer>
 	);

@@ -28,10 +28,10 @@ const MusicShow: React.FC = () => {
   
   useEffect(()=>{
     musicShow(currentMusicId);
-  },[]);
+  },[currentMusicId]);
 
   useEffect(()=>{
-    if(initialTitleId && userInfo.isSignIn && userTitle.isTitled){
+    if(initialTitleId && userInfo.isSignIn && (userTitle.isTitled || userInfo.id == musicItem.user_id)){
       const setCurrent: CurrentShow = {
         showFlag: true,
         showId: Number(initialTitleId),

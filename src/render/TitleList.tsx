@@ -17,7 +17,7 @@ const TitleItem: React.FC<{titleItem: TitleInfo, setTitleShow: (value: CurrentSh
       <div style={{backgroundColor: titleItem.icon_color}} className = "w-8 h-8 mr-4 rounded-full shadow-bright">
       </div>
       <div className="flex justify-start items-end">
-        <p style={{color: titleItem.color}} className="font-extrabold text-lg text-shadow-white mr-4">{titleItem.title}</p>
+        <p style={{textShadow: `1px 1px 1px ${titleItem.color}`}} className="font-extrabold text-lg mr-4">{titleItem.title}</p>
         <p className="text-sm">by {titleItem.nickname}</p>
       </div>
     </button>
