@@ -1,46 +1,110 @@
-# Getting Started with Create React App
+### 知らない音楽を聴いた時、風景や思い出が心に浮かんだことはありませんか？
+　　ー Astresonanceは、イメージを音楽のタイトルとして表現できる音楽SNSです 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![Astresonance](https://user-images.githubusercontent.com/77972881/132290990-71ae17ad-6a7a-49d8-983e-927cf47fc3af.gif "Astresonance")
+<h1 align="center">Astresonance</h1>
 
-## Available Scripts
+# ♬ 開発環境
+- Create React App
+- Typescript
+- Ruby on Rails（サーバーサイド）
+- AWS(S3)（サーバーサイド）
+- VSCode (Visual Studio Code)
 
-In the project directory, you can run:
+# ♬ アプリの機能
+### 音楽に対してタイトルをつける機能
+投稿された音楽を聴いて思いついたイメージを、タイトルとして表現することができます
 
-### `yarn start`
+![](https://user-images.githubusercontent.com/77972881/132294085-c4aed692-c2ce-48a0-9ca0-bf30b42d6ca5.png)
+### タイトルに対してコメントをつける機能
+音楽につけられたタイトルの一覧から、気になったタイトルにコメントを投稿することができます
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+![](https://user-images.githubusercontent.com/77972881/132294149-1ab59447-674a-4658-861c-c4764b7565a4.png)
+### ユーザー投稿情報一覧機能
+ユーザーが投稿した音楽・タイトル・コメントの一覧を見ることができます
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+![](https://user-images.githubusercontent.com/77972881/132294175-bb48a303-4bde-40eb-8b94-c513a0337d10.png)
 
-### `yarn test`
+### 投稿音楽一覧機能
+ジャンルや曲/歌を指定して、投稿された音楽をリスト表示することができます
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+![](https://user-images.githubusercontent.com/77972881/132294125-ff6cea04-8eab-42ee-a703-3bf7d4458a66.png)
 
-### `yarn build`
+### 音楽投稿機能
+音楽ファイルをドラッグ＆ドロップで投稿することができます
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+![](https://user-images.githubusercontent.com/77972881/132294220-6df6900c-cfcf-44a7-9744-150da1cdc7d3.png)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+# ♬ アプリケーションの構成
+フロントエンドとサーバーサイドがそれぞれ別々のAPIとして作成されています。
+相互にJSONで通信することで、１つのアプリケーションとして機能しています
+![](https://user-images.githubusercontent.com/77972881/132297142-c2b8c1a4-967c-4cbf-95b8-429072a822c5.png)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+# ♬ データベース設計
 
-### `yarn eject`
+## Userテーブル
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+| Column             | Type   | Options                   |
+| ------------------ | ------ | ------------------------- |
+| nickname           | string | null: false               |
+| email              | string | null: false, unique: true |
+| encrypted_password | string | null: false               |
+| icon_color         | string | null: false               |
+| introduce          | text   | default: "よろしくお願いします" |
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Association
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+- has_many :musics
+- has_many :titles
+- has_many :comments
+- has_one :profile
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Musicテーブル
 
-## Learn More
+| Column              | Type       | Options                        |
+| ------------------- | ---------- | ------------------------------ |
+| category_id         | integer    | null: false                    |
+| genre_id            | integer    | null: false                    |
+| user                | references | null: false, foreign_key: true |
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Association
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- belongs_to :user
+- has_many :titles
+- has_one_attached :music
+
+## Titleテーブル
+
+| Column             | Type       | Options                        |
+| ------------------ | ---------- | ------------------------------ |
+| title              | string     | null: false                    |
+| color              | string     | null: false                    |
+| user               | references | null: false, foreign_key: true |
+| music              | references | null: false, foreign_key: true |
+
+### Association
+
+- belongs_to :user
+- belongs_to :music
+- has_many :comments
+- 空のタイトル＝視聴履歴？
+
+## Commentテーブル
+
+| Column             | Type       | Options                        |
+| ------------------ | ---------- | ------------------------------ |
+| text               | string     | null: false                    |
+| user               | references | null: false, foreign_key: true |
+| title              | references | null: false, foreign_key: true |
+
+### Association
+
+- belongs_to :user
+- belongs_to :title
+
+# ♬ Site URL
+### https://astresonance-front.herokuapp.com
+※アクセスにはBasic認証が必要です
+
+## サーバーサイドリポジトリのURL
+### https://github.com/Nalicyclica/astresonance-server
