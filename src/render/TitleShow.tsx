@@ -1,39 +1,13 @@
-import React, {useEffect, useState, useContext} from "react";
+import React, {useEffect, useContext} from "react";
 import { Link } from "react-router-dom";
-import {CurrentShow, defaultShow, MusicLoading} from './MusicShow'
+import {CurrentShow, defaultShow} from './MusicShow'
 import { CurrentUser } from "../functions/UserInfo";
 import {AiOutlineArrowRight} from 'react-icons/ai'
-import { useTitleDelete } from "../functions/DeleteTitle";
 import { useTitleShow } from "../functions/ShowTitle";
 import { useCommentIndex } from "../functions/IndexComment";
 import CommentList from "./CommentList";
 import CommentCreate from "./CommentCreate";
-
-const TitleDelete: React.FC<{titleId: number}> = ({titleId}) => {
-  const [deleteResponse, titleDelete] = useTitleDelete();
-  const setMusicLoading = useContext(MusicLoading);
-  
-  const handleClickDelete = () => {
-    titleDelete(titleId);
-  };
-
-  useEffect(() => {
-    if(deleteResponse.valid){
-      alert("タイトルを削除しました");
-      setMusicLoading(true);
-    }else{
-      if(deleteResponse.id > 0){
-        alert("削除できませんでした");
-      }
-    }
-  }, [deleteResponse]);
-
-  return(
-    <button onClick={handleClickDelete}>
-      タイトルを削除する
-    </button>
-  );
-};
+import TitleDelete from "./TitleDelete";
 
 const TitleShow: React.FC<{titleId: number, musicId: number, setTitleShow: (setShow: CurrentShow)=> void}> = ({titleId, musicId, setTitleShow}) => {
   const [{titleItem, titleResponse}, titleShow] = useTitleShow();

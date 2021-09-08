@@ -42,6 +42,7 @@ const Main: React.FC = () => {
         </CurrentUser.Provider>
       </div>
       <Background />
+      <div id="confirmAction" className="absolute z-50"></div>
     </div>
 	);
 }
