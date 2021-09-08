@@ -1,13 +1,13 @@
-import React, {useState, useEffect, useContext} from "react";
-import {MusicLoading} from './MusicShow'
-import { useTitleDelete } from "../functions/DeleteTitle";
+import React, {useEffect, useState} from "react";
+import { BsFillTrashFill } from "react-icons/bs";
+import { useCommentDelete } from "../functions/DeleteComment";
 import ConfirmAction, { ConfirmActionInfo, defaultConfirmAction } from "./ConfirmAction";
 
-const TitleDelete: React.FC<{titleId: number}> = ({titleId}) => {
-  const [deleteResponse, titleDelete] = useTitleDelete();
-  const [actionConfirm, setConfirmAction] = useState<ConfirmActionInfo>(defaultConfirmAction)
-  const setMusicLoading = useContext(MusicLoading);
-  const confirmMessage: string = "タイトルを削除"
+
+const CommentDelete: React.FC<{commentId: number, removeCommentItem: (commentId: number)=>void}> = ({commentId, removeCommentItem}) => {
+  const [deleteResponse, commentDelete] = useCommentDelete();
+  const [actionConfirm, setConfirmAction] = useState(defaultConfirmAction);
+  const confirmMessage: string = "コメントを削除";
   
   const handleClickDelete = () => {
     const confirmShowData: ConfirmActionInfo = {
@@ -19,13 +19,13 @@ const TitleDelete: React.FC<{titleId: number}> = ({titleId}) => {
 
   useEffect(() => {
     if(actionConfirm.response){
-    titleDelete(titleId);
+      commentDelete(commentId);
     }
   }, [actionConfirm]);
 
   useEffect(() => {
     if(deleteResponse.valid){
-      setMusicLoading(true);
+      removeCommentItem(commentId);
     }else{
       if(deleteResponse.id > 0){
         alert("削除できませんでした");
@@ -34,13 +34,13 @@ const TitleDelete: React.FC<{titleId: number}> = ({titleId}) => {
   }, [deleteResponse]);
 
   return(
-    <div>
+    <div className="mx-4">
       <button onClick={handleClickDelete}>
-        タイトルを削除する
+        <BsFillTrashFill size={20} className="hover:text-yellow-400"/>
       </button>
       {actionConfirm.modalShow && <ConfirmAction setConfirmAction={setConfirmAction} message={confirmMessage} />}
     </div>
   );
 };
 
-export default TitleDelete
+export default CommentDelete
