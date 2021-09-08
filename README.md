@@ -1,7 +1,7 @@
 ### 知らない音楽を聴いた時、風景や思い出が心に浮かんだことはありませんか？
-　　ー Astresonanceは、イメージを音楽のタイトルとして表現できる音楽SNSです 
 
 ![Astresonance](https://user-images.githubusercontent.com/77972881/132290990-71ae17ad-6a7a-49d8-983e-927cf47fc3af.gif "Astresonance")
+　　ー Astresonanceは、音楽のイメージをタイトルとして表現できる音楽SNSです 
 <h1 align="center">Astresonance</h1>
 
 # ♬ 開発環境
@@ -12,6 +12,7 @@
 - VSCode (Visual Studio Code)
 
 # ♬ アプリの機能
+- 音楽を聴いて心に浮かんだイメージをタイトルとして表現することで、音楽について感じたことを広く共有することを目的としたアプリです。
 ### 音楽に対してタイトルをつける機能
 投稿された音楽を聴いて思いついたイメージを、タイトルとして表現することができます
 
@@ -41,6 +42,8 @@
 ![](https://user-images.githubusercontent.com/77972881/132297142-c2b8c1a4-967c-4cbf-95b8-429072a822c5.png)
 
 # ♬ データベース設計
+## ER図
+![](https://user-images.githubusercontent.com/77972881/132435037-4fb079be-6f31-4009-80a0-85120f93a8b5.png)
 
 ## Userテーブル
 
