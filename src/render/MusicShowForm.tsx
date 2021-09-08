@@ -4,6 +4,9 @@ import { useForm } from "react-hook-form";
 import { TitleInfo } from "../functions/ShowTitle"
 import { useTitleCreate } from "../functions/CreateTitle";
 import { useMusicDelete } from "../functions/DeleteMusic";
+import { useContext } from "react";
+import { MusicLoading } from "./MusicShow";
+import ConfirmAction, { ConfirmActionInfo, defaultConfirmAction } from "./ConfirmAction";
 
 export type TitleInput = {
   title: string
@@ -22,6 +25,7 @@ export const MusicTitled: React.FC<{userTitle: TitleInfo}> = ({userTitle}) => {
 export const MakeTitleForSignedIn: React.FC<{currentMusicId: string}> = ({currentMusicId}) => {
   const [responseState, titleCreate] = useTitleCreate();
   const { register, handleSubmit, watch, formState: {errors} } = useForm();
+  const setMusicLoading = useContext(MusicLoading);
 
   const onSubmit = (data: TitleInput) => {
         titleCreate(currentMusicId, data);
@@ -29,7 +33,7 @@ export const MakeTitleForSignedIn: React.FC<{currentMusicId: string}> = ({curren
 
   useEffect(() => {
     if(responseState.valid){
-      window.location.reload();
+      setMusicLoading(true);
     }
   }, [responseState])
 
@@ -67,18 +71,29 @@ export const RejectTitleForSignOut: React.FC = () => {
 export const YourPostedMusic: React.FC<{musicId: number, setEditShow: (setShow: boolean)=>void}> = ({musicId, setEditShow}) => {
   const history = useHistory();
   const [deleteResponse, musicDelete] = useMusicDelete();
+  const [actionConfirm, setConfirmAction] = useState(defaultConfirmAction);
+  const confirmMessage = "音楽を削除";
   
   const handleClickDelete = () => {
-    musicDelete(musicId);
+    const confirmShowData: ConfirmActionInfo = {
+      modalShow: true,
+      response: false
+    };
+    setConfirmAction(confirmShowData);
   };
 
   const handleClickEdit = () => {
     setEditShow(true);
   };
+  
+  useEffect(() => {
+    if(actionConfirm.response){
+      musicDelete(musicId);
+    }
+  }, [actionConfirm]);
 
   useEffect(() => {
     if(deleteResponse.valid){
-      alert("音楽を削除しました");
       history.push('/');
     }else{
       if(deleteResponse.id > 0){
@@ -94,6 +109,7 @@ export const YourPostedMusic: React.FC<{musicId: number, setEditShow: (setShow: 
         <button onClick={handleClickEdit} className="border-b hover:text-yellow-300">音楽情報を編集する</button>
         <button onClick={handleClickDelete} className="border-b hover:text-yellow-300">音楽を削除する</button>
       </div>
+      {actionConfirm.modalShow && <ConfirmAction setConfirmAction={setConfirmAction} message={confirmMessage} />}
     </div>
   );
 };

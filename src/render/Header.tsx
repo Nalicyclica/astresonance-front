@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import { CurrentUser, UserInfo } from '../functions/UserInfo';
 import { Link } from 'react-router-dom'
 import UserMenuDrop from './UserMenuDrop'
-import { logo_url } from '../functions/LogoLoad';
 
 const SignOutMenu: React.FC = () => {
   return(
@@ -27,7 +26,7 @@ const Header: React.FC = () => {
 	return (
     <header className="z-50 h-20 sticky top-0 flex justify-between items-center backdrop-filter backdrop-blur-lg backdrop-contrast-75 shadow-header">
       <Link to="/">
-        <img src={logo_url} alt="AstResonance" className="h-16 m-2"></img>
+        <img src={"./img/logo.png"} alt="AstResonance" className="h-16 m-2"></img>
       </Link>
       { userInfo.isSignIn ? <SignInMenu userInfo={userInfo}/> : <SignOutMenu />}
     </header>

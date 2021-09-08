@@ -11,13 +11,11 @@ import UserShow from './UserShow';
 import { useEffect } from 'react';
 import Background from './Background';
 import { CurrentUser, useUserContext } from '../functions/UserInfo';
-import { logoLoad } from '../functions/LogoLoad';
 
 
 const Main: React.FC = () => {
   const {userInfo, setUserInfo} = useUserContext();
-  const img = logoLoad();
-
+  
   useEffect(() => {
     setUserInfo.validateToken();
   },[]);
@@ -44,6 +42,7 @@ const Main: React.FC = () => {
         </CurrentUser.Provider>
       </div>
       <Background />
+      <div id="confirmAction" className="absolute z-50"></div>
     </div>
 	);
 }
