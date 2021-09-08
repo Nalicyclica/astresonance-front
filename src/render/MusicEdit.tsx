@@ -5,10 +5,13 @@ import { useMusicEdit } from "../functions/EditMusic";
 import { selectIds } from "./Home";
 import { MusicInfo } from "../functions/IndexMusic";
 import { genreItems, categoryItems } from "../functions/MusicGenre";
+import { useContext } from "react";
+import { MusicLoading } from "./MusicShow";
 
 const MusicEdit: React.FC<{musicItem: MusicInfo, setEditShow: (setShow: boolean)=>void}> = ({musicItem, setEditShow}) => {
   const [editResponse, musicEdit] = useMusicEdit();
   const { register, handleSubmit, watch, formState: {errors} } = useForm();
+  const setMusicLoading = useContext(MusicLoading);
   const popUpRef: any = useRef();
   const formRef: any = useRef();
   
@@ -26,7 +29,7 @@ const MusicEdit: React.FC<{musicItem: MusicInfo, setEditShow: (setShow: boolean)
   useEffect(() => {
     if(editResponse.valid){
       alert("音楽情報を変更しました");
-      window.location.reload();
+      setMusicLoading(true);
     }else{
       if(editResponse.id > 0){
         alert("変更できませんでした");

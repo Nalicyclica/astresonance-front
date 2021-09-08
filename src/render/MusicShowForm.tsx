@@ -4,6 +4,8 @@ import { useForm } from "react-hook-form";
 import { TitleInfo } from "../functions/ShowTitle"
 import { useTitleCreate } from "../functions/CreateTitle";
 import { useMusicDelete } from "../functions/DeleteMusic";
+import { useContext } from "react";
+import { MusicLoading } from "./MusicShow";
 
 export type TitleInput = {
   title: string
@@ -22,6 +24,7 @@ export const MusicTitled: React.FC<{userTitle: TitleInfo}> = ({userTitle}) => {
 export const MakeTitleForSignedIn: React.FC<{currentMusicId: string}> = ({currentMusicId}) => {
   const [responseState, titleCreate] = useTitleCreate();
   const { register, handleSubmit, watch, formState: {errors} } = useForm();
+  const setMusicLoading = useContext(MusicLoading);
 
   const onSubmit = (data: TitleInput) => {
         titleCreate(currentMusicId, data);
@@ -29,7 +32,7 @@ export const MakeTitleForSignedIn: React.FC<{currentMusicId: string}> = ({curren
 
   useEffect(() => {
     if(responseState.valid){
-      window.location.reload();
+      setMusicLoading(true);
     }
   }, [responseState])
 

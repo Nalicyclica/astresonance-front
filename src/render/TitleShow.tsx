@@ -1,6 +1,6 @@
 import React, {useEffect, useState, useContext} from "react";
 import { Link } from "react-router-dom";
-import {CurrentShow, defaultShow} from './MusicShow'
+import {CurrentShow, defaultShow, MusicLoading} from './MusicShow'
 import { CurrentUser } from "../functions/UserInfo";
 import {AiOutlineArrowRight} from 'react-icons/ai'
 import { useTitleDelete } from "../functions/DeleteTitle";
@@ -11,6 +11,7 @@ import CommentCreate from "./CommentCreate";
 
 const TitleDelete: React.FC<{titleId: number}> = ({titleId}) => {
   const [deleteResponse, titleDelete] = useTitleDelete();
+  const setMusicLoading = useContext(MusicLoading);
   
   const handleClickDelete = () => {
     titleDelete(titleId);
@@ -19,7 +20,7 @@ const TitleDelete: React.FC<{titleId: number}> = ({titleId}) => {
   useEffect(() => {
     if(deleteResponse.valid){
       alert("タイトルを削除しました");
-      window.location.reload();
+      setMusicLoading(true);
     }else{
       if(deleteResponse.id > 0){
         alert("削除できませんでした");
