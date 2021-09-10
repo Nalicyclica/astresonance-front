@@ -43,6 +43,7 @@ const Main: React.FC = () => {
       </div>
       <Background />
       <div id="confirmAction" className="absolute z-50"></div>
+      <div id="loadingNow" className="absolute z-50"></div>
     </div>
 	);
 }
