@@ -7,7 +7,7 @@ import { useContext } from 'react';
 import { CurrentUser } from '../functions/UserInfo';
 
 const UserShow: React.FC = () => {
-  const { userInfo, setUserInfo } = useContext(CurrentUser);
+  const { userInfo} = useContext(CurrentUser);
   const [{profile, musicItems, titleItems, commentItems, response}, userShow] = useUserShow();
   const history = useHistory();
   const [selectTab, setSelectTab] = useState<number>(0);

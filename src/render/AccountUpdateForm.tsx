@@ -80,7 +80,7 @@ export const EmailUpdateForm: React.FC<{email: string, updateAccount:(value: Upd
 
 export const PasswordUpdateForm: React.FC<{updateAccount:(value: UpdateAccountArg)=> void, setFormShow: (value: boolean) => void}> = ({updateAccount, setFormShow}) => {
   const { register, handleSubmit, watch, formState: {errors} } = useForm();
-  const { userInfo, setUserInfo } = useContext(CurrentUser);
+  const {setUserInfo} = useContext(CurrentUser);
   const popUpRef: any = useRef();
   const formRef: any = useRef();
 

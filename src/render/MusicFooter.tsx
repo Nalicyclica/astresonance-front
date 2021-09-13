@@ -2,9 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { MusicInfo } from "../functions/IndexMusic";
 import { UserTitleInfo } from "../functions/ShowMusic";
-import { UserInfo } from "../functions/UserInfo";
+import { CurrentUserInfo } from "../functions/UserInfo";
 
-const MusicFooter: React.FC<{musicItem: MusicInfo, userInfo: UserInfo, userTitle: UserTitleInfo}> = ({musicItem, userInfo, userTitle}) => {
+const MusicFooter: React.FC<{musicItem: MusicInfo, userInfo: CurrentUserInfo, userTitle: UserTitleInfo}> = ({musicItem, userInfo, userTitle}) => {
   return(
     <div className= "flex justify-between items-center p-1 h-20 w-screen absolute bottom-0 backdrop-filter backdrop-blur-lg backdrop-contrast-75 shadow-header">
       <div className="flex justify-start items-center">

@@ -25,7 +25,7 @@ const MusicShow: React.FC = () => {
   const [{musicItem, titleItems, userTitle, response}, musicShow] = useMusicShow();
   const [ currentTitleShow, setTitleShow ] = useState<CurrentShow>(defaultShow);
   const [ musicEditShow, setEditShow ] = useState<boolean>(false);
-  const { userInfo, setUserInfo} = useContext(CurrentUser);
+  const {userInfo} = useContext(CurrentUser);
   const {id: currentMusicId, title_id: initialTitleId} = useParams<{id: string, title_id: string}>();
   const [ loadingFlag, setMusicLoading ] = useState<boolean>(true);
   

@@ -12,7 +12,7 @@ import TitleDelete from "./TitleDelete";
 const TitleShow: React.FC<{titleId: number, musicId: number, setTitleShow: (setShow: CurrentShow)=> void}> = ({titleId, musicId, setTitleShow}) => {
   const [{titleItem, titleResponse}, titleShow] = useTitleShow();
   const [{commentItems, commentResponse}, {commentIndex, commentCreate, removeCommentItem}] = useCommentIndex();
-  const {userInfo, setUserInfo} = useContext(CurrentUser);
+  const {userInfo} = useContext(CurrentUser);
 
   const closeTitleShow = () => {
     setTitleShow(defaultShow);

@@ -18,7 +18,7 @@ const emptyFile = new File([],"",{});
 
 const MusicCreate: React.FC = () => {
   const [responseState, musicCreate] = useMusicCreate();
-  const { userInfo, setUserInfo } = useContext(CurrentUser);
+  const {userInfo} = useContext(CurrentUser);
   const history = useHistory();
   const {register, handleSubmit, watch, formState: {errors}, setValue} = useForm();
   const [selectedMusic, setSelectedMusic] = useState<File>(emptyFile);

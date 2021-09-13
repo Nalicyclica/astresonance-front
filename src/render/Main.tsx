@@ -14,7 +14,7 @@ import { CurrentUser, useUserContext } from '../functions/UserInfo';
 
 
 const Main: React.FC = () => {
-  const {userInfo, setUserInfo} = useUserContext();
+  const {userInfo, loading, result, setUserInfo} = useUserContext();
   
   useEffect(() => {
     setUserInfo.validateToken();
@@ -23,7 +23,7 @@ const Main: React.FC = () => {
 	return (
     <div className="inline-flex">
       <div className="flex flex-col text-yellow-400 font-sawarabi z-30">
-        <CurrentUser.Provider value = {{userInfo, setUserInfo}}>
+        <CurrentUser.Provider value = {{userInfo, loading, result, setUserInfo}}>
           <Router>
             <Header />
             <div className="w-screen h-main min-w-120 overflow-auto">

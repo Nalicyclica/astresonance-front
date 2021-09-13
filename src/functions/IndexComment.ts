@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { AuthHeaders, getAuth } from "./Auth";
-import { UserInfo } from "./UserInfo";
+import { CurrentUserInfo } from "./UserInfo";
 
 export type CommentInfo = {
   id: number
@@ -66,7 +66,7 @@ export const useCommentIndex = () => {
     };
   };
 
-  const commentCreate = async (titleId: number, comment: {text: string}, userInfo: UserInfo) => {
+  const commentCreate = async (titleId: number, comment: {text: string}, userInfo: CurrentUserInfo) => {
     const url: string = `${process.env.REACT_APP_SERVER_DOMAIN}/titles/${titleId}/comments`;
     const currentAuth: AuthHeaders = getAuth();
     try {
