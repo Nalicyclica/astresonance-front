@@ -54,14 +54,14 @@ export const useMusicIndex = () => {
         musicItemsData.push(data);
       });
       const musicInfoData: MusicItemsInfo = {
-        ...successResponse("requested"),
+        ...successResponse(),
         musicItems: musicItemsData
       };
       setMusicItems(musicInfoData);
     } catch(errors){
       const musicInfoData: MusicItemsInfo = {
         ...defaultMusicItemsInfo,
-        ...errorResponse(errors, "requested")
+        ...errorResponse(errors)
       };
       setMusicItems(musicInfoData);
     };

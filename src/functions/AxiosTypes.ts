@@ -25,7 +25,7 @@ export const loadingResponse: ResponseInfo = {
   result: {...defaultResponseResult}
 };
 
-export const successResponse = (action: string): ResponseInfo => {
+export const successResponse = (action: string = "requested"): ResponseInfo => {
   const successResponseData: ResponseInfo = {
     loading: false,
     result: {
@@ -37,7 +37,7 @@ export const successResponse = (action: string): ResponseInfo => {
   return successResponseData;
 };
 
-export const errorResponse = (errors: any, action: string): ResponseInfo => {
+export const errorResponse = (errors: any, action: string = "requested"): ResponseInfo => {
   const errorResponseData: ResponseInfo = {
     loading: false,
     result: {
