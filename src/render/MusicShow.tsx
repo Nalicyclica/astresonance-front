@@ -35,9 +35,7 @@ const MusicShow: React.FC = () => {
   },[currentMusicId]);
 
   useEffect(()=>{
-    console.log("loading");
     if(loadingFlag==true){
-      console.log("init");
       musicShow(currentMusicId);
     }
   },[loadingFlag]);

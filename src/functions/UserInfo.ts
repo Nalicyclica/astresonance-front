@@ -3,7 +3,7 @@ import axios from "axios";
 import { AuthHeaders, AuthToken, getAuth, setAuth, deleteAuth, BasicAuthToken, getBasicAuth } from "./Auth";
 import { SignInInfo } from "../render/SignIn"
 import { SignUpInfo } from "../render/SignUp"
-import { ResponseInfo, defaultResponse, successResponse, errorResponse } from "./AxiosTypes";
+import { ResponseInfo, defaultResponse, successResponse, errorResponse, loadingResponse } from "./AxiosTypes";
 
 export type CurrentUserInfo = {
   id: number
@@ -34,6 +34,7 @@ const useUserInfo = () => {
   const [userInfo, setUserInfo] = useState<UserInfo>(defaultUserInfo);
   
   const validateToken = async () => {
+    setUserInfo(prev => prev = {...prev, ...loadingResponse});
     const currentAuth: AuthHeaders = getAuth();
     const url: string = `${process.env.REACT_APP_SERVER_DOMAIN}/auth/validate_token`;
     try{  
@@ -58,6 +59,7 @@ const useUserInfo = () => {
   };
   
   const signIn = async (inputInfo: SignInInfo) => {
+    setUserInfo(prev => prev = {...prev, ...loadingResponse});
     const basicAuth: BasicAuthToken = getBasicAuth();
     const url: string = `${process.env.REACT_APP_SERVER_DOMAIN}/auth/sign_in`;
     try {
@@ -94,6 +96,7 @@ const useUserInfo = () => {
   };
   
   const signUp = async (inputInfo: SignUpInfo) => {
+    setUserInfo(prev => prev = {...prev, ...loadingResponse});
     const basicAuth: BasicAuthToken = getBasicAuth();
     const url: string = `${process.env.REACT_APP_SERVER_DOMAIN}/auth/`;
     try {
@@ -129,17 +132,14 @@ const useUserInfo = () => {
   };
   
   const signOut = async () => {
+    setUserInfo(prev => prev = {...prev, ...loadingResponse});
     const currentAuth: AuthHeaders = getAuth();
     const url: string = `${process.env.REACT_APP_SERVER_DOMAIN}/auth/sign_out`;
     try {
       const response = await axios.delete(url,{ headers: currentAuth});
-      const userInfoData: CurrentUserInfo = {
-        ...response.data.data,
-        isSignIn: false
-      };
       const userData: UserInfo = {
         ...successResponse("signOut"),
-        userInfo: userInfoData
+        userInfo: {...defaultCurrentUser}
       };
       setUserInfo(userData);
       deleteAuth();
