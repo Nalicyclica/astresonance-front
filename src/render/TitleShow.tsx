@@ -8,10 +8,11 @@ import { useCommentIndex } from "../functions/IndexComment";
 import CommentList from "./CommentList";
 import CommentCreate from "./CommentCreate";
 import TitleDelete from "./TitleDelete";
+import LoadingNow from "./LoadingNow";
 
 const TitleShow: React.FC<{titleId: number, musicId: number, setTitleShow: (setShow: CurrentShow)=> void}> = ({titleId, musicId, setTitleShow}) => {
-  const [{titleItem, titleResponse}, titleShow] = useTitleShow();
-  const [{commentItems, commentResponse}, {commentIndex, commentCreate, removeCommentItem}] = useCommentIndex();
+  const [{titleItem, loading: titleLoading, result: titleResult}, titleShow] = useTitleShow();
+  const [{commentItems, loading: commentLoading, result: commentResult}, {commentIndex, commentCreate, removeCommentItem}] = useCommentIndex();
   const {userInfo} = useContext(CurrentUser);
 
   const closeTitleShow = () => {
@@ -19,16 +20,16 @@ const TitleShow: React.FC<{titleId: number, musicId: number, setTitleShow: (setS
   };
 
   useEffect(()=>{
-    if(titleResponse.valid){
+    if(titleResult.valid){
       if(titleItem.music_id != musicId){
         setTitleShow(defaultShow);
       }
     }else{
-      if(titleResponse.errors.errors){
+      if(titleResult.errors){
         setTitleShow(defaultShow);
       }
     }
-  },[titleResponse]);
+  },[titleResult]);
   
   useEffect(()=>{
     if(!userInfo.isSignIn){
@@ -53,12 +54,14 @@ const TitleShow: React.FC<{titleId: number, musicId: number, setTitleShow: (setS
           </div>
           { userInfo.id == titleItem.user_id && <TitleDelete titleId={titleItem.id} />}
           <CommentList commentItems={commentItems} currentUserId={userInfo.id} removeCommentItem={removeCommentItem} />
+          { commentResult.errors && <p className="text-red-400">コメントの読み込みに失敗しました</p>}
         </div>
         <CommentCreate titleId={titleItem.id} userInfo={userInfo} commentCreate={commentCreate} />
       </div>
       <button className="text-4xl text-yellow-400 hover:text-yellow-100">
         <AiOutlineArrowRight onClick={closeTitleShow} className="absolute top-4 left-4" />
       </button>
+      { (titleLoading || commentLoading) && <LoadingNow />}
     </div>
   );
 };
