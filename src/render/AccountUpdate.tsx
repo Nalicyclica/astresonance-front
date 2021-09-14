@@ -3,9 +3,10 @@ import { useHistory } from 'react-router-dom';
 import { useAccountUpdate } from '../functions/UpdateAccount';
 import { CurrentUser } from '../functions/UserInfo';
 import { IconUpdateForm, EmailUpdateForm, PasswordUpdateForm, IntroduceUpdateForm } from './AccountUpdateForm';
+import LoadingNow from './LoadingNow';
 
 const AccountUpdate: React.FC = () => {
-  const [accountItem, {getAccount, updateAccount}] = useAccountUpdate();
+  const [{accountItem, loading, result}, {getAccount, updateAccount}] = useAccountUpdate();
   const { userInfo, setUserInfo } = useContext(CurrentUser);
   const history = useHistory();
   const [iconFormShow, setIconShow] = useState<boolean>(false);
@@ -22,17 +23,17 @@ const AccountUpdate: React.FC = () => {
   },[]);
 
   useEffect(() => {
-    if(accountItem.response.valid){
+    if(result.valid){
       setIconShow(false);
       setEmailShow(false);
       setPasswordShow(false);
       setIntroduceShow(false);
     }else{
-      if(accountItem.response.errors.errors){
+      if(result.errors){
         alert("入力した情報が正しくありません");
       }
     }
-  },[accountItem]);
+  },[result]);
 
   const popUpIconForm = () => {
     setIconShow(true);
@@ -96,6 +97,7 @@ const AccountUpdate: React.FC = () => {
       {emailFormShow && <EmailUpdateForm email={accountItem.email} updateAccount={updateAccount} setFormShow={setEmailShow} />}
       {passwordFormShow && <PasswordUpdateForm updateAccount={updateAccount} setFormShow={setPasswordShow} />}
       {introduceFormShow && <IntroduceUpdateForm introduce={accountItem.introduce} updateAccount={updateAccount} setFormShow={setIntroduceShow} />}
+      { loading && <LoadingNow /> }
     </div>
 	);
 }

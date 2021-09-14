@@ -1,11 +1,12 @@
 import { useState } from "react";
 import axios from "axios";
 import { AuthHeaders, AuthToken, getAuth, setAuth } from "./Auth";
-import { UserInfo } from "./UserInfo";
+import { CurrentUserInfo, UserInfo } from "./UserInfo";
+import { defaultResponse, errorResponse, loadingResponse, ResponseInfo, successResponse } from "./AxiosTypes";
 
 export type UpdateAccountArg = {
   inputInfo: AccountInfo
-  setUserInfo: (value: UserInfo) => void
+  setUserInfo: React.Dispatch<React.SetStateAction<UserInfo>>
 };
 
 export type AccountInfo = {
@@ -17,59 +18,55 @@ export type AccountInfo = {
   introduce: string
 };
 
-type AccountItemInfo = AccountInfo & {
-  response: {
-    valid: boolean
-    errors: any
-  }
+type AccountItemInfo = ResponseInfo & {
+  accountItem: AccountInfo
 };
 
-const defaultAccountInfo: AccountItemInfo = {
+const defaultAccountInfo: AccountInfo = {
   id: -1,
   nickname: "",
   email: "",
   password: "",
   icon_color: "",
   introduce: "",
-  response:{
-    valid: false,
-    errors: {}
-  }
+};
+
+export const defaultAccountItem: AccountItemInfo = {
+  ...defaultResponse,
+  accountItem: {...defaultAccountInfo}
 };
 
 export const useAccountUpdate = () => {
-  const [accountItem, setAccountItem] = useState<AccountItemInfo>(defaultAccountInfo);
+  const [accountItem, setAccountItem] = useState<AccountItemInfo>(defaultAccountItem);
 
   const getAccount = async () => {
+    setAccountItem(prev => prev = {...prev, ...loadingResponse});
     const currentAuth: AuthHeaders = getAuth();
     const url: string = `${process.env.REACT_APP_SERVER_DOMAIN}/auth/validate_token`
     try{  
       const response = await axios.get(url,{headers: currentAuth});
       const accountData: AccountItemInfo = {
-        ...response.data.data,
-        response:{
-          valid: true,
-          errors: {}
-        }};
-        setAccountItem(accountData);
-      }catch (errors) {
-        const accountData: AccountItemInfo = {
-          ...defaultAccountInfo,
-          response:{
-            valid: false,
-            errors: {errors}
-          }};
-          setAccountItem(accountData);
-        }
+        ...successResponse("get"),
+        accountItem: {...response.data.data}
       };
-      
-      const updateAccount = async ({inputInfo, setUserInfo} :UpdateAccountArg) => {
-        const url: string = `${process.env.REACT_APP_SERVER_DOMAIN}/auth/`
-        const currentAuth: AuthHeaders = getAuth();
-        try {
-          const response = await axios.patch(
-            url,
-            inputInfo,
+      setAccountItem(accountData);
+    }catch (errors) {
+      const accountData: AccountItemInfo = {
+        ...defaultAccountItem,
+        ...errorResponse(errors, "get")  
+      };
+      setAccountItem(accountData);
+    }
+  };
+  
+  const updateAccount = async ({inputInfo, setUserInfo} :UpdateAccountArg) => {
+    setAccountItem(prev => prev = {...prev, ...loadingResponse});
+    const url: string = `${process.env.REACT_APP_SERVER_DOMAIN}/auth/`
+    const currentAuth: AuthHeaders = getAuth();
+    try {
+      const response = await axios.patch(
+        url,
+        inputInfo,
             {headers: currentAuth}
           );
         const headerInfo = {...response.headers};
@@ -80,26 +77,19 @@ export const useAccountUpdate = () => {
         };
         setAuth(inputAuth);
 
-        const userData: UserInfo = {
+        const userData: CurrentUserInfo = {
           ...response.data.data,
           isSignIn: true
-        }
-        setUserInfo(userData);
+        };
+        setUserInfo(prev => prev = {...prev, userInfo: userData});
         
         const accountData: AccountItemInfo = {
-          ...response.data.data,
-          response: {
-            valid: true,
-            errors: {}
-          }
+          ...successResponse("update"),
+          accountItem: {...response.data.data},
         };
         setAccountItem(accountData);
       } catch (errors){
-        const errorResponse = {
-          valid: false,
-          errors: {errors}
-        };
-        setAccountItem(prev => prev = {...prev, response: errorResponse});
+        setAccountItem(prev => prev = {...prev, ...errorResponse(errors, "update")});
       };
     };
     return [accountItem, {getAccount, updateAccount}] as const;
