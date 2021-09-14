@@ -31,6 +31,7 @@ const MusicEdit: React.FC<{musicItem: MusicInfo, setEditShow: (setShow: boolean)
     if(result.valid){
       alert("音楽情報を変更しました");
       setMusicLoading(true);
+      setEditShow(false);
     }else{
       if(result.action != ""){
         alert("変更できませんでした");
