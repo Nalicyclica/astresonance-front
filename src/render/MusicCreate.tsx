@@ -7,6 +7,7 @@ import { useMusicCreate } from '../functions/CreateMusic';
 import { useContext } from 'react';
 import { CurrentUser } from '../functions/UserInfo';
 import { requiredErrorMessage } from '../functions/FormFunc';
+import LoadingNow from './LoadingNow';
 
 export type PostMusicInfo = {
   music: File
@@ -17,8 +18,8 @@ export type PostMusicInfo = {
 const emptyFile = new File([],"",{});
 
 const MusicCreate: React.FC = () => {
-  const [responseState, musicCreate] = useMusicCreate();
-  const { userInfo, setUserInfo } = useContext(CurrentUser);
+  const [{id, loading, result}, musicCreate] = useMusicCreate();
+  const {userInfo} = useContext(CurrentUser);
   const history = useHistory();
   const {register, handleSubmit, watch, formState: {errors}, setValue} = useForm();
   const [selectedMusic, setSelectedMusic] = useState<File>(emptyFile);
@@ -51,18 +52,20 @@ const MusicCreate: React.FC = () => {
   };
   
   useEffect(() => {
-    if(responseState.valid){
+    if(result.valid){
       history.push('/');
     }else{
-      console.log(responseState.errors.errors);
+      if(result.action != ""){
+        alert("音楽を投稿できませんでした");
+      }
     }
-  }, [responseState]);
+  }, [result]);
   
 	return (
     <div className="flex justify-center backdrop-filter backdrop-blur">
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col justify-start items-center p-6 w-120 mb-12">
         <h1 className="text-2xl mt-8 mb-2 px-4 text-yellow-400 border-b border-yellow-400">音楽を投稿してください</h1>
-        {responseState.errors.errors && <p className="text-red-600">音楽を投稿できませんでした</p>}
+        {result.errors && <p className="text-red-600">音楽を投稿できませんでした</p>}
         <div className="mt-6 mb-4">
           <div {...getRootProps()} className="flex justify-center items-center w-96 h-48 bg-gray-300 text-black rounded-md shadow-bright hover:shadow-gold hover:bg-gray-100">
           <input {...getInputProps()} />
@@ -89,6 +92,7 @@ const MusicCreate: React.FC = () => {
         </label>
         <input type="submit" value="音楽を投稿する" className="text-xl my-4 px-5 py-3 bg-gray-900 rounded-md text-yellow-400 shadow-bright hover:shadow-gold"/>
       </form>
+      { loading && <LoadingNow />}
     </div>
 	);
 }

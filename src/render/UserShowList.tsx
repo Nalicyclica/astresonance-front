@@ -5,7 +5,7 @@ import { PostedTitleInfo, TitleCommentInfo, TitledMusicInfo } from "../functions
 import { CurrentUser } from '../functions/UserInfo';
 
 export const UserMusicList: React.FC<{musicItems: TitledMusicInfo[]}> = ({musicItems})=> {
-  const { userInfo, setUserInfo } = useContext(CurrentUser);
+  const {userInfo} = useContext(CurrentUser);
   return(
     <div  className="flex flex-col items-center py-4 text-gray-100">
       { musicItems.map((musicItem) =>

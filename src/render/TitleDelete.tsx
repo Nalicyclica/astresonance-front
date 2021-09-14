@@ -2,9 +2,10 @@ import React, {useState, useEffect, useContext} from "react";
 import {MusicLoading} from './MusicShow'
 import { useTitleDelete } from "../functions/DeleteTitle";
 import ConfirmAction, { ConfirmActionInfo, defaultConfirmAction } from "./ConfirmAction";
+import LoadingNow from "./LoadingNow";
 
 const TitleDelete: React.FC<{titleId: number}> = ({titleId}) => {
-  const [deleteResponse, titleDelete] = useTitleDelete();
+  const [{id, loading, result}, titleDelete] = useTitleDelete();
   const [actionConfirm, setConfirmAction] = useState<ConfirmActionInfo>(defaultConfirmAction)
   const setMusicLoading = useContext(MusicLoading);
   const confirmMessage: string = "タイトルを削除"
@@ -24,14 +25,14 @@ const TitleDelete: React.FC<{titleId: number}> = ({titleId}) => {
   }, [actionConfirm]);
 
   useEffect(() => {
-    if(deleteResponse.valid){
+    if(result.valid){
       setMusicLoading(true);
     }else{
-      if(deleteResponse.id > 0){
+      if(result.action != ""){
         alert("削除できませんでした");
       }
     }
-  }, [deleteResponse]);
+  }, [result]);
 
   return(
     <div>
@@ -39,6 +40,7 @@ const TitleDelete: React.FC<{titleId: number}> = ({titleId}) => {
         タイトルを削除する
       </button>
       {actionConfirm.modalShow && <ConfirmAction setConfirmAction={setConfirmAction} message={confirmMessage} />}
+      { loading && <LoadingNow />}
     </div>
   );
 };

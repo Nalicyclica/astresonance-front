@@ -6,7 +6,7 @@ import { useContext } from "react";
 import { CurrentUser } from "../functions/UserInfo";
 
 const UserMenuDrop: React.FC = () => {
-  const { userInfo, setUserInfo } = useContext(CurrentUser);
+  const {userInfo} = useContext(CurrentUser);
   const [isOpen, setOpen] = useState<boolean>(false);
   const menuDropRef: any = useRef();
   const history = useHistory();

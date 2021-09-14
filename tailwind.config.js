@@ -25,6 +25,7 @@ module.exports = {
         blink: 'blink 2s ease-in-out infinite alternate',
         darkblink: 'darkblink 10s linear infinite',
         brightblink: 'brightblink 2s linear infinite',
+        spin2s: 'spin 2s linear infinite',
         spin3s: 'spin 3s linear infinite',
         spin5s: 'spin 5s linear infinite',
         spin3sInv: 'spin 3s linear infinite reverse',

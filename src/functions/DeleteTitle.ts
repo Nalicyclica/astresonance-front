@@ -1,11 +1,12 @@
 import { useState } from "react";
 import axios from "axios";
 import { AuthHeaders, getAuth } from "./Auth";
-import { responseInfo, defaultResponseInfo } from "./DeleteMusic";
+import { defaultIdResponse, errorResponse, IdResponseInfo, loadingResponse, successResponse } from "./AxiosTypes";
 
 export const useTitleDelete = () => {
-  const [responseState, setResponseInfo] = useState<responseInfo>(defaultResponseInfo);
+  const [responseState, setResponseInfo] = useState<IdResponseInfo>(defaultIdResponse);
   const titleDelete = async (titleId: number) => {
+    setResponseInfo(prev => prev = {...prev, ...loadingResponse});
     const currentAuth: AuthHeaders = getAuth();
     const url: string = `${process.env.REACT_APP_SERVER_DOMAIN}/titles/${titleId}`
     try {
@@ -13,17 +14,15 @@ export const useTitleDelete = () => {
         url,
         { headers: currentAuth}
       );
-      const responseData: responseInfo = {
-        valid: true,
-        id: titleId,
-        errors: {}
+      const responseData: IdResponseInfo = {
+        ...successResponse(),
+        id: response.data.id
       };
       setResponseInfo(responseData);
-    } catch (error){
-      const responseData: responseInfo = {
-        valid: false,
-        id: titleId,
-        errors: {}
+    } catch (errors) {
+      const responseData: IdResponseInfo = {
+        ...errorResponse(errors),
+        id: -1
       };
       setResponseInfo(responseData);
     };

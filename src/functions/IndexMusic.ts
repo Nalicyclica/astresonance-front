@@ -3,6 +3,7 @@ import axios from "axios";
 import { BasicAuthToken, getBasicAuth } from "./Auth";
 import { selectIds } from "../render/Home";
 import { getGenreName, getCategoryName } from "./MusicGenre";
+import { defaultResponse, errorResponse, loadingResponse, ResponseInfo, successResponse } from "./AxiosTypes";
 
 export type MusicInfo = {
   id: number
@@ -16,22 +17,20 @@ export type MusicInfo = {
   icon_color: string
 };
 
-type MusicItemsInfo = {
+type MusicItemsInfo = ResponseInfo & {
   musicItems: MusicInfo[]
-  valid: boolean
-  errors: any
 };
 
 const defaultMusicItemsInfo: MusicItemsInfo = {
-  musicItems: [],
-  valid: false,
-  errors: {}
+  ...defaultResponse,
+  musicItems: []
 };
 
 export const useMusicIndex = () => {
   const [musicItems, setMusicItems] = useState<MusicItemsInfo>(defaultMusicItemsInfo);
 
   const musicIndex = async (idParams: selectIds) => {
+    setMusicItems(prev => prev = {...prev, ...loadingResponse});
     let params: any = {...idParams};
     let basicAuth: BasicAuthToken = getBasicAuth();
     const url: string = `${process.env.REACT_APP_SERVER_DOMAIN}/musics/`
@@ -54,17 +53,15 @@ export const useMusicIndex = () => {
         data.categoryName = getCategoryName(data.category_id);
         musicItemsData.push(data);
       });
-      const musicInfoData = {
-        musicItems: musicItemsData,
-        valid: true,
-        errors: {}
+      const musicInfoData: MusicItemsInfo = {
+        ...successResponse(),
+        musicItems: musicItemsData
       };
       setMusicItems(musicInfoData);
     } catch(errors){
-      const musicInfoData = {
+      const musicInfoData: MusicItemsInfo = {
         ...defaultMusicItemsInfo,
-        valid: false,
-        errors: {errors: errors}
+        ...errorResponse(errors)
       };
       setMusicItems(musicInfoData);
     };

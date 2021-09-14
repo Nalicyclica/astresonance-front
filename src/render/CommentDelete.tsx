@@ -2,10 +2,10 @@ import React, {useEffect, useState} from "react";
 import { BsFillTrashFill } from "react-icons/bs";
 import { useCommentDelete } from "../functions/DeleteComment";
 import ConfirmAction, { ConfirmActionInfo, defaultConfirmAction } from "./ConfirmAction";
-
+import LoadingNow from "./LoadingNow";
 
 const CommentDelete: React.FC<{commentId: number, removeCommentItem: (commentId: number)=>void}> = ({commentId, removeCommentItem}) => {
-  const [deleteResponse, commentDelete] = useCommentDelete();
+  const [{id, loading, result}, commentDelete] = useCommentDelete();
   const [actionConfirm, setConfirmAction] = useState(defaultConfirmAction);
   const confirmMessage: string = "コメントを削除";
   
@@ -24,14 +24,14 @@ const CommentDelete: React.FC<{commentId: number, removeCommentItem: (commentId:
   }, [actionConfirm]);
 
   useEffect(() => {
-    if(deleteResponse.valid){
-      removeCommentItem(commentId);
+    if(result.valid){
+      removeCommentItem(id);
     }else{
-      if(deleteResponse.id > 0){
+      if(result.action != ""){
         alert("削除できませんでした");
       }
     }
-  }, [deleteResponse]);
+  }, [result]);
 
   return(
     <div className="mx-4">
@@ -39,6 +39,7 @@ const CommentDelete: React.FC<{commentId: number, removeCommentItem: (commentId:
         <BsFillTrashFill size={20} className="hover:text-yellow-400"/>
       </button>
       {actionConfirm.modalShow && <ConfirmAction setConfirmAction={setConfirmAction} message={confirmMessage} />}
+      { loading && <LoadingNow />}
     </div>
   );
 };

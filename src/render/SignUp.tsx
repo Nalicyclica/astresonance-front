@@ -4,6 +4,7 @@ import { useHistory } from 'react-router';
 import { CurrentUser } from '../functions/UserInfo';
 import ErrorList from './ErrorList';
 import { emailErrorMessage, emailValidate, passwordConfirmErrorMessage, passwordErrorMessage, passwordValidate, preventEnter, requiredErrorMessage } from '../functions/FormFunc';
+import LoadingNow from './LoadingNow';
 
 export type SignUpInfo = {
   email: string
@@ -16,7 +17,7 @@ export type SignUpInfo = {
 
 const SignUp: React.FC = () => {
   const history = useHistory();
-  const { userInfo, setUserInfo } = useContext(CurrentUser);
+  const { userInfo, loading, result, setUserInfo } = useContext(CurrentUser);
   const { register, handleSubmit, watch, formState: {errors} } = useForm();
     
   const onSubmit = (data: SignUpInfo) => {
@@ -25,11 +26,11 @@ const SignUp: React.FC = () => {
   };
   
   useEffect(() => {
-    if(userInfo.action == "signUp"){
-      if(userInfo.valid){
+    if(result.action == "signUp"){
+      if(result.valid){
         history.goBack();
       }else{
-        console.log(userInfo.errors);
+        console.log(result.errors);
       }
     }else if(userInfo.isSignIn){
       history.push('/');
@@ -40,7 +41,7 @@ const SignUp: React.FC = () => {
     <div className="flex-grow backdrop-filter backdrop-blur-sm">
       <form onKeyPress={(e) => preventEnter(e)} onSubmit={handleSubmit(onSubmit)} className="flex flex-col justify-start items-center text-gray-100">
         <h1 className="text-2xl mt-8 mb-6 px-4 text-yellow-300 border-b border-yellow-300">ユーザー情報を入力して下さい</h1>
-        { userInfo.action=="signUp" && !userInfo.valid && <ErrorList errors={userInfo.errors.response.data.errors.full_messages}/>}
+        { result.action=="signUp" && !result.valid && <ErrorList errors={result.errors.response.data.errors.full_messages}/>}
         <div className="w-64">
           <div className="mb-4">
             <p className="w-full text-shadow-black">ニックネーム:</p>
@@ -74,6 +75,7 @@ const SignUp: React.FC = () => {
           </div>
         </div>
       </form>
+      { loading && <LoadingNow />}
     </div>
 	);
 }

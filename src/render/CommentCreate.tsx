@@ -1,8 +1,8 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { UserInfo } from "../functions/UserInfo";
+import { CurrentUserInfo } from "../functions/UserInfo";
 
-const CommentCreate: React.FC<{titleId: number, userInfo: UserInfo, commentCreate: (id: number, data: {text: string}, userInfo: UserInfo)=>void}> = ({titleId, userInfo, commentCreate}) => {
+const CommentCreate: React.FC<{titleId: number, userInfo: CurrentUserInfo, commentCreate: (id: number, data: {text: string}, userInfo: CurrentUserInfo)=>void}> = ({titleId, userInfo, commentCreate}) => {
   const { register, handleSubmit, watch, formState: {errors} } = useForm();
   
   const onSubmit = (data: {text: string}) => {

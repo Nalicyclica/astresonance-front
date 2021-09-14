@@ -8,6 +8,7 @@ import TitleList from "./TitleList"
 import { MusicTitled, MakeTitleForSignedIn, RejectTitleForSignOut, YourPostedMusic } from "./MusicShowForm";
 import MusicFooter from "./MusicFooter";
 import ReactAudioPlayer from "react-audio-player";
+import LoadingNow from "./LoadingNow";
 
 export type CurrentShow = {
   showFlag: boolean
@@ -22,10 +23,10 @@ export const defaultShow: CurrentShow = {
 export const MusicLoading = React.createContext({} as React.Dispatch<React.SetStateAction<boolean>>);
 
 const MusicShow: React.FC = () => {
-  const [{musicItem, titleItems, userTitle, response}, musicShow] = useMusicShow();
+  const [{musicItem, titleItems, userTitle, loading, result}, musicShow] = useMusicShow();
   const [ currentTitleShow, setTitleShow ] = useState<CurrentShow>(defaultShow);
   const [ musicEditShow, setEditShow ] = useState<boolean>(false);
-  const { userInfo, setUserInfo} = useContext(CurrentUser);
+  const {userInfo} = useContext(CurrentUser);
   const {id: currentMusicId, title_id: initialTitleId} = useParams<{id: string, title_id: string}>();
   const [ loadingFlag, setMusicLoading ] = useState<boolean>(true);
   
@@ -34,9 +35,7 @@ const MusicShow: React.FC = () => {
   },[currentMusicId]);
 
   useEffect(()=>{
-    console.log("loading");
     if(loadingFlag==true){
-      console.log("init");
       musicShow(currentMusicId);
     }
   },[loadingFlag]);
@@ -53,7 +52,7 @@ const MusicShow: React.FC = () => {
       setEditShow(false);
     }
     setMusicLoading(false);
-  },[response]);
+  },[result]);
   
   return (
     <div>
@@ -61,7 +60,7 @@ const MusicShow: React.FC = () => {
       <div className="flex justify-center h-home">
         <div className= "flex flex-col justify-between items-center my-2">
           <div className="w-96 mx-8 my-6 rounded-md text-gray-100 px-4 pt-2 pb-3 shadow-bright backdrop-filter backdrop-blur-lg">
-            { (!response.valid && response.errors.errors)? <p className="text-red-600"></p> :
+            { (!result.valid && result.errors)? <p className="text-red-600">音楽の読み込みに失敗しました</p> :
               userInfo.isSignIn? ( musicItem.user_id == userInfo.id? <YourPostedMusic musicId={musicItem.id} setEditShow={setEditShow} /> :
                 ( userTitle.isTitled? <MusicTitled userTitle = {userTitle.titleData}/> : <MakeTitleForSignedIn currentMusicId={currentMusicId} />)) : <RejectTitleForSignOut />}
           </div>
@@ -84,6 +83,7 @@ const MusicShow: React.FC = () => {
       <MusicFooter musicItem={musicItem} userInfo={userInfo} userTitle={userTitle} />
       { musicEditShow && <MusicEdit musicItem={musicItem} setEditShow={setEditShow} />}
     </MusicLoading.Provider>
+    { loading && <LoadingNow /> }
     </div>
   );
 };

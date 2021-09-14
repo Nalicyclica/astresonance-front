@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { CurrentUser, UserInfo } from '../functions/UserInfo';
+import { CurrentUser, CurrentUserInfo, UserInfo } from '../functions/UserInfo';
 import { Link } from 'react-router-dom'
 import UserMenuDrop from './UserMenuDrop'
 
@@ -12,17 +12,17 @@ const SignOutMenu: React.FC = () => {
   )
 };
 
-const SignInMenu: React.FC<{userInfo: UserInfo}> = props => {
+const SignInMenu: React.FC<{userInfo: CurrentUserInfo}> = ({userInfo}) => {
   return(
     <div className="flex justify-between items-center text-center align-middle">
-        <p className="mr-4 ">ようこそ、{props.userInfo.nickname}さん</p>
+        <p className="mr-4 ">ようこそ、{userInfo.nickname}さん</p>
         <UserMenuDrop />
     </div>
   )
 };
 
 const Header: React.FC = () => {
-  const { userInfo, setUserInfo } = useContext(CurrentUser);
+  const { userInfo } = useContext(CurrentUser);
 	return (
     <header className="z-50 h-20 sticky top-0 flex justify-between items-center backdrop-filter backdrop-blur-lg backdrop-contrast-75 shadow-header">
       <Link to="/">

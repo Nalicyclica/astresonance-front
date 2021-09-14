@@ -5,6 +5,7 @@ import { MusicInfo } from "./IndexMusic"
 import { TitleInfo } from "./ShowTitle"
 import { CommentInfo } from "../functions/IndexComment"
 import { getGenreName, getCategoryName } from "../functions/MusicGenre"
+import { defaultResponse, errorResponse, loadingResponse, ResponseInfo, successResponse } from "./AxiosTypes";
 
 export type ProfileInfo = {
   nickname: string
@@ -24,16 +25,12 @@ export type TitleCommentInfo = CommentInfo & {
   title: TitleInfo
 };
 
-type UserShowItemInfo = {
+type UserShowItemInfo =  ResponseInfo & {
   profile: ProfileInfo
   musicItems: TitledMusicInfo[]
   titleItems: PostedTitleInfo[]
   commentItems: TitleCommentInfo[]
-  response: {
-    valid: boolean
-    errors: any
-  }
-}
+};
 
 const defaultProfileInfo: ProfileInfo = {
   nickname: "",
@@ -42,14 +39,11 @@ const defaultProfileInfo: ProfileInfo = {
 };
 
 const defaultUserShowItemInfo: UserShowItemInfo = {
+  ...defaultResponse,
   profile: defaultProfileInfo,
   musicItems: [],
   titleItems: [],
-  commentItems: [],
-  response: {
-    valid: false,
-    errors: {}
-  }
+  commentItems: []
 };
 
 export const useUserShow = () => {
@@ -57,6 +51,7 @@ export const useUserShow = () => {
   
   
   const userShow = async (userId: string) => {
+    setUserShowItem(prev => prev = {...prev, ...loadingResponse});
     const currentAuth: AuthHeaders = getAuth();
     const url: string = `${process.env.REACT_APP_SERVER_DOMAIN}/users/${userId}`
     try{  
@@ -71,23 +66,17 @@ export const useUserShow = () => {
         musicData.push(data);
       });
       const userShowData: UserShowItemInfo = {
+        ...successResponse(),
         profile: profileData,
         musicItems: musicData,
         titleItems: titleData,
-        commentItems: commentData,
-        response: {
-          valid: true,
-          errors: {}
-        }
+        commentItems: commentData
       };
       setUserShowItem(userShowData);
     }catch (errors) {
       const userShowData: UserShowItemInfo = {
         ...defaultUserShowItemInfo,
-        response: {
-          valid: false,
-          errors: {errors}
-        }
+        ...errorResponse(errors)
       };
       setUserShowItem(userShowData);
     }

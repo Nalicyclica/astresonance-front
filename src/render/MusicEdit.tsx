@@ -7,9 +7,10 @@ import { MusicInfo } from "../functions/IndexMusic";
 import { genreItems, categoryItems } from "../functions/MusicGenre";
 import { useContext } from "react";
 import { MusicLoading } from "./MusicShow";
+import LoadingNow from "./LoadingNow";
 
 const MusicEdit: React.FC<{musicItem: MusicInfo, setEditShow: (setShow: boolean)=>void}> = ({musicItem, setEditShow}) => {
-  const [editResponse, musicEdit] = useMusicEdit();
+  const [{id, loading, result}, musicEdit] = useMusicEdit();
   const { register, handleSubmit, watch, formState: {errors} } = useForm();
   const setMusicLoading = useContext(MusicLoading);
   const popUpRef: any = useRef();
@@ -27,15 +28,15 @@ const MusicEdit: React.FC<{musicItem: MusicInfo, setEditShow: (setShow: boolean)
   };
 
   useEffect(() => {
-    if(editResponse.valid){
+    if(result.valid){
       alert("音楽情報を変更しました");
       setMusicLoading(true);
     }else{
-      if(editResponse.id > 0){
+      if(result.action != ""){
         alert("変更できませんでした");
       }
     }
-  }, [editResponse]);
+  }, [result]);
 
   useEffect(() => {
     popUpRef.current.addEventListener("mousedown", handleOutsideClick);
@@ -61,6 +62,7 @@ const MusicEdit: React.FC<{musicItem: MusicInfo, setEditShow: (setShow: boolean)
           <input type="submit" value="変更" className="text-xl mt-8 px-5 py-3 bg-gray-900 rounded-md shadow-bright hover:shadow-gold"/>
         </form>
       </div>
+      { loading && <LoadingNow />}
     </div>
 	);
 };

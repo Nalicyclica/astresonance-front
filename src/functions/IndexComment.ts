@@ -1,7 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
 import { AuthHeaders, getAuth } from "./Auth";
-import { UserInfo } from "./UserInfo";
+import { CurrentUserInfo } from "./UserInfo";
+import { defaultResponse, errorResponse, loadingResponse, ResponseInfo, successResponse } from "./AxiosTypes";
 
 export type CommentInfo = {
   id: number
@@ -12,12 +13,8 @@ export type CommentInfo = {
   icon_color: string
 };
 
-type CommentItemsInfo = {
+type CommentItemsInfo = ResponseInfo & {
   commentItems: CommentInfo[]
-  commentResponse: {
-    valid: boolean
-    errors: any
-  }
 };
 
 export const defaultCommentInfo: CommentInfo = {
@@ -30,43 +27,36 @@ export const defaultCommentInfo: CommentInfo = {
 };
 
 const defaultCommentItemsInfo: CommentItemsInfo = {
-  commentItems: [],
-  commentResponse: {
-    valid: false,
-    errors: []
-  }
+  ...defaultResponse,
+  commentItems: []
 };
 
 export const useCommentIndex = () => {
   const [commentItems, setCommentItems] = useState<CommentItemsInfo>(defaultCommentItemsInfo);
   
   const commentIndex = async (titleId: number) => {
+    setCommentItems(prev => prev = {...prev, ...loadingResponse});
     const currentAuth: AuthHeaders = getAuth();
     const url: string = `${process.env.REACT_APP_SERVER_DOMAIN}/titles/${titleId}/comments`
     try{
       const response = await axios.get(url, {headers: currentAuth});
       const commentsData: CommentInfo[] = [...response.data];
       const responseData: CommentItemsInfo = {
+        ...successResponse("index"),
         commentItems: commentsData,
-        commentResponse: {
-          valid: true,
-          errors: {}
-        }
       };
       setCommentItems(responseData);
     } catch(errors){
       const responseData: CommentItemsInfo = {
         ...defaultCommentItemsInfo,
-        commentResponse: {
-          valid: false,
-          errors: {errors}
-        }
+        ...errorResponse(errors, "index")
       };
       setCommentItems(responseData);
     };
   };
-
-  const commentCreate = async (titleId: number, comment: {text: string}, userInfo: UserInfo) => {
+  
+  const commentCreate = async (titleId: number, comment: {text: string}, userInfo: CurrentUserInfo) => {
+    setCommentItems(prev => prev = {...prev, ...loadingResponse});
     const url: string = `${process.env.REACT_APP_SERVER_DOMAIN}/titles/${titleId}/comments`;
     const currentAuth: AuthHeaders = getAuth();
     try {
@@ -78,13 +68,9 @@ export const useCommentIndex = () => {
         const addComment: CommentInfo = {...response.data};
         addComment.icon_color = userInfo.icon_color;
         addComment.nickname = userInfo.nickname;
-        setCommentItems(prev => prev = {...prev, commentItems: [...prev.commentItems, addComment]});
+        setCommentItems(prev => prev = {...successResponse("create"), commentItems: [...prev.commentItems, addComment]});
       } catch (errors){
-        const errorResponse = {
-          valid: false,
-          errors: {errors}
-        };
-        setCommentItems(prev => prev = {...prev, commentResponse: errorResponse});
+        setCommentItems(prev => prev = {...prev, ...errorResponse(errors, "create")});
       };
     };
 
