@@ -3,31 +3,23 @@ import axios from "axios";
 import { AuthHeaders, getAuth } from "./Auth";
 import { getGenreName, getCategoryName } from "./MusicGenre";
 import { MusicInfo } from "./IndexMusic";
-import {TitleInfo} from "./ShowTitle"
-
-type MusicShowInfo = {
-  musicItem: MusicInfo
-  titleItems: TitleInfo[]
-  userTitle: UserTitleInfo
-  response: {
-    valid: boolean
-    errors: any
-  }
-};
+import {defaultTitleInfo, TitleInfo} from "./ShowTitle"
+import { defaultResponse, errorResponse, loadingResponse, ResponseInfo, successResponse } from "./AxiosTypes";
 
 export type UserTitleInfo = {
   titleData: TitleInfo
   isTitled: boolean
 };
 
-const  defaultTitleInfo: TitleInfo = {
-  id: -1,
-  title: "",
-  color: "",
-  user_id: -1,
-  music_id: -1,
-  nickname: "",
-  icon_color: ""
+type MusicShowInfo = ResponseInfo & {
+  musicItem: MusicInfo
+  titleItems: TitleInfo[]
+  userTitle: UserTitleInfo
+};
+
+export const defaultUserTitleInfo: UserTitleInfo = {
+  titleData: defaultTitleInfo,
+  isTitled: false
 };
 
 export const defaultMusicInfo: MusicInfo = {
@@ -42,26 +34,18 @@ export const defaultMusicInfo: MusicInfo = {
   icon_color: "",
 };
 
-export const defaultUserTitleInfo: UserTitleInfo = {
-  titleData: defaultTitleInfo,
-  isTitled: false
-};
-
 const defaultMusicShowInfo: MusicShowInfo = {
+  ...defaultResponse,
   musicItem: defaultMusicInfo,
   titleItems: [],
-  userTitle: defaultUserTitleInfo,
-  response: {
-    valid: false,
-    errors: {}
-  }
+  userTitle: defaultUserTitleInfo
 };
 
 export const useMusicShow = () => {
   const [musicShowItem, setMusicShow] = useState<MusicShowInfo>(defaultMusicShowInfo);
 
-
   const musicShow = async (musicId: string) => {
+    setMusicShow(prev => prev = {...prev, ...loadingResponse});
     const currentAuth: AuthHeaders = getAuth();
     const url: string = `${process.env.REACT_APP_SERVER_DOMAIN}/musics/${musicId}`
     try{
@@ -69,10 +53,7 @@ export const useMusicShow = () => {
       const data = response.data;
       const musicShowData: MusicShowInfo = {
         ...defaultMusicShowInfo,
-        response:{
-          valid: true,
-          errors: {}
-        }
+        ...successResponse()
       };
 
       const musicItemData = {
@@ -96,10 +77,7 @@ export const useMusicShow = () => {
     } catch(errors){
       const musicShowData: MusicShowInfo = {
         ...defaultMusicShowInfo,
-        response: {
-          valid: false,
-          errors: {errors: errors}
-        }
+        ...errorResponse(errors)
       };
       setMusicShow(musicShowData);
     };

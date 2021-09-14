@@ -18,11 +18,11 @@ type TitleItemInfo = ResponseInfo & {
 };
 
 export const  defaultTitleInfo: TitleInfo = {
-  id: 0,
+  id: -1,
   title: "",
   color: "",
-  user_id: 0,
-  music_id: 0,
+  user_id: -1,
+  music_id: -1,
   nickname: "",
   icon_color: ""
 };
