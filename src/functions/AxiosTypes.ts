@@ -9,6 +9,10 @@ export type ResponseInfo = {
   result: ResponseResultInfo
 };
 
+export type IdResponseInfo = ResponseInfo & {
+  id: number
+};
+
 const defaultResponseResult: ResponseResultInfo = {
   valid: false,
   action: "",
@@ -18,6 +22,11 @@ const defaultResponseResult: ResponseResultInfo = {
 export const defaultResponse: ResponseInfo = {
   loading: false,
   result: {...defaultResponseResult}
+};
+
+export const defaultIdResponse: IdResponseInfo = {
+  ...defaultResponse,
+  id: -1
 };
 
 export const loadingResponse: ResponseInfo = {
