@@ -22,7 +22,8 @@ export type PostedTitleInfo = Omit<TitleInfo, 'nickname' | 'icon_color' >
 
 
 export type TitleCommentInfo = CommentInfo & {
-  title: TitleInfo
+  title_name: string
+  music_id: number
 };
 
 type UserShowItemInfo =  ResponseInfo & {
