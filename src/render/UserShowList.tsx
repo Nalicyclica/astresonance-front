@@ -7,13 +7,13 @@ import { CurrentUser } from '../functions/UserInfo';
 export const UserMusicList: React.FC<{musicItems: TitledMusicInfo[]}> = ({musicItems})=> {
   const {userInfo} = useContext(CurrentUser);
   return(
-    <div  className="flex flex-col items-center py-4 text-gray-100">
+    <div  className="flex flex-col items-center py-4">
       { musicItems.map((musicItem) =>
         <li key={musicItem.id} className="list-none px-4 py-2 mb-3 w-96 rounded-md shadow-bright hover:shadow-gold hover:bg-gray-600 backdrop-filter backdrop-blur-xl">
           <Link to={`/Musics/${musicItem.id}`} className="flex justify-between items-center">
             <div className ="w-56 pr-4 text-sm">
               { musicItem.user_id == userInfo.id ? "投稿した音楽" : 
-                (<p style={{color: musicItem.color}}>タイトル：
+                (<p style={{textShadow: `1px 1px 1px ${musicItem.color}`}}>タイトル：
                   {musicItem.title ? musicItem.title : "まだ付けていません"}</p>
               )}
               <p>カテゴリー：{musicItem.genreName}の{musicItem.categoryName}</p>
@@ -52,10 +52,10 @@ export const UserCommentList: React.FC<{commentItems: TitleCommentInfo[]}> = ({c
     <ul className="flex flex-col items-center py-4 text-gray-100">
       {commentItems.map((commentItem) =>
       <li key={commentItem.id} className="list-none px-4 py-2 mb-3 w-96 rounded-md shadow-bright hover:shadow-gold hover:bg-gray-600 backdrop-filter backdrop-blur-xl">
-        <Link to={`/Musics/${commentItem.title.music_id}/Titles/${commentItem.title_id}`} className="">
+        <Link to={`/Musics/${commentItem.music_id}/Titles/${commentItem.title_id}`} className="">
           <div className ="w-full pr-6 text-sm">
             <p>{commentItem.text}</p>
-            <p className="w-full text-sm text-right">to タイトル：{commentItem.title.title}</p>
+            <p className="w-full text-sm text-right">to タイトル：{commentItem.title_name}</p>
           </div>
         </Link>
       </li>
