@@ -6,10 +6,11 @@ import { UserMusicList, UserTitleList, UserCommentList } from './UserShowList';
 import { useContext } from 'react';
 import { CurrentUser } from '../functions/UserInfo';
 import LoadingNow from './LoadingNow';
+import FollowIndex from './FollowIndex';
 
 const UserShow: React.FC = () => {
   const { userInfo} = useContext(CurrentUser);
-  const [{profile, musicItems, titleItems, commentItems, loading, result}, userShow] = useUserShow();
+  const [{profile, musicItems, titleItems, commentItems, loading: userLoading, result: userResult}, userShow] = useUserShow();
   const history = useHistory();
   const [selectTab, setSelectTab] = useState<number>(0);
   const {id: currentUserId} = useParams<{id: string}>();
@@ -29,17 +30,22 @@ const UserShow: React.FC = () => {
   return (
     <div>
       <div className="flex flex-col items-center mb-12 pb-16 backdrop-filter backdrop-blur rounded-lg shadow-header">
+        <div>
+
+        </div>
         <div className="flex items-end w-120 mt-8 py-2 px-4 border-b border-yellow-400">
           <div style={{backgroundColor: profile.icon_color}} className="w-10 h-10 mr-5 rounded-full shadow-bright"></div>
           <h1 className="text-lg text-yellow-400 text-shadow-black"><span className="text-4xl">{profile.nickname}    </span>さんの投稿</h1>
         </div>
-        {result.errors && <p className="text-red-600">ユーザー情報を読み込めませんでした</p>}
+        {userResult.errors && <p className="text-red-600">ユーザー情報を読み込めませんでした</p>}
+        <FollowIndex currentUserId={currentUserId} />
+        {/* <button  onClick={e=> e} className="my-3 px-5 py-2 bg-gray-900 rounded-md shadow-bright hover:shadow-gold">
+        フォローする
+      </button> */}
         <div className="w-96 flex flex-col items-center text-shadow-black">
           <div className="w-full p-2 border-b border-yellow-400">
-            <div className="" >
-              <p className="m-2">自己紹介:</p>
-              <p className="text-lg mx-4 mb-2">{profile.introduce}</p>
-            </div>
+            <p className="m-2">自己紹介:</p>
+            <p className="text-lg mx-4 mb-2">{profile.introduce}</p>
           </div>
         </div>
       </div>
@@ -59,7 +65,7 @@ const UserShow: React.FC = () => {
           </div>
         </AppBar>
       </div>
-      { loading && <LoadingNow /> }
+      { userLoading && <LoadingNow /> }
     </div>
 	);
 }
