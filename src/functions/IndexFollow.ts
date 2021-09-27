@@ -34,11 +34,11 @@ export const useFollowIndex = () => {
     try{
       const response = await axios.get(url, {headers: currentAuth});
       const followData: FollowInfo = {...response.data};
-      const followItemData: FollowItemInfo = {
+      const responseData: FollowItemInfo = {
         ...successResponse("index"),
         followItem: followData
       };
-      setFollow(followItemData);
+      setFollow(responseData);
     } catch(errors){
       const responseData: FollowItemInfo = {
         ...defaultFollowItem,
@@ -47,6 +47,46 @@ export const useFollowIndex = () => {
       setFollow(responseData);
     };
   };
-
-  return [followItem, followIndex] as const;
+  
+  const followCreate = async (userId: string) => {
+    setFollow(prev => prev = {...prev, ...loadingResponse});
+    const currentAuth: AuthHeaders = getAuth();
+    const url: string = `${process.env.REACT_APP_SERVER_DOMAIN}/users/${userId}/follows`
+    try{
+      const response = await axios.post(url,{},{headers: currentAuth});
+      const responseData: FollowItemInfo = {
+        ...successResponse("create"),
+        followItem: {
+          ...followItem.followItem,
+          followers: followItem.followItem.followers + 1,
+          isFollowing: true
+        }
+      };
+      setFollow(responseData)
+    }catch(errors){
+      setFollow(prev => prev = {...prev, ...errorResponse(errors, "create")});
+    };
+  };
+  
+  const followDelete = async (userId: string) => {
+    setFollow(prev => prev = {...prev, ...loadingResponse});
+    const currentAuth: AuthHeaders = getAuth();
+    const url: string = `${process.env.REACT_APP_SERVER_DOMAIN}/users/${userId}/follows`
+    try{
+      const response = await axios.delete(url,{headers: currentAuth});
+      const responseData: FollowItemInfo = {
+        ...successResponse("delete"),
+        followItem: {
+          ...followItem.followItem,
+          followers: followItem.followItem.followers - 1,
+          isFollowing: false
+        }
+      };
+      setFollow(responseData)
+    }catch(errors){
+      setFollow(prev => prev = {...prev, ...errorResponse(errors, "delete")});
+    };
+  };
+  
+  return [followItem, {followIndex, followCreate, followDelete}] as const;
 }

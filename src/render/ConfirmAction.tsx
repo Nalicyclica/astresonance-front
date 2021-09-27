@@ -11,6 +11,11 @@ export const defaultConfirmAction: ConfirmActionInfo = {
   response: false
 };
 
+export const beforeConfirmAction: ConfirmActionInfo = {
+  modalShow: true,
+  response: false
+};
+
 const ConfirmAction: React.FC<{message: string, setConfirmAction:(value: ConfirmActionInfo)=>void}> = ({message, setConfirmAction}) => {
 
   const handleSubmit = () => {
