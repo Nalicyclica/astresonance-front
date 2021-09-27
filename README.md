@@ -60,7 +60,10 @@
 - has_many :musics
 - has_many :titles
 - has_many :comments
-- has_one :profile
+- has_many :follows
+- has_many :followings, through: :follows, source: :following
+- has_many :reverse_of_follows, class_name: 'Follow', foreign_key: 'following_id'
+- has_many :followers, through: :reverse_of_follows, source: :user
 
 ## Musicテーブル
 
@@ -104,6 +107,19 @@
 
 - belongs_to :user
 - belongs_to :title
+
+## followテーブル
+
+| Column             | Type       | Options                        |
+| ------------------ | ---------- | ------------------------------ |
+| user               | references | null: false, foreign_key: true |
+| following          | references | null: false, foreign_key: true, to_table: :user |
+[user_id, following_id], unique: true
+
+### Association
+
+- belongs_to :user
+- belongs_to :following, class_name: 'User'
 
 # ♬ Site URL
 ### https://astresonance-front.herokuapp.com
