@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { AuthHeaders, getAuth } from "./Auth";
-import { defaultIdResponse, errorResponse, loadingResponse, ResponseInfo, successResponse } from "./AxiosTypes";
+import { defaultResponse, errorResponse, loadingResponse, ResponseInfo, successResponse } from "./AxiosTypes";
 
 export type FollowInfo = {
   isFollowing: boolean
@@ -20,7 +20,7 @@ const defaultFollow: FollowInfo = {
 };
 
 const defaultFollowItem: FollowItemInfo = {
-  ...defaultIdResponse,
+  ...defaultResponse,
   followItem: defaultFollow
 };
 

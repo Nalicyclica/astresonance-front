@@ -23,8 +23,10 @@
 ![](https://user-images.githubusercontent.com/77972881/132294149-1ab59447-674a-4658-861c-c4764b7565a4.png)
 ### ユーザー投稿情報一覧機能
 ユーザーが投稿した音楽・タイトル・コメントの一覧を見ることができます
+### ユーザーフォロー機能
+気に入ったユーザーをフォローでき、フォローリストからマイページへ移動することができます
 
-![](https://user-images.githubusercontent.com/77972881/132294175-bb48a303-4bde-40eb-8b94-c513a0337d10.png)
+![](https://user-images.githubusercontent.com/77972881/135052960-ac01c14a-ae60-45da-b11f-28949ccddfb1.png)
 
 ### 投稿音楽一覧機能
 ジャンルや曲/歌を指定して、投稿された音楽をリスト表示することができます
@@ -36,6 +38,7 @@
 
 ![](https://user-images.githubusercontent.com/77972881/132294220-6df6900c-cfcf-44a7-9744-150da1cdc7d3.png)
 
+
 # ♬ アプリケーションの構成
 フロントエンドとサーバーサイドがそれぞれ別々のAPIとして作成されています。
 相互にJSONで通信することで、１つのアプリケーションとして機能しています
@@ -43,7 +46,7 @@
 
 # ♬ データベース設計
 ## ER図
-![](https://user-images.githubusercontent.com/77972881/132435037-4fb079be-6f31-4009-80a0-85120f93a8b5.png)
+![](https://user-images.githubusercontent.com/77972881/135051908-0d77135e-c37d-4bda-9444-937f0ede3e16.png)
 
 ## Userテーブル
 
@@ -129,8 +132,6 @@
 ### https://github.com/Nalicyclica/astresonance-server
 
 # ♬ 実装予定の機能
-## ユーザーフォロー機能
-気に入ったユーザーをフォローでき、マイページへのリンクを表示する機能を実装
 ## 音楽・タイトルのお気に入り機能
 気に入った音楽・タイトルをお気に入り登録でき、それぞれの投稿へのリンクを表示する機能を実装
 ## 音楽・タイトルのソート機能

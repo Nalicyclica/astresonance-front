@@ -21,8 +21,8 @@ const Main: React.FC = () => {
   },[]);
 
 	return (
-    <div className="inline-flex">
-      <div className="flex flex-col text-yellow-400 font-sawarabi z-30">
+    <div className="inline-flex font-sawarabi">
+      <div className="flex flex-col text-yellow-400 z-30">
         <CurrentUser.Provider value = {{userInfo, loading, result, setUserInfo}}>
           <Router>
             <Header />
@@ -42,6 +42,7 @@ const Main: React.FC = () => {
         </CurrentUser.Provider>
       </div>
       <Background />
+      <div id="frontModal" className="absolute z-50"></div>
       <div id="confirmAction" className="absolute z-50"></div>
       <div id="loadingNow" className="absolute z-50"></div>
     </div>
